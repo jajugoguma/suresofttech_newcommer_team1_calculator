@@ -11,72 +11,6 @@ void mapInit() {
 	iter['('] = -1;
 }
 
-/*void printPostFixWithHash(string str) {
-	vector<char> vstack;
-	bool bf = false, nf = false;
-
-	for (int i = 0; str[i] != '\0'; i++)
-	{
-		bf = nf;
-		if (str[i] == '(') {
-			nf = false;
-			if (bf && !nf) printf("^");
-			//
-			vstack.push_back(str[i]);
-		}
-		else if (str[i] >= '0' && str[i] <= '9')
-		{
-			nf = true;
-			if (!bf) {
-				printf("^");
-			}
-			printf("%c", str[i]);
-		}
-		else if (str[i] == ')')
-		{
-			nf = false;
-			if (bf && !nf) printf("^");
-			//
-			while (vstack.back() != '(')    //여는 괄호가 나올때까지 pop
-			{
-				printf("#%c#", vstack.back());
-				vstack.pop_back();
-			}
-			vstack.pop_back();
-		}
-		else
-		{
-			nf = false;
-			if (bf && !nf) printf("^");
-			//
-			//높거나 같으면 계속뽑음
-			while (!vstack.empty() && iter[vstack.back()] >= iter[str[i]])
-			{
-				char a = vstack.back();
-				printf("#%c#", a);
-				vstack.pop_back();
-			}
-
-			//스택 위에보다 우선순위가 낮으면 푸쉬
-			vstack.push_back(str[i]);
-
-
-		}
-
-
-	}
-
-
-	//스택에 남은연산 출력
-	if (!vstack.empty()) printf("^");
-	while (!vstack.empty())
-	{
-		printf("#%c#", vstack.back());
-		vstack.pop_back();
-	}
-	printf("\n");
-}*/
-
 string makePostFixWithHash(string str) {
 	vector<char> vstack;
 	string result = "";
@@ -215,13 +149,6 @@ void makeTree(string postFixWithHash) {
 
 // makeTreeStream() : dfs하면서 형식대로 만든다.
 
-void printDFS(Node* node) {
-	if (node == NULL) return;
-	printDFS(node->getLeftChild());
-	cout << node->getVal() << " ";
-	printDFS(node->getRightChild());
-}
-
 void ShowPrefixTypeExp(Node* node) {
 	if (node == NULL) return;
 
@@ -280,7 +207,7 @@ int main()
 	mapInit();
 
 	string postFixWithHash = makePostFixWithHash(str);
-	cout << postFixWithHash << endl;
+	//cout << postFixWithHash << endl;
 
 	makeTree(postFixWithHash);
 	//printDFS(BTroot); cout << endl;
