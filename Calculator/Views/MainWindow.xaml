@@ -1,0 +1,59 @@
+﻿<Window x:Class="Calculator.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:prism ="http://prismlibrary.com/"
+        prism:ViewModelLocator.AutoWireViewModel="True"
+        Title="[TEST] Calculator"
+        Height="450" Width="800"
+        MinHeight="450" MinWidth="800"
+        >
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="500"/>
+            <ColumnDefinition Width="300*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0" HorizontalAlignment="Left" MinWidth="500">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="170"/>
+                <RowDefinition Height="500"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" Margin="0,0,0,27">
+                <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Stretch" Margin="10"/>
+                <TextBlock HorizontalAlignment="Left" Margin="66,23,0,0" TextWrapping="Wrap" Text="네트워크" VerticalAlignment="Top" Width="80" FontWeight="Bold"/>
+                <TextBox HorizontalAlignment="Left" Height="22" Margin="66,44,0,0" TextWrapping="NoWrap" Text="IP" VerticalAlignment="Top" Width="255"/>
+                <TextBox HorizontalAlignment="Left" Height="22" Margin="66,71,0,0" TextWrapping="NoWrap" Text="Port" VerticalAlignment="Top" Width="255"/>
+                <Button Command ="{Binding AccessCommand}" Content="연결" HorizontalAlignment="Left" Margin="356,44,0,0" VerticalAlignment="Top" Width="75" Height="39"/>
+                <TextBlock HorizontalAlignment="Center" Margin="328,23,33,0" TextWrapping="Wrap" Text="{Binding NetworkState}" VerticalAlignment="Top" Width="134" Foreground="#FF938787" FontWeight="Bold" TextAlignment="Center"/>
+                <TextBlock HorizontalAlignment="Center" Margin="328,23,33,0" TextWrapping="Wrap" Text="{Binding ConnectState}" VerticalAlignment="Top" Width="134" Foreground="#FF938787" TextAlignment="Center"/>
+            </Grid>
+            <Grid Grid.Row="1" VerticalAlignment="Top" Height="209">
+                <Rectangle Fill="#FFF4F4F5" VerticalAlignment="Stretch" Margin="10"/>
+                <TextBlock HorizontalAlignment="Left" Margin="66,23,0,0" TextWrapping="Wrap" Text="연산 입력" VerticalAlignment="Top" Width="80" FontWeight="Bold"/>
+                <TextBox HorizontalAlignment="Left" Height="39" Margin="66,44,0,0" TextWrapping="Wrap" Text="{Binding Formula}" VerticalAlignment="Top" Width="255"/>
+                <Button Content="계산" Command="{Binding CalculateCommand}" IsEnabled="{Binding EqualsEnable}" HorizontalAlignment="Left" Margin="356,44,0,0" VerticalAlignment="Top" Width="75" Height="39"/>
+
+                <TextBlock Text="Check Value = " HorizontalAlignment="Left" Margin="66,108,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="94" Foreground="Black" FontWeight="Bold"/>
+                <TextBlock Text="{Binding CheckValue}" HorizontalAlignment="Left" Margin="165,108,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="94" Foreground="Black"/>
+
+                <TextBlock Text="Tree            = " HorizontalAlignment="Left" Margin="66,129,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="94" Foreground="Black" FontWeight="Bold"/>
+                <TextBlock Text="{Binding TreeValue}" HorizontalAlignment="Left" Margin="165,129,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="94" Foreground="Black"/>
+
+                <TextBlock Text="Result         = " HorizontalAlignment="Left" Margin="66,150,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="94" Foreground="Black" FontWeight="Bold"/>
+                <TextBlock Text="{Binding Result}" HorizontalAlignment="Left" Margin="165,150,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="94" Foreground="Black"/>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Column="1">
+            <ListView ItemsSource="{Binding Logs}" Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="수식" Width="130" DisplayMemberBinding="{Binding Formula}"/>
+                        <GridViewColumn Header="트리식" Width="80" DisplayMemberBinding="{Binding Tree}"/>
+                        <GridViewColumn Header="결과" Width="50" DisplayMemberBinding="{Binding Result}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+
+    </Grid>
+</Window>
