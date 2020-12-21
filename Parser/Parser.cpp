@@ -4,19 +4,19 @@
 
 int main()
 {
-	string str = "";
-	cin >> str;
+	std::string str = "";
+	std::cin >> str;
 
 	mapInit();
 
 	ParserTree BTroot;
 
-	string postFixWithHash = BTroot.makePostFixWithHash(str);
+	std::string postFixWithHash = BTroot.makePostFixWithHash(str);
 
 	BTroot.makeTree(postFixWithHash);
 
 	BTroot.makeTreeStream(BTroot.getProot());
-	cout << BTroot.getTreeStream() << endl;
+	std::cout << BTroot.getTreeStream() << std::endl;
 
 	return 0;
 }

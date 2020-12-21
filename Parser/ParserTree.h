@@ -5,18 +5,18 @@
 
 class ParserTree {
 	Node* proot = NULL;
-	string treeStream = "";
+	std::string treeStream = "";
 public:
-	string makePostFixWithHash(string str);
-	void makeTree(string postFixWithHash);
+	std::string makePostFixWithHash(std::string str);
+	void makeTree(std::string postFixWithHash);
 	void makeTreeStream(Node* node);
 	Node* getProot();
-	string getTreeStream();
+	std::string getTreeStream();
 };
 
-string ParserTree::makePostFixWithHash(string str) {
-	vector<char> vstack;
-	string result = "";
+std::string ParserTree::makePostFixWithHash(std::string str) {
+	std::vector<char> vstack;
+	std::string result = "";
 	bool bf = false, nf = false; // 이전/현재의 값이 숫자면 true, 아니면 false를 저장하는 변수
 
 	for (int i = 0; str[i] != '\0'; i++)
@@ -91,8 +91,8 @@ string ParserTree::makePostFixWithHash(string str) {
 	return result;
 }
 
-void ParserTree::makeTree(string postFixWithHash) {
-	vector<Node*> vstack;
+void ParserTree::makeTree(std::string postFixWithHash) {
+	std::vector<Node*> vstack;
 	Node* pnode;
 	int n = 0; //정수를 계산해서 넣을 변수
 
@@ -117,7 +117,7 @@ void ParserTree::makeTree(string postFixWithHash) {
 					i--;
 					//cout << n << "$"<<endl;
 
-					pnode = new Node(to_string(n));
+					pnode = new Node(std::to_string(n));
 					vstack.push_back(pnode);
 					n = 0;
 				}
@@ -129,7 +129,7 @@ void ParserTree::makeTree(string postFixWithHash) {
 					vstack.pop_back();
 					Node* b = vstack.back();
 					vstack.pop_back();
-					string ts = ""; ts += postFixWithHash[i];
+					std::string ts = ""; ts += postFixWithHash[i];
 
 					pnode = new Node(ts, b, a);
 					vstack.push_back(pnode);
@@ -139,7 +139,7 @@ void ParserTree::makeTree(string postFixWithHash) {
 		// postFixWithHash[i]가 구분자 '#'
 		else {
 			if (n) {
-				pnode = new Node(to_string(n));
+				pnode = new Node(std::to_string(n));
 				vstack.push_back(pnode);
 				n = 0;
 			}
@@ -163,7 +163,7 @@ inline Node* ParserTree::getProot()
 	return proot;
 }
 
-inline string ParserTree::getTreeStream()
+inline std::string ParserTree::getTreeStream()
 {
 	return treeStream;
 }
