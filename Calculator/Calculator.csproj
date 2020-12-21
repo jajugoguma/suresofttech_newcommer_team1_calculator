@@ -177,6 +177,10 @@
       <Project>{6ff6fe94-72f1-47eb-85e3-3ea83e8d3838}</Project>
       <Name>Calculator.Infra</Name>
     </ProjectReference>
+    <ProjectReference Include="..\calendarNetwork\CalendarNetworkClient.csproj">
+      <Project>{8387f91b-b731-4ff3-a609-8a12a10bda34}</Project>
+      <Name>CalendarNetworkClient</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

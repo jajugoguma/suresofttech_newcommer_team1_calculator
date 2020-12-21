@@ -7,6 +7,8 @@ using System.Windows.Data;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using CalendarNetworkClient;
+using System.IO;
 
 namespace Calculator.ViewModels
 {
@@ -16,10 +18,14 @@ namespace Calculator.ViewModels
         {
             EqualsEnable = false;
             _logs = new ObservableCollection<Log>();
+            _client = new Client();
         }
 
 
         #region Network
+
+        public Client _client;
+
         //네트워크 변수
         private string _ip;
         public string IP { get { return _ip; } set { SetProperty(ref _ip, value); } }
@@ -39,9 +45,19 @@ namespace Calculator.ViewModels
         private void ExecuteAccess()
         {
             //주어진 ip, port로 서버 엑세스
+            EndPoint endPoint = new EndPoint(IP, Port);
+            _client.SetEndPoint(endPoint);
+            
+            if(_client.Connect() == true)
+            {
+                NetworkState = "입력됨.";
+                EqualsEnable = true;
+            }
+            else
+            {
+                EqualsEnable = false;
+            }
 
-            NetworkState = "입력됨.";
-            EqualsEnable = true;
         }
 
         //사용 중 연결끊길경우 호출
@@ -102,6 +118,35 @@ namespace Calculator.ViewModels
             }
         }
         #endregion
+
+        #region FileImport
+        
+        //전달 받은 경로의 파일로 부터 수식 읽어옴.
+        void readExpsFromFile(string path)
+        {
+            //파일로 부터 수식을 읽어옴
+            string[] expsFromFile = File.ReadAllLines(@path);
+
+            //수식 라인별로 수행
+            foreach (string exp in expsFromFile)
+            {
+                /*
+                 * 읽어온 라인 별로 파서를 호출해 파싱
+                 * e.g.) strign parsedData = Pasrger.parsingLogic(exp);
+                 * 
+                 * 생성된 트리 문자열을 서버로 전송
+                 * e.g.) string result = Conn.sendData(parsedData);
+                 * 
+                 * 계산 히스토리에 저장
+                 * e.g.) DataModel.history(exp, result);
+                 */
+            }
+        }
+
+
+
+        #endregion
+
 
     }
 

@@ -20,8 +20,8 @@
             <Grid Grid.Row="0" Margin="0,0,0,27">
                 <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Stretch" Margin="10"/>
                 <TextBlock HorizontalAlignment="Left" Margin="66,23,0,0" TextWrapping="Wrap" Text="네트워크" VerticalAlignment="Top" Width="80" FontWeight="Bold"/>
-                <TextBox HorizontalAlignment="Left" Height="22" Margin="66,44,0,0" TextWrapping="NoWrap" Text="IP" VerticalAlignment="Top" Width="255"/>
-                <TextBox HorizontalAlignment="Left" Height="22" Margin="66,71,0,0" TextWrapping="NoWrap" Text="Port" VerticalAlignment="Top" Width="255"/>
+                <TextBox HorizontalAlignment="Left" Height="22" Margin="66,44,0,0" TextWrapping="NoWrap" Text="{Binding Path=IP, Mode=TwoWay}" VerticalAlignment="Top" Width="255"/>
+                <TextBox HorizontalAlignment="Left" Height="22" Margin="66,71,0,0" TextWrapping="NoWrap" Text="{Binding Path=Port, Mode=TwoWay}" VerticalAlignment="Top" Width="255"/>
                 <Button Command ="{Binding AccessCommand}" Content="연결" HorizontalAlignment="Left" Margin="356,44,0,0" VerticalAlignment="Top" Width="75" Height="39"/>
                 <TextBlock HorizontalAlignment="Center" Margin="328,23,33,0" TextWrapping="Wrap" Text="{Binding NetworkState}" VerticalAlignment="Top" Width="134" Foreground="#FF938787" FontWeight="Bold" TextAlignment="Center"/>
                 <TextBlock HorizontalAlignment="Center" Margin="328,23,33,0" TextWrapping="Wrap" Text="{Binding ConnectState}" VerticalAlignment="Top" Width="134" Foreground="#FF938787" TextAlignment="Center"/>

@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculator.Infra", "Calcula
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Parser", "Parser\Parser.vcxproj", "{D1C7B493-2CA2-4A61-B2F3-62B541A3D598}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalendarNetworkClient", "calendarNetwork\CalendarNetworkClient.csproj", "{8387F91B-B731-4FF3-A609-8A12A10BDA34}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,18 @@ Global
 		{D1C7B493-2CA2-4A61-B2F3-62B541A3D598}.Release|x64.Build.0 = Release|x64
 		{D1C7B493-2CA2-4A61-B2F3-62B541A3D598}.Release|x86.ActiveCfg = Release|Win32
 		{D1C7B493-2CA2-4A61-B2F3-62B541A3D598}.Release|x86.Build.0 = Release|Win32
+		{8387F91B-B731-4FF3-A609-8A12A10BDA34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8387F91B-B731-4FF3-A609-8A12A10BDA34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8387F91B-B731-4FF3-A609-8A12A10BDA34}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8387F91B-B731-4FF3-A609-8A12A10BDA34}.Debug|x64.Build.0 = Debug|Any CPU
+		{8387F91B-B731-4FF3-A609-8A12A10BDA34}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8387F91B-B731-4FF3-A609-8A12A10BDA34}.Debug|x86.Build.0 = Debug|Any CPU
+		{8387F91B-B731-4FF3-A609-8A12A10BDA34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8387F91B-B731-4FF3-A609-8A12A10BDA34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8387F91B-B731-4FF3-A609-8A12A10BDA34}.Release|x64.ActiveCfg = Release|Any CPU
+		{8387F91B-B731-4FF3-A609-8A12A10BDA34}.Release|x64.Build.0 = Release|Any CPU
+		{8387F91B-B731-4FF3-A609-8A12A10BDA34}.Release|x86.ActiveCfg = Release|Any CPU
+		{8387F91B-B731-4FF3-A609-8A12A10BDA34}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
