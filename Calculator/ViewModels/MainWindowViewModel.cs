@@ -8,6 +8,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using CalendarNetworkClient;
+using System.IO;
 
 namespace Calculator.ViewModels
 {
