@@ -9,6 +9,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using Calculator.Infra.CustomControl;
+using Calculator.Views;
 using Prism.Interactivity;
 using Prism.Ioc;
 using Prism.Mvvm;

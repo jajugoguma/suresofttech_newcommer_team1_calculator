@@ -1,6 +1,6 @@
 
-# Created by https://www.toptal.com/developers/gitignore/api/csharp,c++,visualstudio
-# Edit at https://www.toptal.com/developers/gitignore?templates=csharp,c++,visualstudio
+# Created by https://www.toptal.com/developers/gitignore/api/c++,csharp,visualstudio
+# Edit at https://www.toptal.com/developers/gitignore?templates=c++,csharp,visualstudio
 
 ### C++ ###
 # Prerequisites
@@ -551,4 +551,4 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 
-# End of https://www.toptal.com/developers/gitignore/api/csharp,c++,visualstudio
+# End of https://www.toptal.com/developers/gitignore/api/c++,csharp,visualstudio
