@@ -11,7 +11,7 @@ void mapInit() {
 	iter['('] = -1;
 }
 
-void printPostFixWithHash(string str) {
+/*void printPostFixWithHash(string str) {
 	vector<char> vstack;
 	bool bf = false, nf = false;
 
@@ -75,7 +75,7 @@ void printPostFixWithHash(string str) {
 		vstack.pop_back();
 	}
 	printf("\n");
-}
+}*/
 
 string makePostFixWithHash(string str) {
 	vector<char> vstack;
@@ -87,8 +87,7 @@ string makePostFixWithHash(string str) {
 		bf = nf;
 		if (str[i] == '(') {
 			nf = false;
-			if (bf && !nf) result += "#";
-			//
+			if (bf && !nf) result += "#"; //str[i-1]이 숫자고 str[i]가 ( 인 경우 # 출력
 			vstack.push_back(str[i]);
 		}
 		else if (str[i] >= '0' && str[i] <= '9')
@@ -102,8 +101,7 @@ string makePostFixWithHash(string str) {
 		else if (str[i] == ')')
 		{
 			nf = false;
-			if (bf && !nf) result += "#";
-			//
+			if (bf && !nf) result += "#"; //str[i-1]이 숫자고 str[i]가 ) 인 경우 # 출력
 			while (vstack.back() != '(')    //여는 괄호가 나올때까지 pop
 			{
 				char a = vstack.back();
@@ -114,23 +112,35 @@ string makePostFixWithHash(string str) {
 			}
 			vstack.pop_back();
 		}
-		else
+		else //연산자
 		{
-			nf = false;
-			if (bf && !nf) result += "#";
-			//
-			//높거나 같으면 계속뽑음
-			while (!vstack.empty() && iter[vstack.back()] >= iter[str[i]])
-			{
-				char a = vstack.back();
-				result += "#";
-				result += a;
-				result += "#";
-				vstack.pop_back();
+			if (str[i] == '-' && i >= 1 && str[i - 1] == '(') { //뺄셈 연산자가 아니고 음수 연산자일 경우
+				result += '#';
+				do {
+					result += str[i];
+					i++;
+				} while (str[i] >= '0' && str[i] <= '9');
+				i--;
+				nf = true; //숫자취급
+			}
+			else {
+				nf = false;
+				if (bf && !nf) result += "#"; //str[i-1]이 숫자고 str[i]가 연산자인 경우 # 출력
+
+				//높거나 같으면 계속뽑음
+				while (!vstack.empty() && iter[vstack.back()] >= iter[str[i]])
+				{
+					char a = vstack.back();
+					result += "#";
+					result += a;
+					result += "#";
+					vstack.pop_back();
+				}
+
+				//스택 위에보다 우선순위가 낮으면 푸쉬
+				vstack.push_back(str[i]);
 			}
 
-			//스택 위에보다 우선순위가 낮으면 푸쉬
-			vstack.push_back(str[i]);
 		}
 	}
 
@@ -162,21 +172,36 @@ void makeTree(string postFixWithHash) {
 				n *= 10;
 				n += c - '0';
 			}
-			else {
-				// make tree : stack에서 2개 꺼내 부분트리 만들기 + 스택에 넣기 
-				// => 이를 반복하다보면 최종적으로 하나의 트리만 스택에 남게 된다.
-				Node* a = vstack.back();
-				vstack.pop_back();
-				Node* b = vstack.back();
-				vstack.pop_back();
-				string ts = ""; ts += c;
+			else { //사칙연산자
+				if (c == '-' && postFixWithHash[i + 1] >= '0' && postFixWithHash[i + 1] <= '9') { //음수연산자인 경우
+					i++;
+					do {
+						n *= 10;
+						n -= postFixWithHash[i] - '0';
+						i++;
+					} while (postFixWithHash[i] >= '0' && postFixWithHash[i] <= '9');
+					i--;
 
-				pnode = new Node(ts, b, a);
-				vstack.push_back(pnode);
-				//cout << vstack.back()->getLeftChild()->getVal() << vstack.back()->getVal() << vstack.back()->getRightChild()->getVal() << endl;
+					pnode = new Node(to_string(n));
+					vstack.push_back(pnode);
+					n = 0;
+				}
+				else {
+					// make tree : stack에서 2개 꺼내 부분트리 만들기 + 스택에 넣기 
+				// => 이를 반복하다보면 최종적으로 하나의 트리만 스택에 남게 된다.
+					Node* a = vstack.back();
+					vstack.pop_back();
+					Node* b = vstack.back();
+					vstack.pop_back();
+					string ts = ""; ts += c;
+
+					pnode = new Node(ts, b, a);
+					vstack.push_back(pnode);
+					//cout << vstack.back()->getLeftChild()->getVal() << vstack.back()->getVal() << vstack.back()->getRightChild()->getVal() << endl;
+				}
 			}
 		}
-		else {
+		else { // c == '#'
 			if (n) {
 				pnode = new Node(to_string(n));
 				vstack.push_back(pnode);
@@ -255,7 +280,7 @@ int main()
 	mapInit();
 
 	string postFixWithHash = makePostFixWithHash(str);
-	//cout << postFixWithHash << endl;
+	cout << postFixWithHash << endl;
 
 	makeTree(postFixWithHash);
 	//printDFS(BTroot); cout << endl;
