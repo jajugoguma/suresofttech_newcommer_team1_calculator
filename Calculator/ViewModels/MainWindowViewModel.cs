@@ -7,6 +7,7 @@ using System.Windows.Data;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using CalendarNetworkClient;
 
 namespace Calculator.ViewModels
 {
@@ -17,10 +18,14 @@ namespace Calculator.ViewModels
         {
             EqualsEnable = false;
             _logs = new ObservableCollection<Log>();
+            _client = new Client();
         }
 
 
         #region Network
+
+        public Client _client;
+
         //네트워크 변수
         private string _ip;
         public string IP { get { return _ip; } set { SetProperty(ref _ip, value); } }
@@ -40,9 +45,19 @@ namespace Calculator.ViewModels
         private void ExecuteAccess()
         {
             //주어진 ip, port로 서버 엑세스
+            EndPoint endPoint = new EndPoint(IP, Port);
+            _client.SetEndPoint(endPoint);
+            
+            if(_client.Connect() == true)
+            {
+                NetworkState = "입력됨.";
+                EqualsEnable = true;
+            }
+            else
+            {
+                EqualsEnable = false;
+            }
 
-            NetworkState = "입력됨.";
-            EqualsEnable = true;
         }
 
         //사용 중 연결끊길경우 호출
