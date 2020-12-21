@@ -7,6 +7,7 @@
         xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:prism ="http://prismlibrary.com/"
         prism:ViewModelLocator.AutoWireViewModel="True"
+        xmlns:xceed ="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="Option"
         Height="200" Width="300" ResizeMode="NoResize">
@@ -21,8 +22,8 @@
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
-        
-        <Style TargetType="TextBox" x:Key="ValueStyle">
+
+        <Style TargetType="xceed:IntegerUpDown" x:Key="ValueStyle">
             <Setter Property="HorizontalAlignment" Value="Right"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
@@ -37,7 +38,7 @@
             <StackPanel  VerticalAlignment="Center">
                 <Grid Width="200" Height="30" HorizontalAlignment="Center">
                     <TextBlock Text="소수점 자리수" Style ="{StaticResource ItemStyle}"/>
-                    <TextBox Text="{Binding TailCnt}" Width="50" Style="{StaticResource ValueStyle}"/>
+                    <xceed:IntegerUpDown Text="{Binding TailCnt}" Maximum="6" Minimum="0" Style="{StaticResource ValueStyle}"/>
                 </Grid>
             </StackPanel>
         </Grid>

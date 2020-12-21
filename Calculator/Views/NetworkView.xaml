@@ -4,6 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Calculator.Views"
+        xmlns:prism="http://prismlibrary.com/"
+        prism:ViewModelLocator.AutoWireViewModel="True"
+        xmlns:xceed ="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:s="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         Title="NetworkView" Height="180" Width="300">
     <Window.Resources>
@@ -21,6 +25,16 @@
         <Style TargetType="TextBox" x:Key="ValueStyle">
             <Setter Property="HorizontalAlignment" Value="Right"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="TextAlignment" Value="Right"/>
+        </Style>
+
+        <Style TargetType="xceed:MaskedTextBox" x:Key="Mask">
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="TextAlignment" Value="Right"/>
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="PromptChar" Value=" "/>
         </Style>
     </Window.Resources>
     <Grid Margin="10">
@@ -33,12 +47,17 @@
             <StackPanel  VerticalAlignment="Center">
                 <Grid Width="200" Height="30" HorizontalAlignment="Center">
                     <TextBlock Text="IP" Style="{StaticResource ItemStyle}"/>
-                    <TextBox Text="{Binding IP}" Width="150" Style="{StaticResource ValueStyle}"/>
+                    <xceed:MaskedTextBox  Text="{Binding IP}"
+                                          Mask="000 . 000 . 000 . 000"
+                                          Style="{StaticResource Mask}"/>
                 </Grid>
                 <Grid Width="200" Height="30" HorizontalAlignment="Center">
                     <TextBlock Text="Port" Style="{StaticResource ItemStyle}"/>
-                    <TextBox Text="{Binding Port}" Width="150" Style="{StaticResource ValueStyle}"/>
+                    <xceed:MaskedTextBox  Text="{Binding Port}"
+                                          Mask="000000 "
+                                          Style="{StaticResource Mask}"/>
                 </Grid>
+                <TextBlock Text="{Binding Text}" HorizontalAlignment="Center"/>
             </StackPanel>
         </Grid>
 

@@ -65,7 +65,7 @@
                     <MenuItem Header="TreeViewer" Command="{Binding ShowTreeViwerCommand}"/>
                 </MenuItem>
                 <MenuItem Header="Option">
-                    <MenuItem Header="Network"/>
+                    <MenuItem Header="Network" Command="{Binding ShowNetworkCommand}"/>
                     <MenuItem Header="Option" Command="{Binding OptionCommand}"/>
                 </MenuItem>
             </Menu>

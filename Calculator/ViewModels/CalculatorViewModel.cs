@@ -68,6 +68,14 @@ namespace Calculator.ViewModels
             System.Windows.Application.Current.Shutdown();
         }
 
+        private DelegateCommand showNetworkCommand;
+        public DelegateCommand ShowNetworkCommand => showNetworkCommand ?? (showNetworkCommand = new DelegateCommand(ShowNetwork));
+        private void ShowNetwork()
+        {
+            Views.NetworkView popup = new Views.NetworkView();
+            popup.ShowDialog();
+        }
+
         private DelegateCommand optionCommand;
         public DelegateCommand OptionCommand => optionCommand ?? (optionCommand = new DelegateCommand(Option));
         private void Option()
@@ -75,24 +83,15 @@ namespace Calculator.ViewModels
             Views.SettingView popup = new Views.SettingView();
             popup.ShowDialog();
         }
-
-        public CalculatorViewModel(IRepository repository, IEventAggregator eventAggregator)
-        {
-            _repository = repository;
-            _eventAggregator = eventAggregator;
-
-            Value = "Start Calculator!!";
-            IsShowTreeViwer = false;
-        }
         #endregion
 
         #region 계산기
 
-        private string value;
+        private string _value;
         public string Value
         {
-            get { return value; }
-            set { SetProperty(ref this.value, value); }
+            get { return _value; }
+            set { SetProperty(ref _value, value); }
         }
 
 
@@ -103,10 +102,23 @@ namespace Calculator.ViewModels
             _repository.AddLog(new Log("formula", "tree", "result"));
         }
 
-        private void UpdateTest()
+        private void SetValue(string value)
         {
-            Value = "UpdateTest";
+            Value = value;
         }
+
         #endregion
+        
+
+        public CalculatorViewModel(IRepository repository, IEventAggregator eventAggregator)
+        {
+            _repository = repository;
+            _eventAggregator = eventAggregator;
+
+            _eventAggregator.GetEvent<EditCalculatorValueEvent>().Subscribe(SetValue);
+
+            Value = "Start Calculator!!";
+            IsShowTreeViwer = false;
+        }
     }
 }

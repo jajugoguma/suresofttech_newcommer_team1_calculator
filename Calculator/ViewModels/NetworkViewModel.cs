@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 
 using Calculator.Infra.Service;
 using CalendarNetworkClient;
+using Calculator.Infra.Helper;
+using Calculator.Infra.Event;
 
 namespace Calculator.ViewModels
 {
@@ -31,12 +33,39 @@ namespace Calculator.ViewModels
             set { SetProperty(ref port, value); }
         }
 
+        private string _text;
+        public string Text
+        {
+            get { return _text; }
+            set { SetProperty(ref _text, value); }
+        }
+
+
         private DelegateCommand connectServerCommand;
         public DelegateCommand ConnectServerCommand => connectServerCommand ?? (connectServerCommand = new DelegateCommand(ConnectServer));
         private void ConnectServer()
         {
+            //test용
+            KeyValuePair<bool, string> checkIP = Validation.CheckIP(ip);
+
+            if (!checkIP.Key)
+            {
+                Text = "IP가 올바르지 않습니다.";
+                Views.PopupView model = new Views.PopupView();
+                
+                
+                model.ShowDialog();
+
+                //testcode
+                _eventAggregator.GetEvent<SendPopupOption>()
+                    .Publish(new Tuple<string, string, string>("Warning", "IP가 올바르지 않습니다", "Retry"));
+                
+                
+                return;
+            }
+            
             //주어진 ip, port로 서버 엑세스
-            EndPoint endPoint = new EndPoint(IP, Port);
+            EndPoint endPoint = new EndPoint(ip, Port);
             _repository.Client.SetEndPoint(endPoint);
 
 
@@ -46,7 +75,7 @@ namespace Calculator.ViewModels
             }
             else
             {
-                PopupViewModel model = new PopupViewModel("Warning", "연결 할 수 없습니다", "Retry");
+
             }
         }
 

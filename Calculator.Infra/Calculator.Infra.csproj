@@ -71,6 +71,7 @@
       <DependentUpon>LogBlock.xaml</DependentUpon>
     </Compile>
     <Compile Include="Event\Events.cs" />
+    <Compile Include="Helper\Validation.cs" />
     <Compile Include="Model\DataModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -104,9 +105,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Helper\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\calendarNetwork\CalendarNetworkClient.csproj">
       <Project>{8387f91b-b731-4ff3-a609-8a12a10bda34}</Project>
