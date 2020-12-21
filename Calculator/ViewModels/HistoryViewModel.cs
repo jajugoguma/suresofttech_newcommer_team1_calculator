@@ -21,13 +21,6 @@ namespace Calculator.ViewModels
         private IRepository _repository;
         private IEventAggregator _eventAggregator { get;  set; }
 
-        private string text;
-        public string Text
-        {
-            get { return text; }
-            set { SetProperty(ref text, value); }
-        }
-
         private ObservableCollection<Log> logs;
         public ObservableCollection<Log> Logs
         {
@@ -45,7 +38,6 @@ namespace Calculator.ViewModels
             _repository = repository;
             _eventAggregator = ea;
 
-            Text = "시작됨";
             Logs = new ObservableCollection<Log>(_repository.LogList);
 
             _eventAggregator.GetEvent<UpdateLogEvent>().Subscribe(UpdataLogs);

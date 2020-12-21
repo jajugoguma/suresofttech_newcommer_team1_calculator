@@ -91,6 +91,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -105,6 +106,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Helper\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\calendarNetwork\CalendarNetworkClient.csproj">
+      <Project>{8387f91b-b731-4ff3-a609-8a12a10bda34}</Project>
+      <Name>CalendarNetworkClient</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
