@@ -12,6 +12,13 @@
 *.o
 *.obj
 
+*.suo
+*.user
+_ReSharper.*
+bin
+obj
+packages
+
 # Precompiled Headers
 *.gch
 *.pch
