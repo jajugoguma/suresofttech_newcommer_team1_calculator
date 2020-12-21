@@ -51,9 +51,18 @@ namespace CalendarNetworkClient
             return true;
         }
 
+        public void KeepalivedCheck()
+        {
 
+        }
+        public void Send()
+        {
 
-
+        }
+        public string Recv()
+        {
+            return "";
+        }
 
     }
 }
