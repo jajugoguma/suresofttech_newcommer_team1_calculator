@@ -23,5 +23,10 @@ namespace Calculator.Views
         {
             InitializeComponent();
         }
+
+        private void CancleButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
     }
 }

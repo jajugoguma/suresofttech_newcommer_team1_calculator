@@ -10,7 +10,7 @@ namespace Calculator
     {
         protected override Window CreateShell()
         {
-            return Container.Resolve<MainWindow>();
+            return Container.Resolve<CalculatorView>();
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)

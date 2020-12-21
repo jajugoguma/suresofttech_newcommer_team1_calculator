@@ -15,4 +15,10 @@ namespace Calculator.Infra.Model
             Result = result;
         }
     }
+
+
+    public class Option
+    {
+        public string TailCnt { get; set; } //소수점
+    }
 }

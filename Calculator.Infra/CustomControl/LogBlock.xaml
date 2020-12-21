@@ -17,11 +17,11 @@
                 </Grid.RowDefinitions>
 
                 <Grid Grid.Row="0" VerticalAlignment="Stretch">
-                    <TextBlock Text="aefaefaefa" FontSize="15"/>
+                    <TextBlock Text="{Binding Formula}" FontSize="15"/>
                 </Grid>
 
                 <Grid Grid.Row="1" VerticalAlignment="Stretch">
-                    <TextBlock Text="Tefasdfa" FontSize="30"/>
+                    <TextBlock Text="{Binding Result}" FontSize="30"/>
                 </Grid>
 
             </Grid>

@@ -12,7 +12,6 @@ namespace Calculator.ViewModels
 {
     class MainWindowViewModel : BindableBase
     {
-
         public MainWindowViewModel()
         {
             EqualsEnable = false;

@@ -11,8 +11,12 @@
         Title="HistoryView" Height="450" Width="300">
     <Grid>
         <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <ListBox ItemsSource="{Binding }">
-                <infra:LogBlock />
+            <ListBox ItemsSource="{Binding Path=Logs}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <infra:LogBlock Content="{Binding Log}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
             </ListBox>
         </ScrollViewer>
     </Grid>

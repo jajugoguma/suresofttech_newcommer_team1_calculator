@@ -4,9 +4,32 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Calculator.Views"
+        xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:prism ="http://prismlibrary.com/"
+        prism:ViewModelLocator.AutoWireViewModel="True"
         mc:Ignorable="d"
-        Title="SettingView" Height="450" Width="800">
+        Title="Option"
+        Height="200" Width="300" ResizeMode="NoResize">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+
+        <Grid Name ="OptionList" Grid.Row="0">
+            <StackPanel  VerticalAlignment="Center">
+                <Grid Width="200" Height="30" HorizontalAlignment="Center">
+                    <TextBlock Text="소수점 자리수" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                    <TextBox Text="{Binding TailCnt}" Width="50" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                </Grid>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center">
+                <Button Content="확인" Command="{Binding CheckButtonCommand}" Width="100" Height="30" Margin="10"/>
+                <Button Content="취소" Width="100" Height="30" Margin="10" Click="CancleButton_Click"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>

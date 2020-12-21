@@ -11,6 +11,7 @@ using System.ComponentModel;
 
 using Calculator.Infra.Service;
 using Calculator.Infra.Model;
+using Calculator.Infra.Event;
 
 namespace Calculator.ViewModels
 {
@@ -19,17 +20,9 @@ namespace Calculator.ViewModels
         #region System
 
         private IRepository _repository;
+        private IEventAggregator _eventAggregator { get; }
 
         private bool IsShowTreeViwer;
-
-
-
-        private IEventAggregator _eventAggregator;
-        public IEventAggregator EventAggregator
-        {
-            get { return _eventAggregator; }
-            set { SetProperty(ref _eventAggregator, value); }
-        }
 
         //History View
         private Views.HistoryView hismo = null;
@@ -51,11 +44,22 @@ namespace Calculator.ViewModels
         public DelegateCommand ShowTreeViwerCommand => showTreeViwerCommand ?? (showTreeViwerCommand = new DelegateCommand(ShowTreeViewer));
         private void ShowTreeViewer()
         {
-            Value = "트리 오픈";
-            Calculator.Views.TreeViewerView modal = new Calculator.Views.TreeViewerView();
-            modal.Show();
+            if(!IsShowTreeViwer)
+            {
+                IsShowTreeViwer = true;
+
+                Value = "트리 오픈";
+                Calculator.Views.TreeViewerView modal = new Calculator.Views.TreeViewerView();
+                modal.Show();
+            }
         }
 
+        private DelegateCommand importFileCommand;
+        public DelegateCommand ImportFileCommand => importFileCommand ?? (importFileCommand = new DelegateCommand(ImportFile));
+        private void ImportFile()
+        {
+
+        }
 
         private DelegateCommand closeProgramCommand;
         public DelegateCommand CloseProgramCommand => closeProgramCommand ?? (closeProgramCommand = new DelegateCommand(CloseProgram));
@@ -64,15 +68,20 @@ namespace Calculator.ViewModels
             System.Windows.Application.Current.Shutdown();
         }
 
+        private DelegateCommand optionCommand;
+        public DelegateCommand OptionCommand => optionCommand ?? (optionCommand = new DelegateCommand(Option));
+        private void Option()
+        {
+            Views.SettingView popup = new Views.SettingView();
+            popup.ShowDialog();
+        }
 
         public CalculatorViewModel(IRepository repository, IEventAggregator eventAggregator)
         {
             _repository = repository;
             _eventAggregator = eventAggregator;
-            
 
             Value = "Start Calculator!!";
-
             IsShowTreeViwer = false;
         }
         #endregion
@@ -86,6 +95,18 @@ namespace Calculator.ViewModels
             set { SetProperty(ref this.value, value); }
         }
 
+
+        private DelegateCommand testCommand;
+        public DelegateCommand TestCommand => testCommand ?? (testCommand = new DelegateCommand(Test));
+        private void Test()
+        {
+            _repository.AddLog(new Log("formula", "tree", "result"));
+        }
+
+        private void UpdateTest()
+        {
+            Value = "UpdateTest";
+        }
         #endregion
     }
 }

@@ -57,15 +57,16 @@
         <Grid Name="TopMenu" Grid.Row="0">
             <Menu Style="{StaticResource TopmenuStyle}" Height="30">
                 <MenuItem Header="File" Margin="10, 0, 0, 0">
+                    <MenuItem Header="Import" Command="{Binding ImportFileCommand}"/>
                     <MenuItem Header="Exit" Command="{Binding CloseProgramCommand}"/>
                 </MenuItem>
                 <MenuItem Header="Windows">
                     <MenuItem Header="History" Command="{Binding ShowHistoryCommand}"/>
-                    <MenuItem Header="TreeViewer" Command="{Binding ShowTreeViewerCommand}"/>
+                    <MenuItem Header="TreeViewer" Command="{Binding ShowTreeViwerCommand}"/>
                 </MenuItem>
                 <MenuItem Header="Option">
                     <MenuItem Header="Network"/>
-                    <MenuItem Header="Option"/>
+                    <MenuItem Header="Option" Command="{Binding OptionCommand}"/>
                 </MenuItem>
             </Menu>
         </Grid>
@@ -138,7 +139,7 @@
             <Button Grid.Row="5" Grid.Column="0" Style="{StaticResource NumberButtonStyle}" Content="+/-" Command="{Binding }"/>
             <Button Grid.Row="5" Grid.Column="1" Style="{StaticResource NumberButtonStyle}" Content="0" Command="{Binding }"/>
             <Button Grid.Row="5" Grid.Column="2" Style="{StaticResource NumberButtonStyle}" Content="." Command="{Binding }"/>
-            <Button Grid.Row="5" Grid.Column="3" Style="{StaticResource EqualButtonStyle}" Content="=" Command="{Binding }"/>
+            <Button Grid.Row="5" Grid.Column="3" Style="{StaticResource EqualButtonStyle}" Content="=" Command="{Binding TestCommand}"/>
 
         </Grid>
     </Grid>
