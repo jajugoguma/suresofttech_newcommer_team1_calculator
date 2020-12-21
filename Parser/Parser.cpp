@@ -1,6 +1,7 @@
 #include "Node.h"
 
 Node* BTroot;
+string answer = "";
 map<char, int> iter; //연산자 우선순위
 
 void mapInit() {
@@ -147,56 +148,21 @@ void makeTree(string postFixWithHash) {
 	BTroot = vstack[0];
 }
 
-// makeTreeStream() : dfs하면서 형식대로 만든다.
-
-void ShowPrefixTypeExp(Node* node) {
+void makeTreeStream(Node* node) { // dfs하면서 형식대로 만든다.
 	if (node == NULL) return;
 
 	if (left != NULL && right != NULL) {
-		;// printf("( ");
+		//answer += "(";
 	}
 
-	cout << node->getVal() << " ";
-	ShowPrefixTypeExp(node->getLeftChild());
-	ShowPrefixTypeExp(node->getRightChild());
+	makeTreeStream(node->getLeftChild());
+	makeTreeStream(node->getRightChild());
+	answer += node->getVal();
+	answer += "#";
 
 	if (left != NULL && right != NULL) {
-		;// printf(") ");
-
+		//answer += ")";
 	}
-}
-
-void ShowInfixTypeExp(Node* node) {
-	if (node == NULL) return;
-
-	if (left != NULL && right != NULL) {
-		;// printf("( ");
-	}
-
-	ShowInfixTypeExp(node->getLeftChild());
-	cout << node->getVal() << " ";
-	ShowInfixTypeExp(node->getRightChild());
-
-	if (left != NULL && right != NULL) {
-		;// printf(") ");
-	}
-}
-
-void ShowPostfixTypeExp(Node* node) {
-	if (node == NULL) return;
-
-	if (left != NULL && right != NULL) {
-		;// printf("( ");
-	}
-
-	ShowPostfixTypeExp(node->getLeftChild());
-	ShowPostfixTypeExp(node->getRightChild());
-	cout << node->getVal() << " ";
-
-	if (left != NULL && right != NULL) {
-		;// printf(") ");
-	}
-
 }
 
 int main()
@@ -207,14 +173,12 @@ int main()
 	mapInit();
 
 	string postFixWithHash = makePostFixWithHash(str);
-	//cout << postFixWithHash << endl;
 
 	makeTree(postFixWithHash);
-	//printDFS(BTroot); cout << endl;
-	//ShowPrefixTypeExp(BTroot); cout << endl;
-	//ShowInfixTypeExp(BTroot); cout << endl;
-	ShowPostfixTypeExp(BTroot); cout << endl;
 
+	makeTreeStream(BTroot);
+	answer = answer.substr(0, answer.length() - 1);
+	//cout << answer << endl;
 
 	return 0;
 }
