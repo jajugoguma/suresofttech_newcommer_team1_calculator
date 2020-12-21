@@ -1,6 +1,9 @@
 ﻿using Prism.Events;
-using Calculator.Infra.Model;
+
 using System.Collections.Generic;
+
+using CalendarNetworkClient;
+using Calculator.Infra.Model;
 
 namespace Calculator.Infra.Service
 {
@@ -8,5 +11,6 @@ namespace Calculator.Infra.Service
     {
         List<Log> LogList { get; set; }
         void AddLog(Log log);
+        Client Client { get; set; }
     }
 }

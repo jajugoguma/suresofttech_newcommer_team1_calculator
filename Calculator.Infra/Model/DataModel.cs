@@ -2,6 +2,13 @@
 
 namespace Calculator.Infra.Model
 {
+    public class CurrentModel
+    {
+        public string IP { get; set; }
+        public string Port { get; set; }
+
+
+    }
     public class Log
     {
         public string Formula { get; set; }

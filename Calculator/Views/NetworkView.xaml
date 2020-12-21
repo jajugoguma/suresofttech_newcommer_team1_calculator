@@ -5,8 +5,47 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Calculator.Views"
         mc:Ignorable="d"
-        Title="NetworkView" Height="450" Width="800">
-    <Grid>
-        
+        Title="NetworkView" Height="180" Width="300">
+    <Window.Resources>
+        <Style TargetType="Button" x:Key="PopupButtonStyle">
+            <Setter Property="Width" Value="70"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Margin" Value="20, 0"/>
+        </Style>
+
+        <Style TargetType="TextBlock" x:Key="ItemStyle">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <Style TargetType="TextBox" x:Key="ValueStyle">
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+
+        <Grid Name ="OptionList" Grid.Row="0">
+            <StackPanel  VerticalAlignment="Center">
+                <Grid Width="200" Height="30" HorizontalAlignment="Center">
+                    <TextBlock Text="IP" Style="{StaticResource ItemStyle}"/>
+                    <TextBox Text="{Binding IP}" Width="150" Style="{StaticResource ValueStyle}"/>
+                </Grid>
+                <Grid Width="200" Height="30" HorizontalAlignment="Center">
+                    <TextBlock Text="Port" Style="{StaticResource ItemStyle}"/>
+                    <TextBox Text="{Binding Port}" Width="150" Style="{StaticResource ValueStyle}"/>
+                </Grid>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <StackPanel Orientation="Horizontal"  HorizontalAlignment="Right">
+                <Button Content="연결" Command="{Binding ConnectServerCommand}" Style="{StaticResource PopupButtonStyle}"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>

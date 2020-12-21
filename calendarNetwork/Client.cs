@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Net.Sockets;
+using System.Threading;
 
 namespace CalendarNetworkClient
 {
@@ -26,6 +27,8 @@ namespace CalendarNetworkClient
         TcpClient _Tcplient;
         EndPoint _Endpoint;
         bool _IsConnnect;
+
+        List<Byte> List;
         public Client()
         {
             _IsConnnect = false;
@@ -41,27 +44,47 @@ namespace CalendarNetworkClient
         }
         public bool Connect()
         {
-            
-            _Tcplient = new TcpClient(_Endpoint.Ip,_Endpoint.Port);
             if (_Endpoint == null)
                 return false;
-
-
+            _Tcplient = new TcpClient(_Endpoint.Ip, _Endpoint.Port);
+            KeepalivedCheck();
             _IsConnnect = true;
             return true;
         }
 
         public void KeepalivedCheck()
         {
+            Thread t = new Thread(new ThreadStart(()=>
+            {
+                while (_IsConnnect) {
+                    Thread.Sleep(1000);
+                    try
+                    {
+                        Send("p");
+                    }
+                    catch
+                    {
+                        _IsConnnect = false;
+                    }
+                }
+            }));
+            t.Start();
 
         }
-        public void Send()
+        public void Send(string message)
         {
+            byte[] buff = Encoding.ASCII.GetBytes(message);
+            NetworkStream stream = _Tcplient.GetStream();
+            stream.Write(buff, 0, buff.Length);
 
         }
         public string Recv()
         {
-            return "";
+            NetworkStream stream = _Tcplient.GetStream();
+            byte[] outbuf = new byte[1024];
+            int nbytes = stream.Read(outbuf, 0, outbuf.Length);
+            string output = Encoding.ASCII.GetString(outbuf, 0, nbytes);
+            return output;
         }
 
     }
