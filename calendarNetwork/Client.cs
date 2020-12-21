@@ -28,7 +28,6 @@ namespace CalendarNetworkClient
         EndPoint _Endpoint;
         bool _IsConnnect;
 
-        List<Byte> List;
         public Client()
         {
             _IsConnnect = false;
@@ -46,11 +45,20 @@ namespace CalendarNetworkClient
         {
             if (_Endpoint == null)
                 return false;
-            _Tcplient = new TcpClient(_Endpoint.Ip, _Endpoint.Port);
+            
+            try
+            {
+                _Tcplient = new TcpClient(_Endpoint.Ip, _Endpoint.Port);
+            }catch(Exception)
+            {
+                return false;
+            }
+
             KeepalivedCheck();
             _IsConnnect = true;
             return true;
         }
+
 
         public void KeepalivedCheck()
         {
@@ -64,6 +72,10 @@ namespace CalendarNetworkClient
                     }
                     catch
                     {
+                        if (ReConnect() != true)
+                        {
+                            continue;
+                        }
                         _IsConnnect = false;
                     }
                 }
@@ -85,6 +97,20 @@ namespace CalendarNetworkClient
             int nbytes = stream.Read(outbuf, 0, outbuf.Length);
             string output = Encoding.ASCII.GetString(outbuf, 0, nbytes);
             return output;
+        }
+        private bool ReConnect()
+        {
+            bool isConnect = false;
+            for (int i = 0; i < 5; ++i)
+            {
+                isConnect = Connect();
+                if (isConnect == true)
+                {
+                    return true;
+                }
+                Thread.Sleep(1000);
+            }
+            return isConnect;
         }
 
     }
