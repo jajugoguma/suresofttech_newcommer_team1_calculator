@@ -119,6 +119,35 @@ namespace Calculator.ViewModels
         }
         #endregion
 
+        #region FileImport
+        
+        //전달 받은 경로의 파일로 부터 수식 읽어옴.
+        void readExpsFromFile(string path)
+        {
+            //파일로 부터 수식을 읽어옴
+            string[] expsFromFile = File.ReadAllLines(@path);
+
+            //수식 라인별로 수행
+            foreach (string exp in expsFromFile)
+            {
+                /*
+                 * 읽어온 라인 별로 파서를 호출해 파싱
+                 * e.g.) strign parsedData = Pasrger.parsingLogic(exp);
+                 * 
+                 * 생성된 트리 문자열을 서버로 전송
+                 * e.g.) string result = Conn.sendData(parsedData);
+                 * 
+                 * 계산 히스토리에 저장
+                 * e.g.) DataModel.history(exp, result);
+                 */
+            }
+        }
+
+
+
+        #endregion
+
+
     }
 
 }
