@@ -124,6 +124,11 @@ namespace Calculator.ViewModels
                     string Message = Marshal.PtrToStringAnsi(ptr);
                     Marshal.FreeHGlobal(ptr);
 
+                    if (Message == null)
+                    {
+                        //잘못된 인자이니 에러출력
+                        return;
+                    }
 
                     _client.Send(Message + System.Environment.NewLine);
 
