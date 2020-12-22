@@ -10,6 +10,7 @@ namespace Calculator.Infra.Helper
     {
         private static string head = "";
 
+        //계산기 현재 값에 입력 처리
         public static string Add(string value, string tail)
         {
             DivisionHead(ref value);
@@ -22,6 +23,7 @@ namespace Calculator.Infra.Helper
             return head + value;
         }
 
+        //계산기 현재 값 BackSpace 처리
         public static string BackSpace(string value)
         {
             DivisionHead(ref value);
@@ -35,6 +37,7 @@ namespace Calculator.Infra.Helper
             return value;
         }
 
+        //양수 => 음수, 음수 => 양수
         public static string ChangePlusMinus(string value)
         {
             if (value[0].Equals('-'))
@@ -43,6 +46,25 @@ namespace Calculator.Infra.Helper
                 value = '-' + value;
 
             return value; 
+        }
+
+
+        public static string InputOperator(string history, string value, char oprerator)
+        {
+            int cutsize = history.Length;
+
+            if (value.Equals(""))
+                cutsize = history.Length - 1;
+            else if (value[0].Equals('-'))
+                value = $"({value})";
+
+            return history.Substring(0, cutsize) +value + oprerator;
+        }
+        
+        //괄호..
+        public static string InputBracket()
+        {
+            return "";
         }
 
         //헤드 분리

@@ -13,7 +13,6 @@
         MinWidth="400" MaxWidth="625"
         >
 
-
     <Window.Resources>
         <Style TargetType="Menu" x:Key="TopmenuStyle">
             <Setter Property="VerticalAlignment" Value="Center"/>
@@ -84,7 +83,7 @@
             </Grid.RowDefinitions>
 
             <Grid Name="현재연산기록" Grid.Row="0">
-                <TextBlock  Text="{Binding FormulaStack}"
+                <TextBlock  Text="{Binding HistoryValue}"
                             Margin="20, 0"
                             TextAlignment="Right"
                             HorizontalAlignment="Right"
