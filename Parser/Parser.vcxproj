@@ -198,6 +198,7 @@
     <ClCompile Include="Parser.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Checker.h" />
     <ClInclude Include="iter.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="ParserTree.h" />

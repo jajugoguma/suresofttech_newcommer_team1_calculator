@@ -11,6 +11,7 @@ using CalendarNetworkClient;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
+using Microsoft.Win32;
 
 namespace Calculator.ViewModels
 {
@@ -148,7 +149,26 @@ namespace Calculator.ViewModels
         #endregion
 
         #region FileImport
-        
+
+        private DelegateCommand importFileCommand;
+        public DelegateCommand ImportFileCommand => importFileCommand ?? (importFileCommand = new DelegateCommand(ImportFile));
+
+        private void ImportFile()
+        {
+            OpenFileDialog ofdlg = new OpenFileDialog
+            {
+                InitialDirectory = @"C:\driver",   // 기본 폴더
+                CheckFileExists = true,   // 파일 존재여부확인
+                CheckPathExists = true   // 폴더 존재여부확인
+            };
+
+            // 파일 열기 (값의 유무 확인)
+            if (ofdlg.ShowDialog().GetValueOrDefault())
+            {
+                readExpsFromFile(ofdlg.FileName);
+            }
+        }
+
         //전달 받은 경로의 파일로 부터 수식 읽어옴.
         void readExpsFromFile(string path)
         {

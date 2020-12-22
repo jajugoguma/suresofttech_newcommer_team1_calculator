@@ -40,6 +40,8 @@
 
                 <TextBlock Text="Result         = " HorizontalAlignment="Left" Margin="66,150,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="94" Foreground="Black" FontWeight="Bold"/>
                 <TextBlock Text="{Binding Result}" HorizontalAlignment="Left" Margin="165,150,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="94" Foreground="Black"/>
+
+                <Button Content="임포트" Command="{Binding ImportFileCommand}" Margin="374,174,0,0" />
             </Grid>
         </Grid>
 
