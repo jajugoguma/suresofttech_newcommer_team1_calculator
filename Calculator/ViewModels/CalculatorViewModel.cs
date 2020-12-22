@@ -12,6 +12,7 @@ using System.ComponentModel;
 using Calculator.Infra.Service;
 using Calculator.Infra.Model;
 using Calculator.Infra.Event;
+using Calculator.Infra.Helper;
 
 namespace Calculator.ViewModels
 {
@@ -48,7 +49,6 @@ namespace Calculator.ViewModels
             {
                 IsShowTreeViwer = true;
 
-                Value = "트리 오픈";
                 Calculator.Views.TreeViewerView modal = new Calculator.Views.TreeViewerView();
                 modal.Show();
             }
@@ -107,8 +107,77 @@ namespace Calculator.ViewModels
             Value = value;
         }
 
+       
+        private DelegateCommand<string> _inputNumberButtonCommand;
+        public DelegateCommand<string> InputNumberButtonCommand => _inputNumberButtonCommand ?? (_inputNumberButtonCommand = new DelegateCommand<string>(InputNumberButton));
+        public void InputNumberButton(string key)
+        {
+            switch (key)
+            {
+                case "pm":
+                    if (_value.Equals(""))
+                        return;
+
+                    Value = Number.ChangePlusMinus(_value);
+                    break;
+
+                case "dot":
+                    return;
+                    break;
+
+                //숫자인경우
+                default:
+                    if (_value.Length >= 15)//자리수
+                        return;
+
+                    Value = Number.Add(_value, key);
+                    break;
+            }
+        }
+            
+
+        private DelegateCommand<string> _inputEventButtonCommand;
+        public DelegateCommand<string> InputEventButtonCommand => _inputEventButtonCommand ?? (_inputEventButtonCommand = new DelegateCommand<string>(InputEventButton));
+        public void InputEventButton(string name)
+        {
+            switch(name)
+            {
+                case "plus":
+                    break;
+
+                case "minus":
+                    break;
+
+                case "multiply":
+                    break;
+
+                case "division":
+                    break;
+
+                case "equal":
+                    break;
+
+                case "reset":
+                    Value = "";
+                    break;
+                case "bs":
+                    if (_value.Equals(""))
+                        return;
+
+                    Value = Number.BackSpace(_value);
+                    break;
+
+                case "open":
+                    break;
+                case "close":
+                    break;
+                default:
+                    break;
+            }
+
+        }
         #endregion
-        
+
 
         public CalculatorViewModel(IRepository repository, IEventAggregator eventAggregator)
         {
@@ -117,7 +186,7 @@ namespace Calculator.ViewModels
 
             _eventAggregator.GetEvent<EditCalculatorValueEvent>().Subscribe(SetValue);
 
-            Value = "Start Calculator!!";
+            Value = "";
             IsShowTreeViwer = false;
         }
     }
