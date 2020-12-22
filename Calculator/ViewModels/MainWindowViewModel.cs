@@ -158,19 +158,50 @@ namespace Calculator.ViewModels
             //수식 라인별로 수행
             foreach (string exp in expsFromFile)
             {
-                /*
-                 * 읽어온 라인 별로 파서를 호출해 파싱
-                 * e.g.) strign parsedData = Pasrger.parsingLogic(exp);
-                 * 
-                 * 생성된 트리 문자열을 서버로 전송
-                 * e.g.) string result = Conn.sendData(parsedData);
-                 * 
-                 * 계산 히스토리에 저장
-                 * e.g.) DataModel.history(exp, result);
-                 */
+                string clearExp = exp.Trim();
+                ExecuteCalculateFile(clearExp);
             }
         }
 
+        private void ExecuteCalculateFile(string exp)
+        {
+            //값 체크(안쓸것같음)
+            CheckValue = true.ToString();
+
+            if (exp != null)
+            {
+                //Tree 코드 변환
+                try
+                {
+                    TreeValue = "Tree";
+
+                    IntPtr ptr = retString(exp);
+                    string Message = Marshal.PtrToStringAnsi(ptr);
+                    Marshal.FreeHGlobal(ptr);
+
+                    if (Message == null)
+                    {
+                        //잘못된 인자이니 에러출력
+                        return;
+                    }
+
+                    _client.Send(Message + System.Environment.NewLine);
+
+                    //연산 결과 표시
+                    Result = _client.Recv();
+                    if (Result != "")
+                    {
+                        Logs.Add(new Log(Formula, TreeValue, Result));
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.ToString());
+
+                }
+
+            }
+        }
 
 
         #endregion
