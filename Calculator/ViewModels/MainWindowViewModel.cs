@@ -136,17 +136,21 @@ namespace Calculator.ViewModels
                     IntPtr ptr = retString(Formula);
                     string Message = Marshal.PtrToStringAnsi(ptr);
                     Marshal.FreeHGlobal(ptr);
-
                     if (Message == null)
                     {
-                        //잘못된 인자이니 에러출력
-                        return;
+                        Result = "잘못된 입력입니다.";
                     }
+                    else if (Message.Contains("error")) {
+                        Result = Message.Replace("error", "");
+                    }
+                    else
+                    {
+                        _client.Send(Message + System.Environment.NewLine);
 
-                    _client.Send(Message + System.Environment.NewLine);
-
-                    //연산 결과 표시
-                    Result = _client.Recv();
+                        //연산 결과 표시
+                        Result = _client.Recv();
+                    }
+                    
                     if (Result != "")
                     {
                         Logs.Add(new Log(Formula, TreeValue, Result));
@@ -198,7 +202,6 @@ namespace Calculator.ViewModels
 
         private void ExecuteCalculateFile(string exp)
         {
-            //값 체크(안쓸것같음)
             CheckValue = true.ToString();
 
             if (exp != null)
@@ -211,20 +214,25 @@ namespace Calculator.ViewModels
                     IntPtr ptr = retString(exp);
                     string Message = Marshal.PtrToStringAnsi(ptr);
                     Marshal.FreeHGlobal(ptr);
-
                     if (Message == null)
                     {
-                        //잘못된 인자이니 에러출력
-                        return;
+                        Result = "잘못된 입력입니다.";
+                    }
+                    else if (Message.Contains("error"))
+                    {
+                        Result = Message.Replace("error", "");
+                    }
+                    else
+                    {
+                        _client.Send(Message + System.Environment.NewLine);
+
+                        //연산 결과 표시
+                        Result = _client.Recv();
                     }
 
-                    _client.Send(Message + System.Environment.NewLine);
-
-                    //연산 결과 표시
-                    Result = _client.Recv();
                     if (Result != "")
                     {
-                        Logs.Add(new Log(exp, TreeValue, Result));
+                        Logs.Add(new Log(Formula, TreeValue, Result));
                     }
                 }
                 catch (Exception e)
