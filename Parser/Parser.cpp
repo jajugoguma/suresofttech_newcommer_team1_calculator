@@ -28,6 +28,10 @@ int main()
 	ParserTree BTroot;
 
 	std::string postFixWithHash = BTroot.makePostFixWithHash(str);
+	if (postFixWithHash == "잘못된 수식입니다.") {
+		std::cout << postFixWithHash << std::endl;
+		return -1;
+	}
 
 	BTroot.makeTree(postFixWithHash);
 

@@ -5,18 +5,48 @@
 
 class ParserTree {
 	Node* proot = NULL;
+	std::string result = "";
 	std::string treeStream = "";
 public:
+	int findIndexOfLastHash(int n);
+	bool intRangeChecker(int i);
+	void iterPop(char c);
 	std::string makePostFixWithHash(std::string str);
 	void makeTree(std::string postFixWithHash);
 	void makeTreeStream(Node* node);
 	Node* getProot();
+	std::string getResult();
 	std::string getTreeStream();
 };
 
+int ParserTree::findIndexOfLastHash(int n) {
+	for (int i = n - 1; i >= 0; i--) {
+		if (result[i] == '#') return i;
+	}
+	return -1;
+}
+
+bool ParserTree::intRangeChecker(int i) {
+	std::string INTMAX = "2147483647";
+	std::string INTMIN = "-2147483648";
+	std::string num = result.substr(i + 1, result.length());
+	if (num[0] == '-') {
+		if (num > INTMIN) return true;
+	}
+	else {
+		if (num > INTMAX) return true;
+	}
+	return false;
+}
+
+void ParserTree::iterPop(char c) {
+	result += "#";
+	result += c;
+	result += "#";
+}
+
 std::string ParserTree::makePostFixWithHash(std::string str) {
 	std::vector<char> vstack;
-	std::string result = "";
 	bool bf = false, nf = false; // 이전/현재의 값이 숫자면 true, 아니면 false를 저장하는 변수
 
 	for (int i = 0; str[i] != '\0'; i++)
@@ -24,7 +54,12 @@ std::string ParserTree::makePostFixWithHash(std::string str) {
 		bf = nf;
 		if (str[i] == '(') {
 			nf = false;
-			if (bf && !nf) result += "#"; //str[i-1]이 숫자고 str[i]가 ( 인 경우 # 출력
+			if (bf && !nf) {
+				if (intRangeChecker(findIndexOfLastHash(i))) {
+					return std::string("잘못된 수식입니다.");
+				}
+				result += "#"; //str[i-1]이 숫자고 str[i]가 ( 인 경우 # 출력
+			}
 			vstack.push_back(str[i]);
 		}
 		else if (str[i] >= '0' && str[i] <= '9')
@@ -38,13 +73,15 @@ std::string ParserTree::makePostFixWithHash(std::string str) {
 		else if (str[i] == ')')
 		{
 			nf = false;
-			if (bf && !nf) result += "#"; //str[i-1]이 숫자고 str[i]가 ) 인 경우 # 출력
+			if (bf && !nf) {
+				if (intRangeChecker(findIndexOfLastHash(i))) {
+					return std::string("잘못된 수식입니다.");
+				}
+				result += "#"; //str[i-1]이 숫자고 str[i]가 ) 인 경우 # 출력
+			}
 			while (vstack.back() != '(') //여는 괄호가 나올때까지 pop
 			{
-				char a = vstack.back();
-				result += "#";
-				result += a;
-				result += "#";
+				iterPop(vstack.back());
 				vstack.pop_back();
 			}
 			vstack.pop_back();
@@ -62,13 +99,16 @@ std::string ParserTree::makePostFixWithHash(std::string str) {
 			}
 			else {
 				nf = false;
-				if (bf && !nf) result += "#"; //str[i-1]이 숫자고 str[i]가 연산자인 경우 # 출력
+				if (bf && !nf) {
+					if (intRangeChecker(findIndexOfLastHash(i))) {
+						return std::string("잘못된 수식입니다.");
+					}
+					result += "#"; //str[i-1]이 숫자고 str[i]가 연산자인 경우 # 출력
+				}
 
 				while (!vstack.empty() && iter[vstack.back()] >= iter[str[i]]) //연산자 우선순위가 stack.top() >= str[i] 이면 stack.pop() 
 				{
-					result += "#";
-					result += vstack.back();
-					result += "#";
+					iterPop(vstack.back());
 					vstack.pop_back();
 				}
 
@@ -82,9 +122,7 @@ std::string ParserTree::makePostFixWithHash(std::string str) {
 	if (!vstack.empty()) result += "#";
 	while (!vstack.empty())
 	{
-		result += "#";
-		result += vstack.back();
-		result += "#";
+		iterPop(vstack.back());
 		vstack.pop_back();
 	}
 
@@ -161,6 +199,11 @@ void ParserTree::makeTreeStream(Node* node) {
 inline Node* ParserTree::getProot()
 {
 	return proot;
+}
+
+inline std::string ParserTree::getResult()
+{
+	return result;
 }
 
 inline std::string ParserTree::getTreeStream()
