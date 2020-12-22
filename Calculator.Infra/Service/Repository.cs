@@ -11,11 +11,11 @@ namespace Calculator.Infra.Service
     public class Repository : IRepository
     {
         public IEventAggregator _ea { get; private set; }
-        public CurrentModel Model;
         public List<Log> LogList { get; set; }
-        public Client Client { get; set; }
 
-        
+        public Client Client { get; set; }
+        public string IP { get; set; }
+        public string Port { get; set; }
 
         public void ResetLog()
         {
@@ -29,13 +29,6 @@ namespace Calculator.Infra.Service
 
         }
 
-        public void SetServer(string ip, string port)
-        {
-            Model.IP = ip;
-            Model.Port = port;
-        }
-
-
         public Repository(IEventAggregator ea)
         {
             _ea = ea;
@@ -43,7 +36,8 @@ namespace Calculator.Infra.Service
             LogList = new List<Log>();
             Client = new Client();
 
-            Model = new CurrentModel();
+            IP = "127.0.0.1";
+            Port = "18000";
         }
     }
 }

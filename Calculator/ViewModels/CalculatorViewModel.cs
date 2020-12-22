@@ -3,13 +3,10 @@ using Prism.Events;
 using Prism.Mvvm;
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel;
+using Microsoft.Win32;
+using System.IO;
+using System.Runtime.InteropServices;
 using System.Windows;
-using System.Windows.Input;
 
 using Calculator.Infra.Service;
 using Calculator.Infra.Model;
@@ -20,6 +17,9 @@ namespace Calculator.ViewModels
 {
     class CalculatorViewModel : BindableBase
     {
+
+        [DllImport("parser.dll")]
+        public static extern IntPtr retString(string str);
         #region System
 
         private IRepository _repository;
@@ -60,7 +60,34 @@ namespace Calculator.ViewModels
         public DelegateCommand ImportFileCommand => importFileCommand ?? (importFileCommand = new DelegateCommand(ImportFile));
         private void ImportFile()
         {
+            OpenFileDialog ofdlg = new OpenFileDialog
+            {
+                InitialDirectory = @"C:\driver",   // 기본 폴더
+                CheckFileExists = true,   // 파일 존재여부확인
+                CheckPathExists = true   // 폴더 존재여부확인
+            };
 
+            // 파일 열기 (값의 유무 확인)
+            if (ofdlg.ShowDialog().GetValueOrDefault())
+            {
+                //파일로 부터 수식을 읽어옴
+                string[] expsFromFile = File.ReadAllLines(@ofdlg.FileName);
+
+                //수식 라인별로 수행
+                foreach (string exp in expsFromFile)
+                {
+                    /*
+                     * 읽어온 라인 별로 파서를 호출해 파싱
+                     * e.g.) strign parsedData = Pasrger.parsingLogic(exp);
+                     * 
+                     * 생성된 트리 문자열을 서버로 전송
+                     * e.g.) string result = Conn.sendData(parsedData);
+                     * 
+                     * 계산 히스토리에 저장
+                     * e.g.) DataModel.history(exp, result);
+                     */
+                }
+            }
         }
 
         private DelegateCommand closeProgramCommand;
@@ -180,7 +207,7 @@ namespace Calculator.ViewModels
                 case "equal":
                     if (_value.Equals("")) return;
                     history = Number.InputOperator(history, value, '=');
-                    value = ""; //여기!!!!!!!!!!
+                    value = Calculate(history.Replace("=", ""));
                     break;
 
                 case "reset":
@@ -204,6 +231,46 @@ namespace Calculator.ViewModels
             Value = value;
             HistoryValue = history;
         }
+        #endregion
+
+        #region 계산기 Logic
+        private string Calculate(string formula)
+        {
+            string result = default;
+            //Tree 코드 변환
+            try
+            {
+                string TreeValue = "Tree";
+
+                IntPtr ptr = retString(formula);
+                string Message = Marshal.PtrToStringAnsi(ptr);
+                Marshal.FreeHGlobal(ptr);
+
+                if (Message == null)
+                {
+                    //잘못된 인자이니 에러출력
+                    return "ERROR";
+                }
+
+                _repository.Client.Send(Message + System.Environment.NewLine);
+
+                //연산 결과 표시
+                result = _repository.Client.Recv();
+                if (result != "")
+                {
+                    _repository.AddLog(new Log(formula, TreeValue, result));
+                }
+
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+
+            }
+            return result;
+        }
+
+
         #endregion
 
 

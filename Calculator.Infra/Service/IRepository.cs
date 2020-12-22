@@ -12,5 +12,7 @@ namespace Calculator.Infra.Service
         List<Log> LogList { get; set; }
         void AddLog(Log log);
         Client Client { get; set; }
+        string IP { get; set; }
+        string Port { get; set; }
     }
 }
