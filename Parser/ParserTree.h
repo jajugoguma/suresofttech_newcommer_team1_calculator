@@ -8,19 +8,23 @@ class ParserTree {
 	std::string result = "";
 	std::string treeStream = "";
 public:
-	int findIndexOfLastHash(int n);
+	// 지원하는 정수 범위 내인지 체크
+	int findIndexOfLastHash();
 	bool intRangeChecker(int i);
+	// 결과출력(result)함수
 	void iterPop(char c);
+	// 트리 만드는 함수 (순서대로 수행)
 	std::string makePostFixWithHash(std::string str);
 	void makeTree(std::string postFixWithHash);
 	void makeTreeStream(Node* node);
+	//get()
 	Node* getProot();
 	std::string getResult();
 	std::string getTreeStream();
 };
 
-int ParserTree::findIndexOfLastHash(int n) {
-	for (int i = n - 1; i >= 0; i--) {
+int ParserTree::findIndexOfLastHash() {
+	for (int i = result.length() - 1; i >= 0; i--) {
 		if (result[i] == '#') return i;
 	}
 	return -1;
@@ -29,11 +33,19 @@ int ParserTree::findIndexOfLastHash(int n) {
 bool ParserTree::intRangeChecker(int i) {
 	std::string INTMAX = "2147483647";
 	std::string INTMIN = "-2147483648";
-	std::string num = result.substr(i + 1, result.length());
+
+	std::string num = "";
+	int size = 10 - (result.length() - 1 - i);
+
+	for (int i = 0; i < size; i++) num += '0';
+	//	if (result[i + 1 ] == '-') num[0] = '-';
+
+	num += result.substr(i + 1, result.length());
+
 	if (num[0] == '-') {
 		if (num > INTMIN) return true;
 	}
-	else {
+	else if (num[0] >= '0' && num[0] <= '9') {
 		if (num > INTMAX) return true;
 	}
 	return false;
@@ -46,6 +58,7 @@ void ParserTree::iterPop(char c) {
 }
 
 std::string ParserTree::makePostFixWithHash(std::string str) {
+	int cntINT = 0, cntITER = 0;
 	std::vector<char> vstack;
 	bool bf = false, nf = false; // 이전/현재의 값이 숫자면 true, 아니면 false를 저장하는 변수
 
@@ -54,12 +67,7 @@ std::string ParserTree::makePostFixWithHash(std::string str) {
 		bf = nf;
 		if (str[i] == '(') {
 			nf = false;
-			if (bf && !nf) {
-				if (intRangeChecker(findIndexOfLastHash(i))) {
-					return std::string("잘못된 수식입니다.");
-				}
-				result += "#"; //str[i-1]이 숫자고 str[i]가 ( 인 경우 # 출력
-			}
+			if (bf) return std::string("잘못된 수식입니다."); // 숫자 뒤에 바로 '(' 이 온 경우
 			vstack.push_back(str[i]);
 		}
 		else if (str[i] >= '0' && str[i] <= '9')
@@ -67,15 +75,16 @@ std::string ParserTree::makePostFixWithHash(std::string str) {
 			nf = true;
 			if (!bf) {
 				result += "#";
+				cntINT++;
 			}
 			result += str[i];
 		}
 		else if (str[i] == ')')
 		{
 			nf = false;
-			if (bf && !nf) {
-				if (intRangeChecker(findIndexOfLastHash(i))) {
-					return std::string("잘못된 수식입니다.");
+			if (bf) {
+				if (intRangeChecker(findIndexOfLastHash())) {
+					return std::string("지원하는 숫자의 범위를 초과했습니다.");
 				}
 				result += "#"; //str[i-1]이 숫자고 str[i]가 ) 인 경우 # 출력
 			}
@@ -89,6 +98,7 @@ std::string ParserTree::makePostFixWithHash(std::string str) {
 		else //연산자
 		{
 			if (str[i] == '-' && i >= 1 && str[i - 1] == '(') { //뺄셈 연산자가 아니고 음수 연산자일 경우
+				cntINT++;
 				nf = true; // 음수 기호이므로 숫자취급 해야 한다.
 				result += '#';
 				do {
@@ -98,10 +108,11 @@ std::string ParserTree::makePostFixWithHash(std::string str) {
 				i--;
 			}
 			else {
+				cntITER++;
 				nf = false;
-				if (bf && !nf) {
-					if (intRangeChecker(findIndexOfLastHash(i))) {
-						return std::string("잘못된 수식입니다.");
+				if (bf) {
+					if (intRangeChecker(findIndexOfLastHash())) {
+						return std::string("지원하는 숫자의 범위를 초과했습니다.");
 					}
 					result += "#"; //str[i-1]이 숫자고 str[i]가 연산자인 경우 # 출력
 				}
@@ -117,7 +128,13 @@ std::string ParserTree::makePostFixWithHash(std::string str) {
 
 		}
 	}
-
+	if (cntITER == 0) result += '#'; //입력된 문자열이 연산자가 없는 단순 정수일 때, 형식을 맞춰주기 위해 마지막에 # 출력.
+	if (result[result.length() - 2] >= '0' && result[result.length() - 2] <= '9') {
+		if (intRangeChecker(findIndexOfLastHash())) {
+			return std::string("지원하는 숫자의 범위를 초과했습니다.");
+		}
+	}
+	if (cntINT - 1 != cntITER) return std::string("잘못된 수식입니다.");
 	//스택에 남은연산 출력
 	if (!vstack.empty()) result += "#";
 	while (!vstack.empty())
@@ -193,7 +210,7 @@ void ParserTree::makeTreeStream(Node* node) {
 	this->makeTreeStream(node->getLeftChild());
 	this->makeTreeStream(node->getRightChild());
 	treeStream += node->getVal();
-	treeStream += "#";
+	treeStream += " ";
 }
 
 inline Node* ParserTree::getProot()

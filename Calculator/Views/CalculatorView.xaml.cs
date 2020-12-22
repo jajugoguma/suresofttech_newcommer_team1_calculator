@@ -83,7 +83,7 @@ namespace Calculator.Views
                 || Keyboard.IsKeyDown(Key.Add))
             {
                 return true;
-            }
+            } 
             return false;
         }
 
