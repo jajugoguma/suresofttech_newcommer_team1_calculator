@@ -6,21 +6,21 @@
              xmlns:local="clr-namespace:Calculator.Infra.CustomControl"
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="500">
-    <Grid HorizontalAlignment="Stretch">
+    <Grid >
         <Button Margin="10"
                 Background="White"
-                BorderBrush="#FFF0EFEF">
+                BorderBrush="#FFF0EFEF" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50*"/>
                     <RowDefinition Height="150*"/>
                 </Grid.RowDefinitions>
 
-                <Grid Grid.Row="0" VerticalAlignment="Stretch">
+                <Grid Grid.Row="0" >
                     <TextBlock Text="{Binding Formula}" FontSize="15"/>
                 </Grid>
 
-                <Grid Grid.Row="1" VerticalAlignment="Stretch">
+                <Grid Grid.Row="1" >
                     <TextBlock Text="{Binding Result}" FontSize="30"/>
                 </Grid>
 

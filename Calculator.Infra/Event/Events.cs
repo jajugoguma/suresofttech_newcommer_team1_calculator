@@ -12,6 +12,7 @@ namespace Calculator.Infra.Event
     public class KeyInputNumberEvent : PubSubEvent<string> { }
     public class KeyInputEvent : PubSubEvent<string> { }
     public class SendNetworkStateEvent : PubSubEvent<bool> { }
+    public class SendTreeViewerDataEvent : PubSubEvent<bool> { }
 
 
 }

@@ -258,6 +258,7 @@ namespace Calculator.ViewModels
                 result = _repository.Client.Recv();
                 if (result != "")
                 {
+                    //_eventAggregator.GetEvent<SendTreeViewerDataEvent>().Publish();
                     _repository.AddLog(new Log(formula, TreeValue, result));
                 }
 

@@ -6,7 +6,6 @@ using System.Threading;
 
 namespace CalendarNetworkClient
 {
-
     public class EndPoint
     {
         public string Ip;
@@ -94,7 +93,6 @@ namespace CalendarNetworkClient
         }
         public void Send(string message)
         {
-
             byte[] buff = Encoding.Unicode.GetBytes(message);
             stream.Write(buff, 0, buff.Length);
 

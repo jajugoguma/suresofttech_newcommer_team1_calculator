@@ -10,14 +10,23 @@
         mc:Ignorable="d"
         Title="HistoryView" Height="450" Width="300">
     <Grid>
-        <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <ListBox ItemsSource="{Binding Path=Logs}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <infra:LogBlock Content="{Binding Log}"/>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </ScrollViewer>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <ScrollViewer  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <ListBox ItemsSource="{Binding Path=Logs}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <infra:LogBlock Content="{Binding Log}"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </ScrollViewer>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Button Command="{Binding ResetLogCommand}" HorizontalAlignment="Right" Margin="10, 2, 15, 0" Width="50"/>
+        </Grid>
     </Grid>
 </Window>
