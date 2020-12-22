@@ -26,6 +26,7 @@ namespace CalendarNetworkClient
     {
         TcpClient _Tcplient;
         EndPoint _Endpoint;
+        NetworkStream stream;
         bool _IsConnnect;
 
         public Client()
@@ -45,11 +46,15 @@ namespace CalendarNetworkClient
         {
             if (_Endpoint == null)
                 return false;
-            
+
             try
             {
                 _Tcplient = new TcpClient(_Endpoint.Ip, _Endpoint.Port);
-            }catch(Exception)
+                stream = _Tcplient.GetStream();
+                stream.ReadTimeout = 10;
+                stream.WriteTimeout = 10;
+            }
+            catch (Exception)
             {
                 return false;
             }
@@ -62,13 +67,13 @@ namespace CalendarNetworkClient
 
         public void KeepalivedCheck()
         {
-            Thread t = new Thread(new ThreadStart(()=>
+            Thread t = new Thread(new ThreadStart(() =>
             {
                 while (_IsConnnect) {
-                    Thread.Sleep(1000);
+                    Thread.Sleep(100);
                     try
                     {
-                        Send("p");
+                        Send("");
                     }
                     catch
                     {
@@ -80,25 +85,37 @@ namespace CalendarNetworkClient
                     }
                 }
             }));
+            t.IsBackground = true;
             t.Start();
 
         }
+        void DisConnect()
+        {
+        }
         public void Send(string message)
         {
-            byte[] buff = Encoding.ASCII.GetBytes(message);
-            NetworkStream stream = _Tcplient.GetStream();
+
+            byte[] buff = Encoding.Unicode.GetBytes(message);
             stream.Write(buff, 0, buff.Length);
 
         }
         public string Recv()
         {
-            NetworkStream stream = _Tcplient.GetStream();
             byte[] outbuf = new byte[1024];
-            int nbytes = stream.Read(outbuf, 0, outbuf.Length);
-            string output = Encoding.ASCII.GetString(outbuf, 0, nbytes);
+            int nbytes = 0;
+            try
+            {
+                nbytes = stream.Read(outbuf, 0, outbuf.Length);
+            }
+            catch (Exception)
+            {
+
+            }
+            string output = Encoding.Default.GetString(outbuf, 0, nbytes);
             return output;
         }
-        private bool ReConnect()
+    
+private bool ReConnect()
         {
             bool isConnect = false;
             for (int i = 0; i < 5; ++i)

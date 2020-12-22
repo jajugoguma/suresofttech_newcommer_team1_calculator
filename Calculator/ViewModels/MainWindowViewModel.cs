@@ -9,6 +9,8 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using CalendarNetworkClient;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Windows;
 
 namespace Calculator.ViewModels
 {
@@ -19,8 +21,12 @@ namespace Calculator.ViewModels
             EqualsEnable = false;
             _logs = new ObservableCollection<Log>();
             _client = new Client();
+            IP = "127.0.0.1";
+            Port = "18000";
         }
 
+        [DllImport("parser.dll")]
+        public static extern IntPtr retString(string str);
 
         #region Network
 
@@ -106,15 +112,37 @@ namespace Calculator.ViewModels
             //값 체크(안쓸것같음)
             CheckValue = true.ToString();
 
-            if (true)
-            { 
+            if (Formula!=null)
+            {
                 //Tree 코드 변환
-                TreeValue = "Tree";
+                try
+                {
+                    TreeValue = "Tree";
 
-                //연산 결과 표시
-                Result = Formula;
+                    IntPtr ptr = retString(Formula);
+                    string Message = Marshal.PtrToStringAnsi(ptr);
+                    Marshal.FreeHGlobal(ptr);
 
-                Logs.Add(new Log(Formula, TreeValue, Result));
+                    if (Message == null)
+                    {
+                        //잘못된 인자이니 에러출력
+                        return;
+                    }
+
+                    _client.Send(Message + System.Environment.NewLine);
+
+                    //연산 결과 표시
+                    Result = _client.Recv();
+                    if (Result != "")
+                    {
+                        Logs.Add(new Log(Formula, TreeValue, Result));
+                    }
+                }catch(Exception e)
+                {
+                    MessageBox.Show(e.ToString());
+
+                }
+
             }
         }
         #endregion

@@ -11,7 +11,9 @@
         Height="800" Width="500"
         MinHeight="600" MaxHeight="800"
         MinWidth="400" MaxWidth="625"
+        KeyDown="Window_KeyDown"
         >
+
     <Window.Resources>
         <Style TargetType="Menu" x:Key="TopmenuStyle">
             <Setter Property="VerticalAlignment" Value="Center"/>
@@ -29,19 +31,23 @@
             <Setter Property="Margin" Value="2"/>
             <Setter Property="FontSize" Value="20"/>
             <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="CommandParameter" Value="{Binding Path=Tag, RelativeSource={RelativeSource Self}}"/>
         </Style>
 
         <Style TargetType="Button" x:Key="EventButtonStyle" BasedOn="{StaticResource DefaultButtonStyle}">
             <Setter Property="Background" Value="#FFDDDDDD"/>
+            <Setter Property="Command" Value="{Binding InputEventButtonCommand}"/>
         </Style>
 
         <Style TargetType="Button" x:Key="NumberButtonStyle" BasedOn="{StaticResource DefaultButtonStyle}">
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="Background" Value="#FFF7F7F7"/>
+            <Setter Property="Command" Value="{Binding InputNumberButtonCommand}"/>
         </Style>
 
         <Style TargetType="Button" x:Key="EqualButtonStyle" BasedOn="{StaticResource DefaultButtonStyle}">
             <Setter Property="Background" Value="#FF98C1C7"/>
+            <Setter Property="Command" Value="{Binding InputEventButtonCommand}"/>
         </Style>
 
     </Window.Resources>
@@ -78,7 +84,7 @@
             </Grid.RowDefinitions>
 
             <Grid Name="현재연산기록" Grid.Row="0">
-                <TextBlock  Text="{Binding FormulaStack}"
+                <TextBlock  Text="{Binding HistoryValue}"
                             Margin="20, 0"
                             TextAlignment="Right"
                             HorizontalAlignment="Right"
@@ -98,10 +104,10 @@
 
         <Grid Name="InputPanel" Grid.Row="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="124*"/>
+                <ColumnDefinition Width="123*"/>
+                <ColumnDefinition Width="123*"/>
+                <ColumnDefinition Width="123*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
@@ -112,34 +118,34 @@
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
 
-            <Button Grid.Row="0" Grid.Column="0" Style="{StaticResource EventButtonStyle}" Content="Tree" Command="{Binding }"/>
-            <Button Grid.Row="0" Grid.Column="1" Style="{StaticResource EventButtonStyle}" Content="LOG" Command="{Binding }"/>
-            <Button Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Style="{StaticResource EventButtonStyle}" Content="←" Command="{Binding }"/>
-            
-            <Button Grid.Row="1" Grid.Column="0" Style="{StaticResource EventButtonStyle}" Content="AC" Command="{Binding }"/>
-            <Button Grid.Row="1" Grid.Column="1" Style="{StaticResource EventButtonStyle}" Content="(" Command="{Binding }"/>
-            <Button Grid.Row="1" Grid.Column="2" Style="{StaticResource EventButtonStyle}" Content=")" Command="{Binding }"/>
-            <Button Grid.Row="1" Grid.Column="3" Style="{StaticResource EventButtonStyle}" Content="÷" Command="{Binding }"/>
+            <Button Grid.Row="0" Grid.Column="0" Style="{StaticResource EventButtonStyle}" Tag ="tree" Content="Tree" Command="{Binding ShowTreeViwerCommand}"/>
+            <Button Grid.Row="0" Grid.Column="1" Style="{StaticResource EventButtonStyle}" Tag ="log" Content="LOG" Command="{Binding ShowHistoryCommand}"/>
+            <Button Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Style="{StaticResource EventButtonStyle}" Tag ="bs" Content="←"/>
 
-            <Button Grid.Row="2" Grid.Column="0" Style="{StaticResource NumberButtonStyle}" Content="7" Command="{Binding }"/>
-            <Button Grid.Row="2" Grid.Column="1" Style="{StaticResource NumberButtonStyle}" Content="8" Command="{Binding }"/>
-            <Button Grid.Row="2" Grid.Column="2" Style="{StaticResource NumberButtonStyle}" Content="9" Command="{Binding }"/>
-            <Button Grid.Row="2" Grid.Column="3" Style="{StaticResource EventButtonStyle}" Content="×" Command="{Binding }"/>
+            <Button Grid.Row="1" Grid.Column="0" Style="{StaticResource EventButtonStyle}" Tag ="reset" Content="AC"/>
+            <Button Grid.Row="1" Grid.Column="1" Style="{StaticResource EventButtonStyle}" Tag ="open" Content="("/>
+            <Button Grid.Row="1" Grid.Column="2" Style="{StaticResource EventButtonStyle}" Tag ="close" Content=")"/>
+            <Button Grid.Row="1" Grid.Column="3" Style="{StaticResource EventButtonStyle}" Tag ="division" Content="÷"/>
 
-            <Button Grid.Row="3" Grid.Column="0" Style="{StaticResource NumberButtonStyle}" Content="4" Command="{Binding }"/>
-            <Button Grid.Row="3" Grid.Column="1" Style="{StaticResource NumberButtonStyle}" Content="5" Command="{Binding }"/>
-            <Button Grid.Row="3" Grid.Column="2" Style="{StaticResource NumberButtonStyle}" Content="6" Command="{Binding }"/>
-            <Button Grid.Row="3" Grid.Column="3" Style="{StaticResource EventButtonStyle}" Content="-" Command="{Binding }"/>
+            <Button Grid.Row="2" Grid.Column="0" Style="{StaticResource NumberButtonStyle}" Tag ="7" Content="7"/>
+            <Button Grid.Row="2" Grid.Column="1" Style="{StaticResource NumberButtonStyle}" Tag ="8" Content="8"/>
+            <Button Grid.Row="2" Grid.Column="2" Style="{StaticResource NumberButtonStyle}" Tag ="9" Content="9"/>
+            <Button Grid.Row="2" Grid.Column="3" Style="{StaticResource EventButtonStyle}" Tag ="multiply" Content="×"/>
 
-            <Button Grid.Row="4" Grid.Column="0" Style="{StaticResource NumberButtonStyle}" Content="1" Command="{Binding }"/>
-            <Button Grid.Row="4" Grid.Column="1" Style="{StaticResource NumberButtonStyle}" Content="2" Command="{Binding }"/>
-            <Button Grid.Row="4" Grid.Column="2" Style="{StaticResource NumberButtonStyle}" Content="3" Command="{Binding }"/>
-            <Button Grid.Row="4" Grid.Column="3" Style="{StaticResource EventButtonStyle}" Content="+" Command="{Binding }"/>
+            <Button Grid.Row="3" Grid.Column="0" Style="{StaticResource NumberButtonStyle}" Tag ="4" Content="4"/>
+            <Button Grid.Row="3" Grid.Column="1" Style="{StaticResource NumberButtonStyle}" Tag ="5" Content="5"/>
+            <Button Grid.Row="3" Grid.Column="2" Style="{StaticResource NumberButtonStyle}" Tag ="6" Content="6"/>
+            <Button Grid.Row="3" Grid.Column="3" Style="{StaticResource EventButtonStyle}" Tag ="minus" Content="-"/>
 
-            <Button Grid.Row="5" Grid.Column="0" Style="{StaticResource NumberButtonStyle}" Content="+/-" Command="{Binding }"/>
-            <Button Grid.Row="5" Grid.Column="1" Style="{StaticResource NumberButtonStyle}" Content="0" Command="{Binding }"/>
-            <Button Grid.Row="5" Grid.Column="2" Style="{StaticResource NumberButtonStyle}" Content="." Command="{Binding }"/>
-            <Button Grid.Row="5" Grid.Column="3" Style="{StaticResource EqualButtonStyle}" Content="=" Command="{Binding TestCommand}"/>
+            <Button Grid.Row="4" Grid.Column="0" Style="{StaticResource NumberButtonStyle}" Tag ="1" Content="1"/>
+            <Button Grid.Row="4" Grid.Column="1" Style="{StaticResource NumberButtonStyle}" Tag ="2" Content="2"/>
+            <Button Grid.Row="4" Grid.Column="2" Style="{StaticResource NumberButtonStyle}" Tag ="3" Content="3"/>
+            <Button Grid.Row="4" Grid.Column="3" Style="{StaticResource EventButtonStyle}" Tag ="plus" Content="+"/>
+
+            <Button Grid.Row="5" Grid.Column="0" Style="{StaticResource NumberButtonStyle}" Tag ="pm" Content="+/-" />
+            <Button Grid.Row="5" Grid.Column="1" Style="{StaticResource NumberButtonStyle}" Tag ="0" Content="0"/>
+            <Button Grid.Row="5" Grid.Column="2" Style="{StaticResource NumberButtonStyle}" Tag ="dot" Content="."/>
+            <Button Grid.Row="5" Grid.Column="3" Style="{StaticResource EqualButtonStyle}" Tag ="equal" Content="="/>
 
         </Grid>
     </Grid>

@@ -8,10 +8,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using System.Windows;
+using System.Windows.Input;
 
 using Calculator.Infra.Service;
 using Calculator.Infra.Model;
 using Calculator.Infra.Event;
+using Calculator.Infra.Helper;
 
 namespace Calculator.ViewModels
 {
@@ -48,7 +51,6 @@ namespace Calculator.ViewModels
             {
                 IsShowTreeViwer = true;
 
-                Value = "트리 오픈";
                 Calculator.Views.TreeViewerView modal = new Calculator.Views.TreeViewerView();
                 modal.Show();
             }
@@ -94,6 +96,12 @@ namespace Calculator.ViewModels
             set { SetProperty(ref _value, value); }
         }
 
+        private string _historyValue;
+        public string HistoryValue
+        {
+            get { return _historyValue; }
+            set { SetProperty(ref _historyValue, value); }
+        }
 
         private DelegateCommand testCommand;
         public DelegateCommand TestCommand => testCommand ?? (testCommand = new DelegateCommand(Test));
@@ -107,8 +115,97 @@ namespace Calculator.ViewModels
             Value = value;
         }
 
+       
+        private DelegateCommand<string> _inputNumberButtonCommand;
+        public DelegateCommand<string> InputNumberButtonCommand => _inputNumberButtonCommand ?? (_inputNumberButtonCommand = new DelegateCommand<string>(InputNumberButton));
+        public void InputNumberButton(string key)
+        {
+            switch (key)
+            {
+                case "pm":
+                    if (_value.Equals(""))
+                        return;
+
+                    Value = Number.ChangePlusMinus(_value);
+                    break;
+
+                case "dot":
+                    return;
+                    break;
+
+                //숫자인경우
+                default:
+                    if (_value.Length >= 15)//자리수
+                        return;
+
+                    Value = Number.Add(_value, key);
+                    break;
+            }
+        }
+            
+
+        private DelegateCommand<string> _inputEventButtonCommand;
+        public DelegateCommand<string> InputEventButtonCommand => _inputEventButtonCommand ?? (_inputEventButtonCommand = new DelegateCommand<string>(InputEventButton));
+        public void InputEventButton(string name)
+        {
+
+            string value = _value;
+            string history = _historyValue;
+            switch(name)
+            {
+                case "plus":
+                    if (_value.Equals("")) return;
+                    history = Number.InputOperator(history, value, '+');
+                    value = "";
+                    break;
+
+                case "minus":
+                    if (_value.Equals("")) return;
+                    history = Number.InputOperator(history, value, '-');
+                    value = "";
+                    break;
+
+                case "multiply":
+                    if (_value.Equals("")) return;
+                    history = Number.InputOperator(history, value, '*');
+                    value = "";
+                    break;
+
+                case "division":
+                    if (_value.Equals("")) return;
+                    history = Number.InputOperator(history, value, '/');
+                    value = "";
+                    break;
+
+                case "equal":
+                    if (_value.Equals("")) return;
+                    history = Number.InputOperator(history, value, '=');
+                    value = ""; //여기!!!!!!!!!!
+                    break;
+
+                case "reset":
+                    value = "";
+                    history = "";
+                    break;
+                case "bs":
+                    if (_value.Equals("")) return;
+
+                    value = Number.BackSpace(_value);
+                    break;
+
+                case "open":
+                    break;
+                case "close":
+                    break;
+                default:
+                    break;
+            }
+
+            Value = value;
+            HistoryValue = history;
+        }
         #endregion
-        
+
 
         public CalculatorViewModel(IRepository repository, IEventAggregator eventAggregator)
         {
@@ -117,8 +214,12 @@ namespace Calculator.ViewModels
 
             _eventAggregator.GetEvent<EditCalculatorValueEvent>().Subscribe(SetValue);
 
-            Value = "Start Calculator!!";
+            _eventAggregator.GetEvent<KeyInputNumberEvent>().Subscribe(InputNumberButton);
+            _eventAggregator.GetEvent<KeyInputEvent>().Subscribe(InputEventButton);
+            Value = "";
+            HistoryValue = "";
             IsShowTreeViwer = false;
         }
+
     }
 }
