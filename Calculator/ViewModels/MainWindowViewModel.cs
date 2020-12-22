@@ -114,7 +114,7 @@ namespace Calculator.ViewModels
                 try
                 {
                     TreeValue = "Tree";
-                    _client.Send(Formula);
+                    _client.Send(Formula + System.Environment.NewLine);
 
                     //연산 결과 표시
                     Result = _client.Recv();

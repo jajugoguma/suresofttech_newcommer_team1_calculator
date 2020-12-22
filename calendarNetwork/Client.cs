@@ -94,7 +94,7 @@ namespace CalendarNetworkClient
         public void Send(string message)
         {
 
-            byte[] buff = Encoding.ASCII.GetBytes(message);
+            byte[] buff = Encoding.Unicode.GetBytes(message);
             stream.Write(buff, 0, buff.Length);
 
         }
@@ -110,7 +110,7 @@ namespace CalendarNetworkClient
             {
 
             }
-            string output = Encoding.ASCII.GetString(outbuf, 0, nbytes);
+            string output = Encoding.Default.GetString(outbuf, 0, nbytes);
             return output;
         }
     
