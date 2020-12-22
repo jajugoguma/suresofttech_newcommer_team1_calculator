@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using System.Windows;
+using System.Windows.Input;
 
 using Calculator.Infra.Service;
 using Calculator.Infra.Model;
@@ -94,6 +96,12 @@ namespace Calculator.ViewModels
             set { SetProperty(ref _value, value); }
         }
 
+        private string _historyValue;
+        public string HistoryValue
+        {
+            get { return _historyValue; }
+            set { SetProperty(ref _historyValue, value); }
+        }
 
         private DelegateCommand testCommand;
         public DelegateCommand TestCommand => testCommand ?? (testCommand = new DelegateCommand(Test));
@@ -140,31 +148,49 @@ namespace Calculator.ViewModels
         public DelegateCommand<string> InputEventButtonCommand => _inputEventButtonCommand ?? (_inputEventButtonCommand = new DelegateCommand<string>(InputEventButton));
         public void InputEventButton(string name)
         {
+
+            string value = _value;
+            string history = _historyValue;
             switch(name)
             {
                 case "plus":
+                    if (_value.Equals("")) return;
+                    history = Number.InputOperator(history, value, '+');
+                    value = "";
                     break;
 
                 case "minus":
+                    if (_value.Equals("")) return;
+                    history = Number.InputOperator(history, value, '-');
+                    value = "";
                     break;
 
                 case "multiply":
+                    if (_value.Equals("")) return;
+                    history = Number.InputOperator(history, value, '*');
+                    value = "";
                     break;
 
                 case "division":
+                    if (_value.Equals("")) return;
+                    history = Number.InputOperator(history, value, '/');
+                    value = "";
                     break;
 
                 case "equal":
+                    if (_value.Equals("")) return;
+                    history = Number.InputOperator(history, value, '=');
+                    value = ""; //여기!!!!!!!!!!
                     break;
 
                 case "reset":
-                    Value = "";
+                    value = "";
+                    history = "";
                     break;
                 case "bs":
-                    if (_value.Equals(""))
-                        return;
+                    if (_value.Equals("")) return;
 
-                    Value = Number.BackSpace(_value);
+                    value = Number.BackSpace(_value);
                     break;
 
                 case "open":
@@ -175,6 +201,8 @@ namespace Calculator.ViewModels
                     break;
             }
 
+            Value = value;
+            HistoryValue = history;
         }
         #endregion
 
@@ -186,8 +214,12 @@ namespace Calculator.ViewModels
 
             _eventAggregator.GetEvent<EditCalculatorValueEvent>().Subscribe(SetValue);
 
+            _eventAggregator.GetEvent<KeyInputNumberEvent>().Subscribe(InputNumberButton);
+            _eventAggregator.GetEvent<KeyInputEvent>().Subscribe(InputEventButton);
             Value = "";
+            HistoryValue = "";
             IsShowTreeViwer = false;
         }
+
     }
 }
