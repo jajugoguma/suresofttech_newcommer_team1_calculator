@@ -19,11 +19,11 @@ namespace Calculator.ViewModels
     {
         private IRepository _repository;
         private IEventAggregator _eventAggregator;
-        private string ip;
+        private string _ip;
         public string IP
         {
-            get { return ip; }
-            set { SetProperty(ref ip, value); }
+            get { return _ip; }
+            set { SetProperty(ref _ip, value); }
         }
 
         private string port;
@@ -46,36 +46,34 @@ namespace Calculator.ViewModels
         private void ConnectServer()
         {
             //test용
-            KeyValuePair<bool, string> checkIP = Validation.CheckIP(ip);
+            KeyValuePair<bool, string> checkIP = Validation.CheckIP(IP);
 
             if (!checkIP.Key)
             {
                 Text = "IP가 올바르지 않습니다.";
-                Views.PopupView model = new Views.PopupView();
+                //Views.PopupView model = new Views.PopupView();
                 
                 
-                model.ShowDialog();
+                //model.ShowDialog();
 
-                //testcode
-                _eventAggregator.GetEvent<SendPopupOption>()
-                    .Publish(new Tuple<string, string, string>("Warning", "IP가 올바르지 않습니다", "Retry"));
-                
-                
+                ////testcode
+                //_eventAggregator.GetEvent<SendPopupOption>()
+                //    .Publish(new Tuple<string, string, string>("Warning", "IP가 올바르지 않습니다", "Retry"));
                 return;
             }
-            
-            //주어진 ip, port로 서버 엑세스
-            EndPoint endPoint = new EndPoint(ip, Port);
+
+            EndPoint endPoint = new EndPoint(IP, Port);
             _repository.Client.SetEndPoint(endPoint);
 
-
-            if(_repository.Client.Connect())
+            if (_repository.Client.Connect() == true)
             {
-
+                Text = "연결 성공";
+                _eventAggregator.GetEvent<SendNetworkStateEvent>().Publish(true);
             }
             else
             {
-
+                Text = "연결 실패";
+                _eventAggregator.GetEvent<SendNetworkStateEvent>().Publish(false);
             }
         }
 
@@ -83,6 +81,9 @@ namespace Calculator.ViewModels
         {
             _repository = repository;
             _eventAggregator = eventAggregator;
+
+            IP = _repository.IP;
+            Port = _repository.Port;
         }
 
 

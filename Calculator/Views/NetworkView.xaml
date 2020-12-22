@@ -26,6 +26,8 @@
             <Setter Property="HorizontalAlignment" Value="Right"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="TextAlignment" Value="Right"/>
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="TextAlignment" Value="Center"/>
         </Style>
 
         <Style TargetType="xceed:MaskedTextBox" x:Key="Mask">
@@ -47,14 +49,15 @@
             <StackPanel  VerticalAlignment="Center">
                 <Grid Width="200" Height="30" HorizontalAlignment="Center">
                     <TextBlock Text="IP" Style="{StaticResource ItemStyle}"/>
-                    <xceed:MaskedTextBox  Text="{Binding IP}"
+                    <TextBox Text="{Binding IP}" Style="{StaticResource ValueStyle}"/>
+                    <!--<xceed:MaskedTextBox  Text="{Binding IP}"
                                           Mask="000 . 000 . 000 . 000"
-                                          Style="{StaticResource Mask}"/>
+                                          Style="{StaticResource Mask}"/>-->
                 </Grid>
                 <Grid Width="200" Height="30" HorizontalAlignment="Center">
                     <TextBlock Text="Port" Style="{StaticResource ItemStyle}"/>
                     <xceed:MaskedTextBox  Text="{Binding Port}"
-                                          Mask="000000 "
+                                          Mask="000000"
                                           Style="{StaticResource Mask}"/>
                 </Grid>
                 <TextBlock Text="{Binding Text}" HorizontalAlignment="Center"/>
