@@ -85,6 +85,7 @@ namespace CalendarNetworkClient
                     }
                 }
             }));
+            t.IsBackground = true;
             t.Start();
 
         }

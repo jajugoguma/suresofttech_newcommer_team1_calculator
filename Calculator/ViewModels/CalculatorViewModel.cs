@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using System.Windows;
+using System.Windows.Input;
 
 using Calculator.Infra.Service;
 using Calculator.Infra.Model;
@@ -212,9 +214,12 @@ namespace Calculator.ViewModels
 
             _eventAggregator.GetEvent<EditCalculatorValueEvent>().Subscribe(SetValue);
 
+            _eventAggregator.GetEvent<KeyInputNumberEvent>().Subscribe(InputNumberButton);
+            _eventAggregator.GetEvent<KeyInputEvent>().Subscribe(InputEventButton);
             Value = "";
             HistoryValue = "";
             IsShowTreeViwer = false;
         }
+
     }
 }

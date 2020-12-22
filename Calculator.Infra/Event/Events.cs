@@ -9,6 +9,8 @@ namespace Calculator.Infra.Event
 
     public class EditCalculatorValueEvent : PubSubEvent<string> { }
     public class SendPopupOption : PubSubEvent<Tuple<string, string, string>> { }
+    public class KeyInputNumberEvent : PubSubEvent<string> { }
+    public class KeyInputEvent : PubSubEvent<string> { }
 
 
 }

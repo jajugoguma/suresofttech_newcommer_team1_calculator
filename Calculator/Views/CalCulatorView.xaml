@@ -11,6 +11,7 @@
         Height="800" Width="500"
         MinHeight="600" MaxHeight="800"
         MinWidth="400" MaxWidth="625"
+        KeyDown="Window_KeyDown"
         >
 
     <Window.Resources>
