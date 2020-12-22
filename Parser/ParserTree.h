@@ -41,6 +41,7 @@ bool ParserTree::intRangeChecker(int i) {
 	//	if (result[i + 1 ] == '-') num[0] = '-';
 
 	num += result.substr(i + 1, result.length());
+
 	if (num[0] == '-') {
 		if (num > INTMIN) return true;
 	}
@@ -128,6 +129,11 @@ std::string ParserTree::makePostFixWithHash(std::string str) {
 		}
 	}
 	if (cntITER == 0) result += '#'; //입력된 문자열이 연산자가 없는 단순 정수일 때, 형식을 맞춰주기 위해 마지막에 # 출력.
+	if (result[result.length() - 2] >= '0' && result[result.length() - 2] <= '9') {
+		if (intRangeChecker(findIndexOfLastHash())) {
+			return std::string("지원하는 숫자의 범위를 초과했습니다.");
+		}
+	}
 	if (cntINT - 1 != cntITER) return std::string("잘못된 수식입니다.");
 	//스택에 남은연산 출력
 	if (!vstack.empty()) result += "#";
@@ -204,7 +210,7 @@ void ParserTree::makeTreeStream(Node* node) {
 	this->makeTreeStream(node->getLeftChild());
 	this->makeTreeStream(node->getRightChild());
 	treeStream += node->getVal();
-	treeStream += "#";
+	treeStream += " ";
 }
 
 inline Node* ParserTree::getProot()
