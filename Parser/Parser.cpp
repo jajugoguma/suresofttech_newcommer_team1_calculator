@@ -1,42 +1,37 @@
 #include "Node.h"
 #include "ParserTree.h"
-
-bool checker(std::string s) {
-	for (int i = 0; i < s.length(); i++) {
-		if (s[i] >= '(' && s[i] <= '9') {
-			if (s[i] == ',' || s[i] == '.') {
-				return false;
-			}
-			else return true;
-		}
-		else return false;
-	}
-}
+#include "Checker.h"
 
 int main()
 {
-	std::string str = "";
-	std::cin >> str;
+	while (1) {
+		std::string str = "";
+		std::cin >> str;
 
-	if (!checker(str)) {
-		std::cout << "잘못된 수식입니다." << std::endl;
-		return 0;
+		Checker inputstr(str);
+
+		if (inputstr.runner()) {
+			std::cout << "        잘못된 수식입니다." << std::endl;
+			//continue;
+			return -1;
+		}
+
+		mapInit();
+
+		ParserTree BTroot;
+
+		std::string postFixWithHash = BTroot.makePostFixWithHash(inputstr.getOutput());
+		if (postFixWithHash == "지원하는 숫자의 범위를 초과했습니다." || postFixWithHash == "잘못된 수식입니다.") {
+			std::cout << "        " << postFixWithHash << std::endl;
+			//continue;
+			return -1;
+		}
+
+		BTroot.makeTree(postFixWithHash);
+
+		BTroot.makeTreeStream(BTroot.getProot());
+		std::cout << "        " << BTroot.getTreeStream() << std::endl;
 	}
-
-	mapInit();
-
-	ParserTree BTroot;
-
-	std::string postFixWithHash = BTroot.makePostFixWithHash(str);
-	if (postFixWithHash == "잘못된 수식입니다.") {
-		std::cout << postFixWithHash << std::endl;
-		return -1;
-	}
-
-	BTroot.makeTree(postFixWithHash);
-
-	BTroot.makeTreeStream(BTroot.getProot());
-	std::cout << BTroot.getTreeStream() << std::endl;
 
 	return 0;
 }
