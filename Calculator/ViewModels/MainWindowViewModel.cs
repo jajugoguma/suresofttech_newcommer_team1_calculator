@@ -19,6 +19,8 @@ namespace Calculator.ViewModels
             EqualsEnable = false;
             _logs = new ObservableCollection<Log>();
             _client = new Client();
+            IP = "127.0.0.1";
+            Port = "18000";
         }
 
 
@@ -106,15 +108,25 @@ namespace Calculator.ViewModels
             //값 체크(안쓸것같음)
             CheckValue = true.ToString();
 
-            if (true)
-            { 
+            if (Formula!=null)
+            {
                 //Tree 코드 변환
-                TreeValue = "Tree";
+                try
+                {
+                    TreeValue = "Tree";
+                    _client.Send(Formula);
 
-                //연산 결과 표시
-                Result = Formula;
+                    //연산 결과 표시
+                    Result = _client.Recv();
+                    if (Result != "")
+                    {
+                        Logs.Add(new Log(Formula, TreeValue, Result));
+                    }
+                }catch(Exception e)
+                {
 
-                Logs.Add(new Log(Formula, TreeValue, Result));
+                }
+
             }
         }
         #endregion
