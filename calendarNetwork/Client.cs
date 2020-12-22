@@ -111,7 +111,7 @@ namespace CalendarNetworkClient
             {
 
             }
-            string output = Encoding.Default.GetString(outbuf, 0, nbytes);
+            string output = Encoding.Unicode.GetString(outbuf, 0, nbytes);
             return output;
         }
     
