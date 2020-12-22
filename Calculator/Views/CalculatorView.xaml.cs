@@ -66,7 +66,7 @@ namespace Calculator.Views
             {
                 _eventAggregator.GetEvent<KeyInputEvent>().Publish("reset");
             }
-            else if (Keyboard.IsKeyDown(Key.Enter))
+            else if (Keyboard.IsKeyDown(Key.Return))
             {
                 _eventAggregator.GetEvent<KeyInputEvent>().Publish("equal");
             }
