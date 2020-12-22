@@ -9,6 +9,8 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using CalendarNetworkClient;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Windows;
 
 namespace Calculator.ViewModels
 {
@@ -23,6 +25,8 @@ namespace Calculator.ViewModels
             Port = "18000";
         }
 
+        [DllImport("parser.dll")]
+        public static extern IntPtr retString(string str);
 
         #region Network
 
@@ -114,7 +118,13 @@ namespace Calculator.ViewModels
                 try
                 {
                     TreeValue = "Tree";
-                    _client.Send(Formula + System.Environment.NewLine);
+
+                    IntPtr ptr = retString(Formula);
+                    string Message = Marshal.PtrToStringAnsi(ptr);
+                    Marshal.FreeHGlobal(ptr);
+
+
+                    _client.Send(Message + System.Environment.NewLine);
 
                     //연산 결과 표시
                     Result = _client.Recv();
@@ -124,6 +134,7 @@ namespace Calculator.ViewModels
                     }
                 }catch(Exception e)
                 {
+                    MessageBox.Show(e.ToString());
 
                 }
 
