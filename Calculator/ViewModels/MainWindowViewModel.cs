@@ -224,7 +224,7 @@ namespace Calculator.ViewModels
                     Result = _client.Recv();
                     if (Result != "")
                     {
-                        Logs.Add(new Log(Formula, TreeValue, Result));
+                        Logs.Add(new Log(exp, TreeValue, Result));
                     }
                 }
                 catch (Exception e)
