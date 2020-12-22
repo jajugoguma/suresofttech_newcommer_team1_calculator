@@ -40,6 +40,8 @@
 
                 <TextBlock Text="Result         = " HorizontalAlignment="Left" Margin="66,150,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="94" Foreground="Black" FontWeight="Bold"/>
                 <TextBlock Text="{Binding Result}" HorizontalAlignment="Left" Margin="165,150,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="94" Foreground="Black"/>
+                <Button HorizontalAlignment="Left" Margin="356,100,0,0" VerticalAlignment="Top" Width="75" Content="파일" Height="27"  Command="{Binding CalculateFileCommand}">
+                </Button>
             </Grid>
         </Grid>
 

@@ -11,6 +11,7 @@ using CalendarNetworkClient;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
+using Microsoft.Win32;
 
 namespace Calculator.ViewModels
 {
@@ -106,6 +107,19 @@ namespace Calculator.ViewModels
 
         private DelegateCommand calculateCommand;
         public DelegateCommand CalculateCommand => calculateCommand ?? (calculateCommand = new DelegateCommand(ExecuteCalculate));
+
+        private DelegateCommand calculateFileCommand;
+
+        public DelegateCommand CalculateFileCommand => calculateFileCommand ?? (calculateFileCommand = new DelegateCommand(ExecuteFileCalculate));
+
+        private void ExecuteFileCalculate()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == true)
+            {
+                readExpsFromFile(openFileDialog.FileName);
+            }
+        }
 
         private void ExecuteCalculate()
         {
