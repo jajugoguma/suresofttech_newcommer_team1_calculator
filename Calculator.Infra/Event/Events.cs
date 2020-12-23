@@ -13,6 +13,8 @@ namespace Calculator.Infra.Event
     public class SendNetworkStateEvent : PubSubEvent<bool> { }
     public class SendTreeViewerDataEvent : PubSubEvent<string> { }
 
+    public class CaleServerFlagEvent : PubSubEvent<bool> { }
+
 
 
 }

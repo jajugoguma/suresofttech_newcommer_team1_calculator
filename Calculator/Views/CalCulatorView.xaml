@@ -151,6 +151,9 @@
         </Grid>
         <Grid Grid.Row="3">
             <StatusBar DockPanel.Dock="Bottom">
+                <StatusBarItem HorizontalAlignment="Left" Margin=" 10, 0">
+                    <TextBlock HorizontalAlignment="Right" Text="{Binding CalculateFlagText}" FontSize="15" />
+                </StatusBarItem>
                 <StatusBarItem HorizontalAlignment="Right" Margin=" 10, 0">
                     <TextBlock HorizontalAlignment="Right" Text="{Binding NetworkStateText}" FontSize="15" />
                 </StatusBarItem>
