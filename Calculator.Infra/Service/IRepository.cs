@@ -14,5 +14,6 @@ namespace Calculator.Infra.Service
         Client Client { get; set; }
         string IP { get; set; }
         string Port { get; set; }
+        int TailCnt { get; set; }
     }
 }

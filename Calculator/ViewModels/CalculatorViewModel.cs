@@ -35,7 +35,7 @@ namespace Calculator.ViewModels
             set
             { 
                 _networkState = value;
-                NetworkStateText = value ? "CONNECT" : "DISCONNECT";
+                NetworkStateText = value ? "CONNECTED" : "DISCONNECT";
             }
         }
 
@@ -287,7 +287,7 @@ namespace Calculator.ViewModels
                 if (result != "")
                 {
                     //_eventAggregator.GetEvent<SendTreeViewerDataEvent>().Publish();
-                    _repository.AddLog(new Log(formula, TreeValue, result));
+                    _repository.AddLog(new Log(formula + "=", TreeValue, result));
                 }
 
             }
