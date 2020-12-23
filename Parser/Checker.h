@@ -63,12 +63,17 @@ bool Checker::empty()
 bool Checker::character() {
 	// 0~9, +, -, *, / 외의 문자가 포함된 수식, 잘못된 수식 처리
 	for (auto c : input) {
-		if (c >= '(' && c <= '9') { // ASCII 기준
-			if (c == ',' || c == '.') return true;
-			else return false;
+		if (c == '0' || c == '1' || c == '2' || c == '3' || c == '4' || c == '5' || c == '6' || c == '7' || c == '8' || c == '9') {
+			;
 		}
-		else return true;
+		else if (c == '(' || c == ')' || c == '+' || c == '-' || c == '/' || c == '*') {
+			;
+		}
+		else {
+			return true;
+		}
 	}
+	return false;
 }
 
 bool Checker::bracket() {

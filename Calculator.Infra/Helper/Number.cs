@@ -29,9 +29,9 @@ namespace Calculator.Infra.Helper
             DivisionHead(ref value);
             RemoveComma(ref value);
 
-            value = value.Substring( 0, value.Length - 1);
+            value = value.Substring(0, value.Length - 1);
 
-            if(!value.Equals(""))
+            if (!value.Equals(""))
                 AppendComma(ref value);
 
             return value;
@@ -45,7 +45,7 @@ namespace Calculator.Infra.Helper
             else
                 value = '-' + value;
 
-            return value; 
+            return value;
         }
 
 
@@ -58,9 +58,81 @@ namespace Calculator.Infra.Helper
             else if (value[0].Equals('-'))
                 value = $"({value})";
 
-            return history.Substring(0, cutsize) +value + oprerator;
+            return history.Substring(0, cutsize) + value + oprerator;
         }
-        
+
+        //소수점 기준으로 분리
+        public static string[] spliter(string value)
+        {
+            string[] num = value.Split('.');
+            return num;
+        }
+
+        //정수형인지 실수형인지 확인해서 실수형인 경우 반올림 처리
+        public static string typeChecker(string[] sval, int ival) 
+        {
+            bool typeDOUBLE = false;
+            string answer = "";
+
+            //정수형인지 실수형인지 확인 : 소수점 이하 숫자 중 '0'이 아닌 문자가 하나라도 포함된 경우, 실수 판정
+            foreach (var i in sval[1])
+            {
+                if (i != '0')
+                {
+                    typeDOUBLE = true;
+                    break;
+                }
+            }
+
+            //실수인 경우 반올림 처리
+            if (typeDOUBLE) //실수일 때
+            {
+                if (sval[1].Length > ival) //반올림할 자리수가 있을 때
+                {
+                    if (sval[1][ival] >= '5') //반올림 해야할 때
+                    {
+                        //index 0~ival-1 까지 정수화 -> +1 -> string화
+                        string snum = "";
+                        int inum = 0;
+
+                        snum += sval[0] + sval[1].Substring(0, ival);
+                        inum = Convert.ToInt32(snum);
+
+                        inum++;
+                        answer += inum.ToString();
+
+                        if (snum.Length != answer.Length)
+                        {
+                            answer = answer.Insert(sval[0].Length + 1, ".");
+                        }
+                        else
+                        {
+                            answer = answer.Insert(sval[0].Length, ".");
+                        }
+                    }
+                    else //반올림 없을 때 : 잘라서 붙임
+                    {
+                        answer += sval[0];
+                        answer += '.';
+                        answer += sval[1].Substring(0, ival);
+                    }
+                }
+                else //반올림할 자리수가 없을 때 : 그냥 붙임
+                {
+                    answer += sval[0];
+                    answer += '.';
+                    answer += sval[1];
+                }
+
+            }
+            else //정수인 경우
+            {
+                answer += sval[0];
+            }
+            return answer;
+        }
+
+
         //괄호..
         public static string InputBracket()
         {
@@ -85,4 +157,5 @@ namespace Calculator.Infra.Helper
                 value = value.Replace(",", "");
         }
     }
+
 }
