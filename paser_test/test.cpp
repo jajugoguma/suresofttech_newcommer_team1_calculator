@@ -17,22 +17,22 @@ std::string parserrr(std::string str) {
 }
 
 TEST(Paser, right_) {
-	EXPECT_EQ(parserrr("2*(2+3)*4"), "1");
-	EXPECT_EQ(parserrr("12*(12+13)*14"), "1");
-	EXPECT_EQ(parserrr("12*(12+3)*4"), "1");
-	EXPECT_EQ(parserrr("(3+4)*8/"), "1");
-	EXPECT_EQ(parserrr("12*(13-12)*14"), "1");
-	EXPECT_EQ(parserrr("3+20*3/2-1/"), "1");
-	EXPECT_EQ(parserrr("1234*((-56)*789)+1200/"), "1");
-	EXPECT_EQ(parserrr("12*((-1)+13)*14"), "1");
-	EXPECT_EQ(parserrr("12*((-11)+13)*14"), "1");
-	EXPECT_EQ(parserrr("12*((-11)+13)*(-12)"), "1");
-	EXPECT_EQ(parserrr("12+(-13)+"), "1");
-	EXPECT_EQ(parserrr("123*+/456"), "1");
-	EXPECT_EQ(parserrr("123*+/456++"), "1");
-	EXPECT_EQ(parserrr("12*((-11)+13)*14"), "1");
-	EXPECT_EQ(parserrr("12*((-11)+13)*(-12)"), "1");
-	EXPECT_EQ(parserrr("(1234+5678*91)"), "1");
+	EXPECT_EQ(parserrr("2*(2+3)*4"), "#2##2##3##+##*##4##*#");
+	EXPECT_EQ(parserrr("12*(12+13)*14"), "#12##12##13##+##*##14##*#");
+	EXPECT_EQ(parserrr("12*(12+3)*4"), "#12##12##3##+##*##4##*#");
+	EXPECT_EQ(parserrr("(3+4)*8/"), "#3##4##+##8##*#");
+	EXPECT_EQ(parserrr("12*(13-12)*14"), "#12##13##12##-##*##14##*#");
+	EXPECT_EQ(parserrr("3+20*3/2-1/"), "#3##20##3##*##2##/##+##1##-#");
+	EXPECT_EQ(parserrr("1234*((-56)*789)+1200/"), "#1234##-56##789##*##*##1200##+#");
+	EXPECT_EQ(parserrr("12*((-1)+13)*14"), "#12##-1##13##+##*##14##*#");
+	EXPECT_EQ(parserrr("12*((-11)+13)*14"), "#12##-11##13##+##*##14##*#");
+	EXPECT_EQ(parserrr("12*((-11)+13)*(-12)"), "#12##-11##13##+##*##-12###*#");
+	EXPECT_EQ(parserrr("12+(-13)+"), "#12##-13###+#");
+	EXPECT_EQ(parserrr("123*+/456"), "#123##456##/#");
+	EXPECT_EQ(parserrr("123*+/456++"), "#123##456##/#");
+	EXPECT_EQ(parserrr("12*((-11)+13)*14"), "#12##-11##13##+##*##14##*#");
+	EXPECT_EQ(parserrr("12*((-11)+13)*(-12)"), "#12##-11##13##+##*##-12###*#");
+	EXPECT_EQ(parserrr("(1234+5678*91)"), "#1234##5678##91##*##+#");
 	
 	EXPECT_TRUE(true);
 }
@@ -55,12 +55,12 @@ TEST(Paser, worng_) {
 
 TEST(Paser, MaxMin_) {
 
-	EXPECT_EQ(parserrr("2147483647+1"), "1");
-	EXPECT_EQ(parserrr("1+2147483647"), "1");
+	EXPECT_EQ(parserrr("2147483647+1"), "#2147483647##1##+#");
+	EXPECT_EQ(parserrr("1+2147483647"), "#1##2147483647##+#");
 	EXPECT_EQ(parserrr("2147483648+1"), "지원하는 숫자의 범위를 초과했습니다.");
 	EXPECT_EQ(parserrr("1+2147483648"), "지원하는 숫자의 범위를 초과했습니다.");
-	EXPECT_EQ(parserrr("(-2147483648)-1"), "1");
-	EXPECT_EQ(parserrr("1-(-2147483648)"), "1");
+	EXPECT_EQ(parserrr("(-2147483648)-1"), "#-2147483648##1##-#");
+	EXPECT_EQ(parserrr("1-(-2147483648)"), "#1##-2147483648###-#");
 	EXPECT_EQ(parserrr("1+489451165156"), "지원하는 숫자의 범위를 초과했습니다.");
 	EXPECT_EQ(parserrr("1-(-7895151226)"), "지원하는 숫자의 범위를 초과했습니다.");
 
