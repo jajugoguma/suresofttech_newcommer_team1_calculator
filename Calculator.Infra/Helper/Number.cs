@@ -29,9 +29,9 @@ namespace Calculator.Infra.Helper
             DivisionHead(ref value);
             RemoveComma(ref value);
 
-            value = value.Substring( 0, value.Length - 1);
+            value = value.Substring(0, value.Length - 1);
 
-            if(!value.Equals(""))
+            if (!value.Equals(""))
                 AppendComma(ref value);
 
             return value;
@@ -45,7 +45,7 @@ namespace Calculator.Infra.Helper
             else
                 value = '-' + value;
 
-            return value; 
+            return value;
         }
 
 
@@ -58,9 +58,50 @@ namespace Calculator.Infra.Helper
             else if (value[0].Equals('-'))
                 value = $"({value})";
 
-            return history.Substring(0, cutsize) +value + oprerator;
+            return history.Substring(0, cutsize) + value + oprerator;
         }
-        
+
+        //소수점 기준으로 분리
+        public static string[] spliter(string value)
+        {
+            string[] num = value.Split('.');
+            return num;
+        }
+
+        //정수형인지 실수형인지 확인해서 실수형인 경우 반올림 처리
+        public static string typeChecker(string[] sval, int ival) 
+        {
+            bool flag = false;
+            string answer = "";
+
+            foreach (var i in sval[1])
+            {
+                if (i != '0')
+                {
+                    flag = true;
+                    break;
+                }
+            }
+
+            if (flag) //실수인 경우
+            {
+                if (sval[1].Length > ival && sval[1][ival] >= '5') //(자리수가 있고) 반올림 해야하는 경우
+                {
+                    //index 0~ival-1 까지 정수화 -> +1 -> string화
+                    int outValue;
+                    outValue = Convert.ToInt32(sval[0]);
+                    outValue = Convert.ToInt32(sval[1].Substring(0,ival));
+                    outValue++;
+                }
+            }
+            else //정수인 경우
+            {
+                answer += sval[0];
+            }
+            return answer;
+        }
+
+
         //괄호..
         public static string InputBracket()
         {
@@ -85,4 +126,5 @@ namespace Calculator.Infra.Helper
                 value = value.Replace(",", "");
         }
     }
+
 }

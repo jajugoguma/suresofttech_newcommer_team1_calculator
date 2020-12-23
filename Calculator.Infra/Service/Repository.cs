@@ -17,6 +17,7 @@ namespace Calculator.Infra.Service
         public string IP { get; set; }
         public string Port { get; set; }
         
+        public int TailCnt { get; set; }
         public void ResetLog()
         {
             LogList.Clear();
@@ -25,8 +26,8 @@ namespace Calculator.Infra.Service
         public void AddLog(Log log)
         {
             LogList.Add(log);
+            _ea.GetEvent<SendTreeViewerDataEvent>().Publish(log.Tree);
             _ea.GetEvent<UpdateLogEvent>().Publish();
-
         }
 
         public Repository(IEventAggregator ea)
