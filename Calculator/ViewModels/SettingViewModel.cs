@@ -26,12 +26,12 @@ namespace Calculator.ViewModels
             set { SetProperty(ref tailCnt, value); }
         }
 
-        private bool clientCalculateFlagCheck;
+        private bool serverCalculateFlagCheck;
 
-        public bool ClientCalculateFlagCheck
+        public bool ServerCalculateFlagCheck
         {
-            get { return clientCalculateFlagCheck; }
-            set { SetProperty(ref clientCalculateFlagCheck, value); }
+            get { return serverCalculateFlagCheck; }
+            set { SetProperty(ref serverCalculateFlagCheck, value); }
         }
 
         private DelegateCommand checkButtonCommand;
@@ -39,8 +39,8 @@ namespace Calculator.ViewModels
         private void Check()
         {
              _repository.TailCnt = TailCnt;
-            _repository.ClientCalculateFlagCheck = ClientCalculateFlagCheck;
-            _eventAggregator.GetEvent<CaleServerFlagEvent>().Publish(ClientCalculateFlagCheck);
+            _repository.ServerCalculateFlagCheck = ServerCalculateFlagCheck;
+            _eventAggregator.GetEvent<CaleServerFlagEvent>().Publish(ServerCalculateFlagCheck);
 
         }
 
@@ -51,7 +51,7 @@ namespace Calculator.ViewModels
 
 
             TailCnt = _repository.TailCnt;
-            ClientCalculateFlagCheck = _repository.ClientCalculateFlagCheck;
+            ServerCalculateFlagCheck = _repository.ServerCalculateFlagCheck;
         }
     }
 }

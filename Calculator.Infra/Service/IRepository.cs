@@ -16,7 +16,7 @@ namespace Calculator.Infra.Service
         string Port { get; set; }
         int TailCnt { get; set; }
 
-        bool ClientCalculateFlagCheck { get; set; }
+        bool ServerCalculateFlagCheck { get; set; }
 
     }
 }

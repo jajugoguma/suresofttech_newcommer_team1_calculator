@@ -33,7 +33,7 @@ namespace Calculator.ViewModels
         {
             get { return _networkState; }
             set
-            { 
+            {
                 _networkState = value;
                 NetworkStateText = value ? "CONNECTED" : "DISCONNECT";
             }
@@ -53,7 +53,7 @@ namespace Calculator.ViewModels
             set
             {
                 calculateFlag = value;
-                CalculateFlagText = value ? "Client" : "Server";
+                CalculateFlagText = value ? "Server" : "Client";
             }
         }
 
@@ -73,7 +73,7 @@ namespace Calculator.ViewModels
             if (hismo == null)
             {
                 hismo = new Calculator.Views.HistoryView();
-                
+
                 hismo.Closed += (x, y) => { hismo = null; };
                 hismo.Show();
             }
@@ -84,7 +84,7 @@ namespace Calculator.ViewModels
         public DelegateCommand ShowTreeViwerCommand => showTreeViwerCommand ?? (showTreeViwerCommand = new DelegateCommand(ShowTreeViewer));
         private void ShowTreeViewer()
         {
-            if(!IsShowTreeViwer)
+            if (!IsShowTreeViwer)
             {
                 IsShowTreeViwer = true;
 
@@ -148,7 +148,8 @@ namespace Calculator.ViewModels
             NetworkState = isConnect;
         }
 
-        private void UpdateCaleServerFlag(bool eventflag){
+        private void UpdateCaleServerFlag(bool eventflag)
+        {
             CalculateFlag = eventflag;
         }
         #endregion
@@ -170,7 +171,7 @@ namespace Calculator.ViewModels
             set { SetProperty(ref _historyValue, value); }
         }
 
-       
+
         private DelegateCommand<string> _inputNumberButtonCommand;
         public DelegateCommand<string> InputNumberButtonCommand => _inputNumberButtonCommand ?? (_inputNumberButtonCommand = new DelegateCommand<string>(InputNumberButton));
         public void InputNumberButton(string key)
@@ -199,7 +200,7 @@ namespace Calculator.ViewModels
                     break;
             }
         }
-            
+
 
         private DelegateCommand<string> _inputEventButtonCommand;
         public DelegateCommand<string> InputEventButtonCommand => _inputEventButtonCommand ?? (_inputEventButtonCommand = new DelegateCommand<string>(InputEventButton));
@@ -209,7 +210,7 @@ namespace Calculator.ViewModels
 
             string value = _value;
             string history = _historyValue;
-            switch(name)
+            switch (name)
             {
                 case "plus":
                     if (_value.Equals(""))
@@ -262,7 +263,7 @@ namespace Calculator.ViewModels
                 case "equal":
                     if (!_networkState)
                     {
-                            return;
+                        return;
                     }
                     if (history.Equals("")) return;
 
@@ -309,49 +310,62 @@ namespace Calculator.ViewModels
         #endregion
 
         #region 계산기 Logic
+
+        string GetFormulaParser(string formula)
+        {
+            IntPtr ptr = retString(formula);
+            string Message = Marshal.PtrToStringAnsi(ptr);
+            Marshal.FreeHGlobal(ptr);
+            return Message;
+        }
         private string Calculate(string formula)
         {
-            string result = default;
+            string returnValue = default;
 
             formula = formula.Replace("=", "");
+
+            string TreeValue = formula;
+
             try
             {
-                string TreeValue = formula;//
-
-                IntPtr ptr = retString(formula);
-                string Message = Marshal.PtrToStringAnsi(ptr);
-                Marshal.FreeHGlobal(ptr);
-
-                if (Message == null)
+                string message = formula;
+                // 서버 체크여부
+                if (_repository.ServerCalculateFlagCheck == false)
                 {
-                    //잘못된 인자이니 에러출력
-                    return "ERROR";
-                }
-
-                //파싱 성공 여부에 따라....
-                if (Message.Contains("error"))
-                {
-                    result = Message.Replace("error", "");
-                }
-                else {
-                    _repository.Client.Send(Message + System.Environment.NewLine);
-
-                    //연산 결과 표시
-                    result = _repository.Client.Recv();
-                    if (result != "")
+                    message = GetFormulaParser(formula);
+                    if (message == null)
                     {
-                        result = Number.ExcuteDot(result, _repository.TailCnt);
-
-                        //_eventAggregator.GetEvent<SendTreeViewerDataEvent>().Publish();
-                        _repository.AddLog(new Log(formula + "=", TreeValue, result));
+                        //잘못된 인자이니 에러출력
+                        return "ERROR";
                     }
+                    message.Replace("error", "");
                 }
+
+
+                _repository.Client.Send(message + System.Environment.NewLine);
+
+                //연산 결과 표시
+                string payloadResult = _repository.Client.Recv();
+                if (payloadResult != "")
+                {
+                    string [] resultSplit = payloadResult.Split('@');
+
+                    string result = resultSplit[0];
+
+                    result = Number.ExcuteDot(result, _repository.TailCnt);
+
+                    //_eventAggregator.GetEvent<SendTreeViewerDataEvent>().Publish();
+                    _repository.AddLog(new Log(formula + "=", TreeValue, result));
+
+                    returnValue = result;
+                }
+
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.ToString());
             }
-            return result;
+            return returnValue;
         }
 
 
