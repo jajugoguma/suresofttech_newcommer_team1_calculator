@@ -65,8 +65,6 @@ namespace Calculator.Infra.Helper
         public static string ExcuteDot(string value, int tailCnt)
         {
             string[] sval = value.Split('.');
-            string[] trash = sval[1].Split('@');
-            sval[1] = trash[0];
             int ival = tailCnt;
 
             bool typeDOUBLE = false;
