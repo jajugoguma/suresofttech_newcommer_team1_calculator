@@ -32,6 +32,7 @@ TEST(Paser, right_) {
 	EXPECT_EQ(parserrr("123*+/456++"), "1");
 	EXPECT_EQ(parserrr("12*((-11)+13)*14"), "1");
 	EXPECT_EQ(parserrr("12*((-11)+13)*(-12)"), "1");
+	EXPECT_EQ(parserrr("(1234+5678*91)"), "1");
 	
 	EXPECT_TRUE(true);
 }
@@ -43,7 +44,6 @@ TEST(Paser, worng_) {
 	EXPECT_EQ(parserrr("(12+33))"), "잘못된 수식입니다.");
 	EXPECT_EQ(parserrr("()1234"), "잘못된 수식입니다.");
 	EXPECT_EQ(parserrr("(1+1)1234"), "잘못된 수식입니다.");
-	EXPECT_EQ(parserrr("(1234+5678*91)"), "잘못된 수식입니다.");
 	EXPECT_EQ(parserrr("(1+1)1234"), "잘못된 수식입니다.");
 	EXPECT_EQ(parserrr("a12+34"), "잘못된 수식입니다.");
 	EXPECT_EQ(parserrr("12(-123)"), "잘못된 수식입니다.");
@@ -61,6 +61,8 @@ TEST(Paser, MaxMin_) {
 	EXPECT_EQ(parserrr("1+2147483648"), "지원하는 숫자의 범위를 초과했습니다.");
 	EXPECT_EQ(parserrr("(-2147483648)-1"), "1");
 	EXPECT_EQ(parserrr("1-(-2147483648)"), "1");
+	EXPECT_EQ(parserrr("1+489451165156"), "지원하는 숫자의 범위를 초과했습니다.");
+	EXPECT_EQ(parserrr("1-(-7895151226)"), "지원하는 숫자의 범위를 초과했습니다.");
 
 	EXPECT_TRUE(true);
 }
