@@ -54,17 +54,19 @@ namespace Calculator.Infra.Helper
             if (value.Equals(""))
             {
                 cutsize = history.Length - 1;
-                return history.Substring(0, cutsize) + " " + oprerator;
+                return history.Substring(0, cutsize) + oprerator;
             }
             else if (value[0].Equals('-'))
                 value = $"({value})";
 
-            return history.Substring(0, cutsize) + " " + value + " " + oprerator;
+            return history.Substring(0, cutsize) + value + oprerator;
         }
 
         public static string ExcuteDot(string value, int tailCnt)
         {
             string[] sval = value.Split('.');
+            string[] trash = sval[1].Split('@');
+            sval[1] = trash[0];
             int ival = tailCnt;
 
             bool typeDOUBLE = false;
