@@ -8,9 +8,9 @@ namespace Calculator.Infra.Helper
 {
     public class Validation
     {
-        public static KeyValuePair<bool, string> CheckIP(string ip)
+        public static bool CheckIP(string ip)
         {
-            if(ip == null) return new KeyValuePair<bool, string>(false, null);
+            if(ip == null) return false;
 
             bool result = false;
 
@@ -32,7 +32,7 @@ namespace Calculator.Infra.Helper
             }
 
 
-            return new KeyValuePair<bool, string>(result, ip);
+            return result;
         }
     }
 }

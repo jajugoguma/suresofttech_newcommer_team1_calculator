@@ -57,6 +57,7 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="130*"/>
             <RowDefinition Height="600*"/>
+            <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
 
 
@@ -147,6 +148,14 @@
             <Button Grid.Row="5" Grid.Column="2" Style="{StaticResource NumberButtonStyle}" Tag ="dot" Content="."/>
             <Button Grid.Row="5" Grid.Column="3" Style="{StaticResource EqualButtonStyle}" Tag ="equal" Content="="/>
 
+        </Grid>
+        <Grid Grid.Row="3">
+            <StatusBar DockPanel.Dock="Bottom">
+                <StatusBarItem HorizontalAlignment="Right" Margin=" 10, 0">
+                    <TextBlock HorizontalAlignment="Right" Text="{Binding NetworkStateText}" FontSize="15" />
+                </StatusBarItem>
+
+            </StatusBar>
         </Grid>
     </Grid>
 </Window>

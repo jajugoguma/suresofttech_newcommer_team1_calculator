@@ -16,7 +16,7 @@ namespace Calculator.Infra.Service
         public Client Client { get; set; }
         public string IP { get; set; }
         public string Port { get; set; }
-
+        
         public void ResetLog()
         {
             LogList.Clear();

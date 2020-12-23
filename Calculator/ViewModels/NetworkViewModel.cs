@@ -45,10 +45,7 @@ namespace Calculator.ViewModels
         public DelegateCommand ConnectServerCommand => connectServerCommand ?? (connectServerCommand = new DelegateCommand(ConnectServer));
         private void ConnectServer()
         {
-            //test용
-            KeyValuePair<bool, string> checkIP = Validation.CheckIP(IP);
-
-            if (!checkIP.Key)
+            if (!Validation.CheckIP(IP))
             {
                 Text = "IP가 올바르지 않습니다.";
                 //Views.PopupView model = new Views.PopupView();

@@ -26,6 +26,26 @@ namespace Calculator.ViewModels
         private IEventAggregator _eventAggregator { get; }
 
         private bool IsShowTreeViwer;
+        private bool _inputEndState;
+
+        private bool _networkState;
+        public bool NetworkState
+        {
+            get { return _networkState; }
+            set
+            { 
+                _networkState = value;
+                NetworkStateText = value ? "CONNECT" : "DISCONNECT";
+            }
+        }
+
+        private string _networkStateText;
+        public string NetworkStateText
+        {
+            get { return _networkStateText; }
+            set { SetProperty(ref _networkStateText, value); }
+        }
+
 
         //History View
         private Views.HistoryView hismo = null;
@@ -112,6 +132,13 @@ namespace Calculator.ViewModels
             Views.SettingView popup = new Views.SettingView();
             popup.ShowDialog();
         }
+
+
+        private void UpdateNetworkState(bool isConnect)
+        {
+            NetworkState = isConnect;
+        }
+
         #endregion
 
         #region 계산기
@@ -130,23 +157,13 @@ namespace Calculator.ViewModels
             set { SetProperty(ref _historyValue, value); }
         }
 
-        private DelegateCommand testCommand;
-        public DelegateCommand TestCommand => testCommand ?? (testCommand = new DelegateCommand(Test));
-        private void Test()
-        {
-            _repository.AddLog(new Log("formula", "tree", "result"));
-        }
-
-        private void SetValue(string value)
-        {
-            Value = value;
-        }
-
        
         private DelegateCommand<string> _inputNumberButtonCommand;
         public DelegateCommand<string> InputNumberButtonCommand => _inputNumberButtonCommand ?? (_inputNumberButtonCommand = new DelegateCommand<string>(InputNumberButton));
         public void InputNumberButton(string key)
         {
+            if (_inputEndState) ClearView();
+
             switch (key)
             {
                 case "pm":
@@ -175,6 +192,7 @@ namespace Calculator.ViewModels
         public DelegateCommand<string> InputEventButtonCommand => _inputEventButtonCommand ?? (_inputEventButtonCommand = new DelegateCommand<string>(InputEventButton));
         public void InputEventButton(string name)
         {
+            if (_inputEndState) ClearView();
 
             string value = _value;
             string history = _historyValue;
@@ -205,9 +223,11 @@ namespace Calculator.ViewModels
                     break;
 
                 case "equal":
+                    if (!_networkState) return;
                     if (_value.Equals("")) return;
                     history = Number.InputOperator(history, value, '=');
                     value = Calculate(history.Replace("=", ""));
+                    _inputEndState = true;
                     break;
 
                 case "reset":
@@ -230,6 +250,14 @@ namespace Calculator.ViewModels
 
             Value = value;
             HistoryValue = history;
+        }
+
+        private void ClearView()
+        {
+            Value = "";
+            HistoryValue = "";
+
+            _inputEndState = false;
         }
         #endregion
 
@@ -280,13 +308,15 @@ namespace Calculator.ViewModels
             _repository = repository;
             _eventAggregator = eventAggregator;
 
-            _eventAggregator.GetEvent<EditCalculatorValueEvent>().Subscribe(SetValue);
-
+            _eventAggregator.GetEvent<SendNetworkStateEvent>().Subscribe(UpdateNetworkState);
             _eventAggregator.GetEvent<KeyInputNumberEvent>().Subscribe(InputNumberButton);
             _eventAggregator.GetEvent<KeyInputEvent>().Subscribe(InputEventButton);
             Value = "";
             HistoryValue = "";
+
             IsShowTreeViwer = false;
+            _inputEndState = false;
+            NetworkState = false;
         }
 
     }
