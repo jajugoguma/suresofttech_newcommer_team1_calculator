@@ -256,7 +256,10 @@ namespace Calculator.ViewModels
                     break;
 
                 case "equal":
-                    if (!_networkState) return;
+                    if (!_networkState)
+                    {
+                            return;
+                    }
                     if (history.Equals("")) return;
 
                     history = Number.InputOperator(history, value, '=');

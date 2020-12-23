@@ -190,12 +190,16 @@ namespace Calculator.Infra.Helper
             //입력값 없을때
             if (value.Equals(""))
             {
-                //히스토리의 마지막이 괄호 닫기면
+                //히스토리의 마지막이 닫기괄호면 닫기괄호 추가
                 if (history[cutsize] == ')')
                 {
-                    //괄호 닫기 추가
                     return history + value + bracket;
-                }  
+                }
+                //히스토리의 마지막이 열기괄호면 열기괄호 삭제
+                else if (history[cutsize] == '(')
+                {
+                    return history.Substring(0, cutsize);
+                }
             }
             //입력값이 있는데 그 값이 숫자면
             else if (int.TryParse(value, out a))
