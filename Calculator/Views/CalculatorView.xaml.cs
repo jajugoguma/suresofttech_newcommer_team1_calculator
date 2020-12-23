@@ -35,44 +35,60 @@ namespace Calculator.Views
         {
             //MessageBox.Show(e.Key.ToString());
 
-            
+            //숫자 입력
             if (!(Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift)) && e.Key.ToString().Contains("D") && !e.Key.ToString().Contains("Divide"))
             {
                 string inputNumber = e.Key.ToString().Replace("D", "");
                 _eventAggregator.GetEvent<KeyInputNumberEvent>().Publish(inputNumber);
             }
+            //Numpad 숫자 입력
             if (e.Key.ToString().Contains("NumPad") && !e.Key.ToString().Contains("Divide"))
             {
                 string inputNumber = e.Key.ToString().Replace("NumPad", "");
                 _eventAggregator.GetEvent<KeyInputNumberEvent>().Publish(inputNumber);
             }
+            //더하기 입력
             if (isPlusPressed(sender, e))
             {
                 _eventAggregator.GetEvent<KeyInputEvent>().Publish("plus");
             }
+            //나누기 입력
             if (isDividePressed(sender, e))
             {
                 _eventAggregator.GetEvent<KeyInputEvent>().Publish("division");
             }
+            //빼기 입력
             if (isMinusPressed(sender, e))
             {
                 _eventAggregator.GetEvent<KeyInputEvent>().Publish("minus");
             }
+            //곱하기 입력
             if (isMultiplyPressed(sender, e))
             {
                 _eventAggregator.GetEvent<KeyInputEvent>().Publish("multiply");
             }
+            //esc 입력
             if (Keyboard.IsKeyDown(Key.Escape))
             {
                 _eventAggregator.GetEvent<KeyInputEvent>().Publish("reset");
             }
+            //엔터 입력
             if (Keyboard.IsKeyDown(Key.Return))
             {
                 _eventAggregator.GetEvent<KeyInputEvent>().Publish("equal");
             }
+            //백스페이스 입력
             if (Keyboard.IsKeyDown(Key.Back))
             {
                 _eventAggregator.GetEvent<KeyInputEvent>().Publish("bs");
+            }
+            if (isOpenbracketPressed(sender, e))
+            {
+                _eventAggregator.GetEvent<KeyInputEvent>().Publish("open");
+            }
+            if (isClosebracketPressed(sender, e))
+            {
+                _eventAggregator.GetEvent<KeyInputEvent>().Publish("close");
             }
      
 
@@ -110,6 +126,24 @@ namespace Calculator.Views
         {
             if (((Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift)) && Keyboard.IsKeyDown(Key.D8))
                 || Keyboard.IsKeyDown(Key.Multiply))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private bool isOpenbracketPressed(object sender, KeyEventArgs e)
+        {
+            if ((Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift)) && Keyboard.IsKeyDown(Key.D9))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private bool isClosebracketPressed(object sender, KeyEventArgs e)
+        {
+            if ((Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift)) && Keyboard.IsKeyDown(Key.D0))
             {
                 return true;
             }

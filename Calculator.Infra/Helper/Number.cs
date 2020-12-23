@@ -53,8 +53,11 @@ namespace Calculator.Infra.Helper
             int cutsize = history.Length;
             if (value.Equals(""))
             {
-                cutsize = history.Length - 1;
-                return history.Substring(0, cutsize) + oprerator;
+                if (!(history[history.Length - 1] == ')'))
+                {
+                    cutsize = history.Length - 1;
+                    return history.Substring(0, cutsize) + oprerator;
+                }
             }
             else if (value[0].Equals('-'))
                 value = $"({value})";
@@ -133,22 +136,65 @@ namespace Calculator.Infra.Helper
             return answer;
         }
 
-
-        //괄호..
-        public static string OpenBracket(string value)
+       
+        //괄호.. 추가함
+        public static string OpenBracket(string history, string value, char bracket)
         {
             DivisionHead(ref value);
 
+            //###############################새코드
+            int cutsize = history.Length - 1;
+            //히스토리가 비어있으면
+            if (history.Equals(""))
+            {
+                //괄호 열기 추가
+                return history + value + bracket;
+            }
+            //히스토리의 마지막 글자가 연산자 이거나 괄호열기면 괄호열기 추가
+            else if (history[cutsize] == '+' || history[cutsize] == '-' || history[cutsize] == '/' || history[cutsize] == '*' || history[cutsize] == '(')
+            {
+                return history + value + bracket;
+            }
+
+            //히스토리가 비어있지 않고 연산자와 괄호열기로 끝난게 아니면(즉, 숫자로 끝남) 그냥 현재 숫자 붙여서 히스토리 저장
+            return history + value;
+            //###############################
+
+            /* 기존코드
             if (value.Replace("(", "").Equals(""))
                 value = value + "(";
 
             return head + value;
+            */
         }
-        public static string CloseBracket(string value)
+        public static string CloseBracket(string history, string value, char bracket)
         {
+            //###############################새코드
+            int a;
+            int cutsize = history.Length - 1;
+            //입력값 없을때
+            if (value.Equals(""))
+            {
+                //히스토리의 마지막이 괄호 닫기면
+                if (history[cutsize] == ')')
+                {
+                    //괄호 닫기 추가
+                    return history + value + bracket;
+                }  
+            }
+            //입력값이 있는데 그 값이 숫자면
+            else if (int.TryParse(value, out a))
+            {
+                //히스토리에 해당 수와 괄호 닫기 추가
+                return history + value + bracket;
+            }
+
+            return history + value;
+            //###############################
+
             //if(value[value.Length - 1]) 
 
-            return "";
+            //return "";
         }
 
         //헤드 분리

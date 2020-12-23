@@ -208,25 +208,49 @@ namespace Calculator.ViewModels
             switch(name)
             {
                 case "plus":
-                    if (_value.Equals("")) return;
+                    if (_value.Equals(""))
+                    {
+                        if (!(history[history.Length - 1] == ')'))
+                        {
+                            return;
+                        }
+                    }
                     history = Number.InputOperator(history, value, '+');
                     value = "";
                     break;
 
                 case "minus":
-                    if (_value.Equals("")) return;
+                    if (_value.Equals(""))
+                    {
+                        if (!(history[history.Length - 1] == ')'))
+                        {
+                            return;
+                        }
+                    }
                     history = Number.InputOperator(history, value, '-');
                     value = "";
                     break;
 
                 case "multiply":
-                    if (_value.Equals("")) return;
+                    if (_value.Equals(""))
+                    {
+                        if (!(history[history.Length - 1] == ')'))
+                        {
+                            return;
+                        }
+                    }
                     history = Number.InputOperator(history, value, '*');
                     value = "";
                     break;
 
                 case "division":
-                    if (_value.Equals("")) return;
+                    if (_value.Equals(""))
+                    {
+                        if (!(history[history.Length - 1] == ')'))
+                        {
+                            return;
+                        }
+                    }
                     history = Number.InputOperator(history, value, '/');
                     value = "";
                     break;
@@ -251,10 +275,14 @@ namespace Calculator.ViewModels
                     break;
 
                 case "open":
-                    value = Number.OpenBracket(_value);
+                    //value = Number.OpenBracket(_value);
+                    history = Number.OpenBracket(history, _value, '(');
+                    value = "";
                     break;
                 case "close":
-                    value = Number.CloseBracket(_value);
+                    //value = Number.CloseBracket(_value);
+                    history = Number.CloseBracket(history, _value, ')');
+                    value = "";
                     break;
                 default:
                     break;
