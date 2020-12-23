@@ -94,8 +94,11 @@ namespace Calculator.Infra.Helper
 
                         inum++;
                         answer += inum.ToString();
-
-                        if (snum.Length != answer.Length)
+                        if (ival == 0)
+                        {
+                            ;
+                        }
+                        else if (snum.Length != answer.Length)
                         {
                             answer = answer.Insert(sval[0].Length + 1, ".");
                         }
