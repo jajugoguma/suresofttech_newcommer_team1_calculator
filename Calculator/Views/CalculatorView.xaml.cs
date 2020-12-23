@@ -35,45 +35,46 @@ namespace Calculator.Views
         {
             //MessageBox.Show(e.Key.ToString());
 
-
-            if (e.Key.ToString().Contains("D"))
+            
+            if (!(Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift)) && e.Key.ToString().Contains("D") && !e.Key.ToString().Contains("Divide"))
             {
                 string inputNumber = e.Key.ToString().Replace("D", "");
                 _eventAggregator.GetEvent<KeyInputNumberEvent>().Publish(inputNumber);
             }
-            else if (e.Key.ToString().Contains("NumPad"))
+            if (e.Key.ToString().Contains("NumPad") && !e.Key.ToString().Contains("Divide"))
             {
                 string inputNumber = e.Key.ToString().Replace("NumPad", "");
                 _eventAggregator.GetEvent<KeyInputNumberEvent>().Publish(inputNumber);
             }
-            else if (isPlusPressed(sender, e))
+            if (isPlusPressed(sender, e))
             {
                 _eventAggregator.GetEvent<KeyInputEvent>().Publish("plus");
             }
-            else if (isDividePressed(sender, e))
+            if (isDividePressed(sender, e))
             {
                 _eventAggregator.GetEvent<KeyInputEvent>().Publish("division");
             }
-            else if (isMinusPressed(sender, e))
+            if (isMinusPressed(sender, e))
             {
                 _eventAggregator.GetEvent<KeyInputEvent>().Publish("minus");
             }
-            else if (isMultiplyPressed(sender, e))
+            if (isMultiplyPressed(sender, e))
             {
                 _eventAggregator.GetEvent<KeyInputEvent>().Publish("multiply");
             }
-            else if (Keyboard.IsKeyDown(Key.Escape))
+            if (Keyboard.IsKeyDown(Key.Escape))
             {
                 _eventAggregator.GetEvent<KeyInputEvent>().Publish("reset");
             }
-            else if (Keyboard.IsKeyDown(Key.Return))
+            if (Keyboard.IsKeyDown(Key.Return))
             {
                 _eventAggregator.GetEvent<KeyInputEvent>().Publish("equal");
             }
-            else if (Keyboard.IsKeyDown(Key.Back))
+            if (Keyboard.IsKeyDown(Key.Back))
             {
                 _eventAggregator.GetEvent<KeyInputEvent>().Publish("bs");
             }
+     
 
         }
 

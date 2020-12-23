@@ -220,7 +220,6 @@ namespace Calculator.ViewModels
 
                     history = Number.InputOperator(history, value, '=');
                     value = Calculate(history);
-                    value = Number.ExcuteDot(value, _repository.TailCnt);
                     _inputEndState = true;
                     break;
 
@@ -235,8 +234,10 @@ namespace Calculator.ViewModels
                     break;
 
                 case "open":
+                    value = Number.OpenBracket(_value);
                     break;
                 case "close":
+                    value = Number.CloseBracket(_value);
                     break;
                 default:
                     break;
@@ -281,6 +282,8 @@ namespace Calculator.ViewModels
                 result = _repository.Client.Recv();
                 if (result != "")
                 {
+                    result = Number.ExcuteDot(result, _repository.TailCnt);
+
                     //_eventAggregator.GetEvent<SendTreeViewerDataEvent>().Publish();
                     _repository.AddLog(new Log(formula + "=", TreeValue, result));
                 }

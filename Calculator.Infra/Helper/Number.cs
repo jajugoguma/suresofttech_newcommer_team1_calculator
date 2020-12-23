@@ -48,13 +48,14 @@ namespace Calculator.Infra.Helper
             return value;
         }
 
-
         public static string InputOperator(string history, string value, char oprerator)
         {
             int cutsize = history.Length;
-
             if (value.Equals(""))
+            {
                 cutsize = history.Length - 1;
+                return history.Substring(0, cutsize) + oprerator;
+            }
             else if (value[0].Equals('-'))
                 value = $"({value})";
 
@@ -64,6 +65,8 @@ namespace Calculator.Infra.Helper
         public static string ExcuteDot(string value, int tailCnt)
         {
             string[] sval = value.Split('.');
+            string[] trash = sval[1].Split('@');
+            sval[1] = trash[0];
             int ival = tailCnt;
 
             bool typeDOUBLE = false;
@@ -132,20 +135,56 @@ namespace Calculator.Infra.Helper
 
 
         //괄호..
-        public static string InputBracket()
+        public static string OpenBracket(string value)
         {
+            DivisionHead(ref value);
+
+            if (value.Replace("(", "").Equals(""))
+                value = value + "(";
+
+            return head + value;
+        }
+        public static string CloseBracket(string value)
+        {
+            //if(value[value.Length - 1]) 
+
             return "";
         }
 
         //헤드 분리
         private static void DivisionHead(ref string value)
         {
+            
             head = value.Contains("-") ? "-" : "";
             value = value.Replace("-", "");
         }
 
         private static void AppendComma(ref string value)
         {
+            /*
+            int left = 0;
+            int right = 0;
+
+            if (value.Contains("("))
+            {
+                int index = 0;
+                while (value[index++] == '(')
+                {
+                    left++;
+                    value.Substring(1, value.Length);
+                }
+            }
+
+            if (value.Contains(")"))
+            {
+                int index = value.Length - 1;
+                while (value[index--] == ')')
+                {
+                    right++;
+                    value.Substring(0, value.Length - 1);
+                }
+            }
+            */
             value = string.Format("{0:#,0}", Convert.ToInt64(value)).ToString();
         }
 
