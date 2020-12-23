@@ -7,23 +7,23 @@
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="500"
              >
-    <Grid >
+    <Grid  HorizontalAlignment="Right" >
         <Button Command="{Binding SendTreeValueCommand}"
                 CommandParameter="{Binding Tree}" 
                 Background="White"
-                BorderBrush="#FFF0EFEF" VerticalAlignment="Stretch">
-            <Grid Margin="10" HorizontalAlignment="Right">
+                BorderBrush="#FFF0EFEF" VerticalAlignment="Stretch" >
+            <Grid Margin="10" HorizontalAlignment="Right" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50*"/>
                     <RowDefinition Height="150*"/>
                 </Grid.RowDefinitions>
 
-                <Grid Grid.Row="0" HorizontalAlignment="Right">
-                    <TextBlock Text="{Binding Formula}" FontSize="15"/>
+                <Grid Grid.Row="0">
+                    <TextBlock Text="{Binding Formula}" FontSize="15"  HorizontalAlignment="Right"/>
                 </Grid>
 
-                <Grid Grid.Row="1" HorizontalAlignment="Right">
-                    <TextBlock Text="{Binding Result}" FontSize="30"/>
+                <Grid Grid.Row="1" >
+                    <TextBlock Text="{Binding Result}" FontSize="30"  HorizontalAlignment="Right" FontWeight="Bold"/>
                 </Grid>
 
             </Grid>
