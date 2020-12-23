@@ -3,11 +3,55 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:helper="clr-namespace:Calculator.Infra.Helper;assembly=Calculator.Infra"
+        xmlns:infra="clr-namespace:Calculator.Infra.CustomControl;assembly=Calculator.Infra"
         xmlns:prism="http://prismlibrary.com/"
+        xmlns:vm="clr-namespace:Calculator.ViewModels"
+        xmlns:local="clr-namespace:Calculator.Views"
+        
         prism:ViewModelLocator.AutoWireViewModel="True"
         mc:Ignorable="d"
         Title="TreeView" Height="450" Width="800">
+    <Window.Resources>
+        <DataTemplate x:Key="Block">
+            <Grid  Background="{Binding BG}"
+                  HorizontalAlignment="Stretch"
+                  VerticalAlignment="Stretch"
+                  >
+                <TextBlock Text="{Binding Row}" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Grid> 
+        </DataTemplate>
+        
+    </Window.Resources>
     <Grid>
-        <TextBlock Text="{Binding Value}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <TextBlock Text="{Binding Value}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20"/>
+        </Grid>
+
+        <ItemsControl Grid.Row="1" ItemsSource ="{Binding Path=GridSize}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid Grid.Row ="1" 
+                          ShowGridLines="True"
+                          helper:GridHelpers.RowCount ="{Binding RowCount}"
+                          helper:GridHelpers.StarRows = "{Binding StarRow}"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="ContentPresenter">
+                    <Setter Property="Grid.Row" Value="{Binding Depth}" />
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <infra:Node_1Depth Content="{Binding GridSize}"/>
+                    <!--<TextBlock Text="{Binding Value}" />-->
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </Grid>
 </Window>
