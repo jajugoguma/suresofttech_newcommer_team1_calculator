@@ -46,6 +46,23 @@ namespace Calculator.ViewModels
             set { SetProperty(ref _networkStateText, value); }
         }
 
+        private bool calculateFlag;
+        public bool CalculateFlag
+        {
+            get { return calculateFlag; }
+            set
+            {
+                calculateFlag = value;
+                CalculateFlagText = value ? "Client" : "Server";
+            }
+        }
+
+        private string calculateFlagText;
+        public string CalculateFlagText
+        {
+            get { return calculateFlagText; }
+            set { SetProperty(ref calculateFlagText, value); }
+        }
 
         //History View
         private Views.HistoryView hismo = null;
@@ -315,6 +332,8 @@ namespace Calculator.ViewModels
             IsShowTreeViwer = false;
             _inputEndState = false;
             NetworkState = false;
+            CalculateFlag = false;
+
         }
 
     }

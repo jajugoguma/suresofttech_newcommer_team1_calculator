@@ -18,6 +18,8 @@ namespace Calculator.Infra.Service
         public string Port { get; set; }
         
         public int TailCnt { get; set; }
+        public bool ServerCalculateFlagCheck { get; set; }
+
         public void ResetLog()
         {
             LogList.Clear();

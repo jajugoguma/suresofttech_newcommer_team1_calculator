@@ -24,11 +24,20 @@ namespace Calculator.ViewModels
             set { SetProperty(ref tailCnt, value); }
         }
 
+        private bool serverCalculateFlagCheck;
+
+        public bool ServerCalculateFlagCheck
+        {
+            get { return serverCalculateFlagCheck; }
+            set { SetProperty(ref serverCalculateFlagCheck, value); }
+        }
+
         private DelegateCommand checkButtonCommand;
         public DelegateCommand CheckButtonCommand => checkButtonCommand ?? (checkButtonCommand = new DelegateCommand(Check));
         private void Check()
         {
              _repository.TailCnt = TailCnt;
+            _repository.ServerCalculateFlagCheck = ServerCalculateFlagCheck;
         }
 
         public SettingViewModel(IRepository repository)
@@ -36,6 +45,7 @@ namespace Calculator.ViewModels
             _repository = repository;
 
             TailCnt = _repository.TailCnt;
+            ServerCalculateFlagCheck = _repository.ServerCalculateFlagCheck;
         }
     }
 }
