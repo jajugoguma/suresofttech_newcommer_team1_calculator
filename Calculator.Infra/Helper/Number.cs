@@ -52,13 +52,15 @@ namespace Calculator.Infra.Helper
         public static string InputOperator(string history, string value, char oprerator)
         {
             int cutsize = history.Length;
-
             if (value.Equals(""))
+            {
                 cutsize = history.Length - 1;
+                return history.Substring(0, cutsize) + " " + oprerator;
+            }
             else if (value[0].Equals('-'))
                 value = $"({value})";
 
-            return history.Substring(0, cutsize) + value + oprerator;
+            return history.Substring(0, cutsize) + " " + value + " " + oprerator;
         }
 
         public static string ExcuteDot(string value, int tailCnt)
