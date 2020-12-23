@@ -94,7 +94,11 @@ namespace Calculator.Infra.Helper
                         //index 0~ival-1 까지 정수화 -> +1 -> string화
                         int outValue;
                         outValue = Convert.ToInt32(sval[0]);
-                        outValue = Convert.ToInt32(sval[1].Substring(0, ival));
+                        for(int i = 0; i < ival; i++)
+                        {
+                            outValue *= 10;
+                        }
+                        outValue += Convert.ToInt32(sval[1].Substring(0, ival));
 
                         int beforeSIZE = outValue.ToString().Length;
 
