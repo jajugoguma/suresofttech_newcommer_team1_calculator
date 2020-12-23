@@ -45,7 +45,7 @@
 
         <Grid Grid.Row="1">
             <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center">
-                <Button Content="확인" Command="{Binding CheckButtonCommand}" Style="{StaticResource PopupButtonStyle}"/>
+                <Button Content="확인" Command="{Binding CheckButtonCommand}" Click="CancleButton_Click" Style="{StaticResource PopupButtonStyle}"/>
                 <Button Content="취소" Click="CancleButton_Click" Style="{StaticResource PopupButtonStyle}" />
             </StackPanel>
         </Grid>
