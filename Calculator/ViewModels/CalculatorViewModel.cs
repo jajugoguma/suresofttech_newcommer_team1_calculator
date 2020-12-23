@@ -217,8 +217,10 @@ namespace Calculator.ViewModels
                 case "equal":
                     if (!_networkState) return;
                     if (history.Equals("")) return;
+
                     history = Number.InputOperator(history, value, '=');
                     value = Calculate(history);
+                    value = Number.ExcuteDot(value, _repository.TailCnt);
                     _inputEndState = true;
                     break;
 

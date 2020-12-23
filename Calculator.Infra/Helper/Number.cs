@@ -61,16 +61,11 @@ namespace Calculator.Infra.Helper
             return history.Substring(0, cutsize) + value + oprerator;
         }
 
-        //소수점 기준으로 분리
-        public static string[] spliter(string value)
+        public static string ExcuteDot(string value, int tailCnt)
         {
-            string[] num = value.Split('.');
-            return num;
-        }
+            string[] sval = value.Split('.');
+            int ival = tailCnt;
 
-        //정수형인지 실수형인지 확인해서 실수형인 경우 반올림 처리
-        public static string typeChecker(string[] sval, int ival) 
-        {
             bool typeDOUBLE = false;
             string answer = "";
 
