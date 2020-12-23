@@ -50,7 +50,6 @@ namespace CalendarNetworkClient
             {
                 _Tcplient = new TcpClient(_Endpoint.Ip, _Endpoint.Port);
                 stream = _Tcplient.GetStream();
-                stream.ReadTimeout = 10;
                 stream.WriteTimeout = 10;
             }
             catch (Exception)
