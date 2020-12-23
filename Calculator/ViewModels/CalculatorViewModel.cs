@@ -321,23 +321,28 @@ namespace Calculator.ViewModels
                     return "ERROR";
                 }
 
-                _repository.Client.Send(Message + System.Environment.NewLine);
-
-                //연산 결과 표시
-                result = _repository.Client.Recv();
-                if (result != "")
+                //파싱 성공 여부에 따라....
+                if (Message.Contains("error"))
                 {
-                    result = Number.ExcuteDot(result, _repository.TailCnt);
-
-                    //_eventAggregator.GetEvent<SendTreeViewerDataEvent>().Publish();
-                    _repository.AddLog(new Log(formula + "=", TreeValue, result));
+                    result = Message.Replace("error", "");
                 }
+                else {
+                    _repository.Client.Send(Message + System.Environment.NewLine);
 
+                    //연산 결과 표시
+                    result = _repository.Client.Recv();
+                    if (result != "")
+                    {
+                        result = Number.ExcuteDot(result, _repository.TailCnt);
+
+                        //_eventAggregator.GetEvent<SendTreeViewerDataEvent>().Publish();
+                        _repository.AddLog(new Log(formula + "=", TreeValue, result));
+                    }
+                }
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.ToString());
-
             }
             return result;
         }
