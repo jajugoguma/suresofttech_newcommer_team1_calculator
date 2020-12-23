@@ -15,14 +15,14 @@
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
-            <ScrollViewer  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <ListBox ItemsSource="{Binding Path=Logs}">
-                    <ListBox.ItemTemplate>
+            <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <ItemsControl ItemsSource="{Binding Path=Logs}">
+                    <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <infra:LogBlock Content="{Binding Log}"/>
                         </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </ScrollViewer>
         </Grid>
         <Grid Grid.Row="1">

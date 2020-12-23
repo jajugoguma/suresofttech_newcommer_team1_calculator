@@ -24,13 +24,13 @@ namespace Calculator.ViewModels
 
         private void SetTreeViewerValue(string value)
         {
-            _value = value;
+            Value = value;
         }
+
 
         public TreeViewerViewModel(IEventAggregator ea)
         {
             _ea = ea;
-
             _ea.GetEvent<SendTreeViewerDataEvent>().Subscribe(SetTreeViewerValue);
         }
 

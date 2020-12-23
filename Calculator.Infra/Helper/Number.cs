@@ -71,36 +71,37 @@ namespace Calculator.Infra.Helper
         //정수형인지 실수형인지 확인해서 실수형인 경우 반올림 처리
         public static string typeChecker(string[] sval, int ival) 
         {
-            bool flag = false;
+            bool typeDOUBLE = false;
             string answer = "";
 
-            //정수형인지 실수형인지 확인 : 소수점 이하 숫자 중 0이 아닌 숫자가 하나라도 포함된 경우, 실수 판정
+            //정수형인지 실수형인지 확인 : 소수점 이하 숫자 중 '0'이 아닌 문자가 하나라도 포함된 경우, 실수 판정
             foreach (var i in sval[1])
             {
                 if (i != '0')
                 {
-                    flag = true;
+                    typeDOUBLE = true;
                     break;
                 }
             }
 
             //실수인 경우 반올림 처리
-            if (flag) //실수일 때
+            if (typeDOUBLE) //실수일 때
             {
                 if (sval[1].Length > ival) //반올림할 자리수가 있을 때
                 {
                     if (sval[1][ival] >= '5') //반올림 해야할 때
                     {
                         //index 0~ival-1 까지 정수화 -> +1 -> string화
-                        string num = "";
-                        int outValue = 0;
+                        string snum = "";
+                        int inum = 0;
 
-                        num += sval[0] + sval[1].Substring(0, ival);
-                        outValue = Convert.ToInt32(num);
+                        snum += sval[0] + sval[1].Substring(0, ival);
+                        inum = Convert.ToInt32(snum);
 
-                        outValue++;
+                        inum++;
+                        answer += inum.ToString();
 
-                        if (num.Length != answer.Length)
+                        if (snum.Length != answer.Length)
                         {
                             answer = answer.Insert(sval[0].Length + 1, ".");
                         }
