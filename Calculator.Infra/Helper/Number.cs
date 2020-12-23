@@ -92,20 +92,15 @@ namespace Calculator.Infra.Helper
                     if (sval[1][ival] >= '5') //반올림 해야할 때
                     {
                         //index 0~ival-1 까지 정수화 -> +1 -> string화
-                        int outValue;
-                        outValue = Convert.ToInt32(sval[0]);
-                        for(int i = 0; i < ival; i++)
-                        {
-                            outValue *= 10;
-                        }
-                        outValue += Convert.ToInt32(sval[1].Substring(0, ival));
+                        string num = "";
+                        int outValue = 0;
 
-                        int beforeSIZE = outValue.ToString().Length;
+                        num += sval[0] + sval[1].Substring(0, ival);
+                        outValue = Convert.ToInt32(num);
 
                         outValue++;
-                        answer += outValue.ToString();
 
-                        if (beforeSIZE != answer.Length)
+                        if (num.Length != answer.Length)
                         {
                             answer = answer.Insert(sval[0].Length + 1, ".");
                         }
