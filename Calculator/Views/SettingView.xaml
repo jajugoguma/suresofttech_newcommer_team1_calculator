@@ -43,8 +43,8 @@
                 </Grid>
 
                 <Grid Width="200" Height="30" HorizontalAlignment="Center">
-                    <TextBlock Text="서버 계산 여부 체크" Style ="{StaticResource ItemStyle}"/>
-                    <CheckBox IsChecked="{Binding ServerCalculateFlagCheck}" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                    <TextBlock Text="클라이언트 계산 여부 체크" Style ="{StaticResource ItemStyle}"/>
+                    <CheckBox IsChecked="{Binding ClientCalculateFlagCheck}" VerticalAlignment="Center" HorizontalAlignment="Right"/>
                 </Grid>
             </StackPanel>
         </Grid>

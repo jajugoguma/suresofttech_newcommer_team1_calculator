@@ -148,7 +148,11 @@ namespace Calculator.ViewModels
             NetworkState = isConnect;
         }
 
+        private void UpdateCaleServerFlag(bool eventflag){
+            CalculateFlag = eventflag;
+        }
         #endregion
+
 
         #region 계산기
 
@@ -362,6 +366,8 @@ namespace Calculator.ViewModels
             _eventAggregator.GetEvent<SendNetworkStateEvent>().Subscribe(UpdateNetworkState);
             _eventAggregator.GetEvent<KeyInputNumberEvent>().Subscribe(InputNumberButton);
             _eventAggregator.GetEvent<KeyInputEvent>().Subscribe(InputEventButton);
+            _eventAggregator.GetEvent<CaleServerFlagEvent>().Subscribe(UpdateCaleServerFlag);
+
             Value = "";
             HistoryValue = "";
 
