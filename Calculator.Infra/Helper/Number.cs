@@ -69,6 +69,8 @@ namespace Calculator.Infra.Helper
             bool typeDOUBLE = false;
             string answer = "";
 
+            if (ival == 0) return answer = sval[0];
+
             //정수형인지 실수형인지 확인 : 소수점 이하 숫자 중 '0'이 아닌 문자가 하나라도 포함된 경우, 실수 판정
             foreach (var i in sval[1])
             {
