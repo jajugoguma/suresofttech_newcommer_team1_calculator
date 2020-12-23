@@ -108,10 +108,19 @@ namespace Calculator.ViewModels
         private DelegateCommand calculateCommand;
         public DelegateCommand CalculateCommand => calculateCommand ?? (calculateCommand = new DelegateCommand(ExecuteCalculate));
 
+        private DelegateCommand exceptionThrow;
+
+        public DelegateCommand ExceptionThrow => exceptionThrow ?? (exceptionThrow = new DelegateCommand(exceptionThrowCommand));
+
+
         private DelegateCommand calculateFileCommand;
 
         public DelegateCommand CalculateFileCommand => calculateFileCommand ?? (calculateFileCommand = new DelegateCommand(ExecuteFileCalculate));
 
+        private void exceptionThrowCommand()
+        {
+            throw new Exception("Hello");
+        }
         private void ExecuteFileCalculate()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();

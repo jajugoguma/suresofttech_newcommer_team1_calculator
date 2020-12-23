@@ -96,16 +96,8 @@ namespace Calculator.ViewModels
                 //수식 라인별로 수행
                 foreach (string exp in expsFromFile)
                 {
-                    /*
-                     * 읽어온 라인 별로 파서를 호출해 파싱
-                     * e.g.) strign parsedData = Pasrger.parsingLogic(exp);
-                     * 
-                     * 생성된 트리 문자열을 서버로 전송
-                     * e.g.) string result = Conn.sendData(parsedData);
-                     * 
-                     * 계산 히스토리에 저장
-                     * e.g.) DataModel.history(exp, result);
-                     */
+                    string clearExp = exp.Trim();
+                    Calculate(clearExp);
                 }
             }
         }
@@ -224,9 +216,10 @@ namespace Calculator.ViewModels
 
                 case "equal":
                     if (!_networkState) return;
-                    if (_value.Equals("")) return;
+                    if (history.Equals("")) return;
+
                     history = Number.InputOperator(history, value, '=');
-                    value = Calculate(history.Replace("=", ""));
+                    value = Calculate(history);
                     _inputEndState = true;
                     break;
 
@@ -241,8 +234,10 @@ namespace Calculator.ViewModels
                     break;
 
                 case "open":
+                    value = Number.OpenBracket(_value);
                     break;
                 case "close":
+                    value = Number.CloseBracket(_value);
                     break;
                 default:
                     break;
@@ -265,10 +260,11 @@ namespace Calculator.ViewModels
         private string Calculate(string formula)
         {
             string result = default;
-            //Tree 코드 변환
+
+            formula = formula.Replace("=", "");
             try
             {
-                string TreeValue = "Tree";
+                string TreeValue = formula;//
 
                 IntPtr ptr = retString(formula);
                 string Message = Marshal.PtrToStringAnsi(ptr);
@@ -286,6 +282,8 @@ namespace Calculator.ViewModels
                 result = _repository.Client.Recv();
                 if (result != "")
                 {
+                    result = Number.ExcuteDot(result, _repository.TailCnt);
+
                     //_eventAggregator.GetEvent<SendTreeViewerDataEvent>().Publish();
                     _repository.AddLog(new Log(formula + "=", TreeValue, result));
                 }

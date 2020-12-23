@@ -24,14 +24,22 @@ namespace Calculator.ViewModels
 
         private void SetTreeViewerValue(string value)
         {
-            _value = value;
+            Value = value;
         }
 
+        private void SetTreeViewer(string value)
+        {
+            value = value.Replace("#", "");
+
+
+        }
         public TreeViewerViewModel(IEventAggregator ea)
         {
             _ea = ea;
-
             _ea.GetEvent<SendTreeViewerDataEvent>().Subscribe(SetTreeViewerValue);
+
+            SetTreeViewer("9#3#+#3#+#"); //629#258#*#3#+#
+
         }
 
     }
