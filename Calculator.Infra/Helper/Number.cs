@@ -74,6 +74,7 @@ namespace Calculator.Infra.Helper
             bool flag = false;
             string answer = "";
 
+            //정수형인지 실수형인지 확인 : 소수점 이하 숫자 중 0이 아닌 숫자가 하나라도 포함된 경우, 실수 판정
             foreach (var i in sval[1])
             {
                 if (i != '0')
@@ -83,16 +84,46 @@ namespace Calculator.Infra.Helper
                 }
             }
 
-            if (flag) //실수인 경우
+            //실수인 경우 반올림 처리
+            if (flag) //실수일 때
             {
-                if (sval[1].Length > ival && sval[1][ival] >= '5') //(자리수가 있고) 반올림 해야하는 경우
+                if (sval[1].Length > ival) //반올림할 자리수가 있을 때
                 {
-                    //index 0~ival-1 까지 정수화 -> +1 -> string화
-                    int outValue;
-                    outValue = Convert.ToInt32(sval[0]);
-                    outValue = Convert.ToInt32(sval[1].Substring(0,ival));
-                    outValue++;
+                    if (sval[1][ival] >= '5') //반올림 해야할 때
+                    {
+                        //index 0~ival-1 까지 정수화 -> +1 -> string화
+                        int outValue;
+                        outValue = Convert.ToInt32(sval[0]);
+                        outValue = Convert.ToInt32(sval[1].Substring(0, ival));
+
+                        int beforeSIZE = outValue.ToString().Length;
+
+                        outValue++;
+                        answer += outValue.ToString();
+
+                        if (beforeSIZE != answer.Length)
+                        {
+                            answer = answer.Insert(sval[0].Length + 1, ".");
+                        }
+                        else
+                        {
+                            answer = answer.Insert(sval[0].Length, ".");
+                        }
+                    }
+                    else //반올림 없을 때 : 잘라서 붙임
+                    {
+                        answer += sval[0];
+                        answer += '.';
+                        answer += sval[1].Substring(0, ival);
+                    }
                 }
+                else //반올림할 자리수가 없을 때 : 그냥 붙임
+                {
+                    answer += sval[0];
+                    answer += '.';
+                    answer += sval[1];
+                }
+
             }
             else //정수인 경우
             {
