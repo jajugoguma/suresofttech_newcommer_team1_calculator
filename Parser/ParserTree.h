@@ -155,9 +155,10 @@ void ParserTree::makeTree(std::string postFixWithHash) {
 		if (postFixWithHash[i] != '#') {
 			// postFixWithHash[i]°¡ ¼ýÀÚ
 			if (postFixWithHash[i] >= '0' && postFixWithHash[i] <= '9') {
-				if (postFixWithHash[i] == '0' && postFixWithHash[i-1]=='#') {
+				if (postFixWithHash[i] == '0' && postFixWithHash[i - 1] == '#') {
 					pnode = new Node(std::to_string(n));
 					vstack.push_back(pnode);
+					continue;
 				}
 				else {
 					n *= 10;
@@ -216,7 +217,7 @@ void ParserTree::makeTreeStream(Node* node) {
 	this->makeTreeStream(node->getLeftChild());
 	this->makeTreeStream(node->getRightChild());
 	treeStream += node->getVal();
-	treeStream += " ";
+	treeStream += "#";
 }
 
 inline Node* ParserTree::getProot()
