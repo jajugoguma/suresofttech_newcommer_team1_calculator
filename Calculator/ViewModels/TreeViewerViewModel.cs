@@ -154,14 +154,17 @@ namespace Calculator.ViewModels
             _viewerNodes = new ObservableCollection<ViewerNode>();
 
             int depth = 0;
+
             if(main != null)
                 Search(main , ref depth);
 
             SetGridSize(depth + 1);
 
+            _value = null;
+
             foreach (ViewerNode n in _viewerNodes)
             {
-                Value = $"{ n.Value } :: ({n.Row}, {n.Column}) ,";
+                Value += $"{ n.Value } :: ({n.Row}, {n.Column})  /  ";
             }
 
         }
