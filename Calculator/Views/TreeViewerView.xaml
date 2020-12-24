@@ -21,7 +21,11 @@
                 <TextBlock Text="{Binding Row}" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Grid> 
         </DataTemplate>
-        
+
+        <HierarchicalDataTemplate x:Key="TreeViewItem_HierarchicalDataTemplate" ItemsSource="{Binding Children}" >
+            <TextBlock Text="{Binding Content}"  />
+        </HierarchicalDataTemplate>
+
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -31,8 +35,21 @@
         <Grid Grid.Row="0">
             <TextBlock Text="{Binding Value}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20"/>
         </Grid>
-
-        <ItemsControl Grid.Row="1" ItemsSource ="{Binding Path=GridSize}">
+        <Grid Grid.Row="1">
+            <TreeView Name="m_treeView" ItemsSource="{Binding Nodes}" ItemTemplate="{StaticResource TreeViewItem_HierarchicalDataTemplate}">
+                <TreeViewItem Header="아아"/>
+                <TreeViewItem Header="아아"/>
+                <TreeViewItem Header="아아"/>
+            </TreeView>
+            <!--<TreeView ItemsSource="{Binding TreeItems}">
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                        <TextBlock Text="{Binding Name}"/>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>-->
+        </Grid>
+        <!--<ItemsControl Grid.Row="1" ItemsSource ="{Binding Path=GridSize}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Grid Grid.Row ="1" 
@@ -49,24 +66,10 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <infra:Node_1Depth Content="{Binding GridSize}"/>
-                    <!--<TextBlock Text="{Binding Value}" />-->
+                    --><!--<TextBlock Text="{Binding Value}" />--><!--
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
-        </ItemsControl>
+        </ItemsControl>-->
 
-        <ItemsControl Grid.Row="1" ItemsSource ="{Binding Path=ViewerNodes}">
-            <ItemsControl.ItemContainerStyle>
-                <Style TargetType="ContentPresenter">
-                    <Setter Property="Grid.Row" Value="{Binding Row}" />
-                    <Setter Property="Grid.Column" Value="{Binding Column}" />
-                </Style>
-            </ItemsControl.ItemContainerStyle>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <infra:Node Content="{Binding ViewerNode}"/>
-                    <!--<TextBlock Text="{Binding Value}" />-->
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
     </Grid>
 </Window>

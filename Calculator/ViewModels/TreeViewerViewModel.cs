@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 using Calculator.Infra.Event;
 using System.Collections.ObjectModel;
+using System.Windows.Controls;
 
 namespace Calculator.ViewModels
 {
@@ -28,18 +29,33 @@ namespace Calculator.ViewModels
         public string Value { get; set; }
     }
 
+    //public class Node
+    //{
+    //    public Node left;
+    //    public Node right;
+    //    public string value;
+
+    //    public Node()
+    //    {
+    //        left = null;
+    //        right = null;
+    //    }
+        
+    //}
+
     public class Node
     {
-        public Node left;
-        public Node right;
-        public string value;
+        public List<Node> Children { get; set; }
+        public string Content { get; set; }
 
         public Node()
         {
-            left = null;
-            right = null;
+
         }
-        
+        public Node(string vl)
+        {
+            Content = vl;
+        }
     }
 
     
@@ -85,6 +101,87 @@ namespace Calculator.ViewModels
             set { SetProperty(ref _gridSize, value); }
         }
 
+        private ObservableCollection<Node> _nodes;
+        public ObservableCollection<Node> Nodes
+        {
+            get { return _nodes; }
+            set { SetProperty(ref _nodes, value); }
+        }
+
+
+        //// #1 후위연산을 트리형태로 변환
+        //private void SetTreeViewer(string value)
+        //{
+        //    string[] array = value.Split('#');
+
+        //    if (array[array.Length - 1].Equals(""))
+        //    {
+        //        var list = array.ToList();
+        //        list.RemoveAt(list.Count - 1);
+        //        array = list.ToArray();
+        //    }
+
+        //    Stack<object> stack = new Stack<object>();
+
+        //    Node main = null;
+        //    Node temp = null;
+
+        //    int MAXoperChain = 0;
+        //    int operChain = 0;
+        //    foreach (string val in array)
+        //    {
+        //        if (val.Equals("+") || val.Equals("-") || val.Equals("/") || val.Equals("*"))
+        //        {
+        //            temp = new Node() { value = val };
+
+        //            //오른쪽 노드 처리
+        //            if (stack.Peek().GetType().Equals(typeof(Node)))
+        //                temp.right = (Node)stack.Pop();
+        //            else
+        //                temp.right = new Node() { value = stack.Pop().ToString() };
+
+
+        //            //왼쪽 노드 처리
+        //            if (stack.Peek().GetType().Equals(typeof(Node)))
+        //                temp.left = (Node)stack.Pop();
+        //            else
+        //                temp.left = new Node() { value = stack.Pop().ToString() };
+
+        //            main = temp;
+        //            temp = null;
+
+        //            stack.Push(main);
+
+        //            operChain++;
+        //            if (MAXoperChain < operChain)
+        //                MAXoperChain = operChain;
+        //        }
+        //        else
+        //        {
+        //            stack.Push(val);
+
+        //            operChain = 0;
+        //        }
+        //    }
+
+
+        //    _viewerNodes = new ObservableCollection<ViewerNode>();
+
+        //    int depth = 0;
+
+        //    if(main != null)
+        //        Search(main , ref depth);
+
+        //    SetGridSize(depth + 1);
+
+        //    _value = null;
+
+        //    foreach (ViewerNode n in _viewerNodes)
+        //    {
+        //        Value += $"{ n.Value } :: ({n.Row}, {n.Column})  /  ";
+        //    }
+
+        //}
 
         // #1 후위연산을 트리형태로 변환
         private void SetTreeViewer(string value)
@@ -98,84 +195,45 @@ namespace Calculator.ViewModels
                 array = list.ToArray();
             }
 
-            Stack<object> stack = new Stack<object>();
+            Stack<Node> stack = new Stack<Node>();
 
-            Node main = null;
-            Node temp = null;
+            Node node = new Node();
 
-            int MAXoperChain = 0;
-            int operChain = 0;
-            foreach (string val in array)
+            foreach (string v in array)
             {
-                if (val.Equals("+") || val.Equals("-") || val.Equals("/") || val.Equals("*"))
+                if (v.Equals("+") || v.Equals("-") || v.Equals("/") || v.Equals("*"))
                 {
-                    temp = new Node() { value = val };
+                    node.Children.Add(stack.Pop());
+                    node.Children.Add(stack.Pop());
 
-                    //오른쪽 노드 처리
-                    if (stack.Peek().GetType().Equals(typeof(Node)))
-                        temp.right = (Node)stack.Pop();
-                    else
-                        temp.right = new Node() { value = stack.Pop().ToString() };
-
-
-                    //왼쪽 노드 처리
-                    if (stack.Peek().GetType().Equals(typeof(Node)))
-                        temp.left = (Node)stack.Pop();
-                    else
-                        temp.left = new Node() { value = stack.Pop().ToString() };
-
-                    main = temp;
-                    temp = null;
-
-                    stack.Push(main);
-
-                    operChain++;
-                    if (MAXoperChain < operChain)
-                        MAXoperChain = operChain;
+                    stack.Push(node);
                 }
                 else
                 {
-                    stack.Push(val);
-
-                    operChain = 0;
+                    stack.Push(new Node(v));
                 }
             }
-
             
-            _viewerNodes = new ObservableCollection<ViewerNode>();
-
-            int depth = 0;
-
-            if(main != null)
-                Search(main , ref depth);
-
-            SetGridSize(depth + 1);
-
-            _value = null;
-
-            foreach (ViewerNode n in _viewerNodes)
-            {
-                Value += $"{ n.Value } :: ({n.Row}, {n.Column})  /  ";
-            }
+            Nodes = new ObservableCollection<Node>() { node };
 
         }
-        
+
         //#2 트리형태를 나열형태로 변환(추가)
-        private void Search(Node node, ref int maxDepth, int depth = 0, int pivot = 0)
-        {
-            _viewerNodes.Add(new ViewerNode() { Value = node.value, Row = depth, Column = pivot });
-            if (node.left != null)
-                Search( node.left, ref maxDepth, depth + 1, pivot * 2);
+        //private void Search(Node node, ref int maxDepth, int depth = 0, int pivot = 0)
+        //{
+        //    _viewerNodes.Add(new ViewerNode() { Value = node.value, Row = depth, Column = pivot });
+        //    if (node.left != null)
+        //        Search( node.left, ref maxDepth, depth + 1, pivot * 2);
 
-            if (node.right != null)
-                Search(node.right, ref maxDepth, depth + 1, (pivot * 2) + 1);
+        //    if (node.right != null)
+        //        Search(node.right, ref maxDepth, depth + 1, (pivot * 2) + 1);
 
-            if (depth > maxDepth)
-                maxDepth = depth;
-            return;
-        }
+        //    if (depth > maxDepth)
+        //        maxDepth = depth;
+        //    return;
+        //}
 
-
+        
         //#2.5 트리의 깊이를 기준으로 그리드 크기를 설정
         private void SetGridSize(int depth)
         {
@@ -204,14 +262,26 @@ namespace Calculator.ViewModels
                 });
             }
         }
-        
+
+        private TreeViewItem _treeViewItem;
+        public TreeViewItem TreeViewItem
+        {
+            get { return _treeViewItem; }
+            set { SetProperty(ref _treeViewItem, value); }
+        }
+        private void SetTreeView()
+        {
+            _treeViewItem = new TreeViewItem();
+        }
+
+            
         public TreeViewerViewModel(IEventAggregator ea)
         {
 
             _ea = ea;
             _ea.GetEvent<SendTreeViewerDataEvent>().Subscribe(SetTreeViewer);
 
-            SetGridSize(2);
+//SetGridSize(2);
 
             //SetTreeViewer("9#3#+#3#+#"); //"9#3#+#3#+#"//629#258#*#3#+#
 
