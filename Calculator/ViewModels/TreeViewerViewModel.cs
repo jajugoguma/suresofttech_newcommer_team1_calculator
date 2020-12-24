@@ -107,34 +107,25 @@ namespace Calculator.ViewModels
             int operChain = 0;
             foreach (string val in array)
             {
-                if(val.Equals("+") || val.Equals("-") || val.Equals("/") || val.Equals("*"))
+                if (val.Equals("+") || val.Equals("-") || val.Equals("/") || val.Equals("*"))
                 {
-                    if (main== null)
-                    {
-                        main = new Node() { value = val };
-                        main.right = new Node() { value = stack.Pop().ToString() };
-                        main.left = new Node() { value = stack.Pop().ToString() };
+                    temp = new Node() { value = val };
 
-                    }
+                    //오른쪽 노드 처리
+                    if (stack.Peek().GetType().Equals(typeof(Node)))
+                        temp.right = (Node)stack.Pop();
                     else
-                    {
-                        temp = new Node() { value = val };
-
-                        //오른쪽 노드 처리
-                        if (stack.Peek().GetType().Equals(typeof(Node)))
-                            temp.right = (Node)stack.Pop();
-                        else
-                            temp.right = new Node() { value = stack.Pop().ToString() };
+                        temp.right = new Node() { value = stack.Pop().ToString() };
 
 
-                        //왼쪽 노드 처리
-                        if (stack.Peek().GetType().Equals(typeof(Node)))
-                            temp.left = (Node)stack.Pop();
-                        else
-                            temp.left = new Node() { value = stack.Pop().ToString() };
+                    //왼쪽 노드 처리
+                    if (stack.Peek().GetType().Equals(typeof(Node)))
+                        temp.left = (Node)stack.Pop();
+                    else
+                        temp.left = new Node() { value = stack.Pop().ToString() };
 
-                        main = temp;
-                    }
+                    main = temp;
+                    temp = null;
 
                     stack.Push(main);
 
@@ -145,7 +136,7 @@ namespace Calculator.ViewModels
                 else
                 {
                     stack.Push(val);
-                    
+
                     operChain = 0;
                 }
             }
@@ -216,12 +207,12 @@ namespace Calculator.ViewModels
         
         public TreeViewerViewModel(IEventAggregator ea)
         {
-            SetGridSize(1);
 
             _ea = ea;
             _ea.GetEvent<SendTreeViewerDataEvent>().Subscribe(SetTreeViewer);
 
-            GridSize = new ObservableCollection<GridSize>();
+            SetGridSize(2);
+
             //SetTreeViewer("9#3#+#3#+#"); //"9#3#+#3#+#"//629#258#*#3#+#
 
 

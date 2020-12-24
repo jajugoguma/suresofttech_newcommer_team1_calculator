@@ -53,5 +53,20 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
+
+        <ItemsControl Grid.Row="1" ItemsSource ="{Binding Path=ViewerNodes}">
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="ContentPresenter">
+                    <Setter Property="Grid.Row" Value="{Binding Row}" />
+                    <Setter Property="Grid.Column" Value="{Binding Column}" />
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <infra:Node Content="{Binding ViewerNode}"/>
+                    <!--<TextBlock Text="{Binding Value}" />-->
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </Grid>
 </Window>
