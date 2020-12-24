@@ -34,6 +34,13 @@ namespace Calculator.ViewModels
             _eventAggregator.GetEvent<SendTreeViewerDataEvent>().Publish("testsetseata");
         }
 
+        private DelegateCommand _resetCommand;
+        public DelegateCommand ResetCommand => _resetCommand ?? (_resetCommand = new DelegateCommand(Reset));
+        private void Reset()
+        {
+            _repository.ResetLog();
+        }
+
         public HistoryViewModel(IRepository repository, IEventAggregator ea)
         {
             _repository = repository;

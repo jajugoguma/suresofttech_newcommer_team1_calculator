@@ -10,6 +10,7 @@ namespace Calculator.Infra.Service
     public interface IRepository
     {
         List<Log> LogList { get; set; }
+        void ResetLog();
         void AddLog(Log log);
         Client Client { get; set; }
         string IP { get; set; }
