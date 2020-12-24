@@ -360,16 +360,13 @@ namespace Calculator.ViewModels
 
                     string result = resultSplit[0];
 
-                    if (result.Contains("#error") == true)
+                    if (result.Contains("error") != true)
                     {
-                        result = result.Replace("#error:", "");
-                    }
-                    else
-                    {
-                            result = Number.ExcuteDot(result, _repository.TailCnt);
+                        result = Number.ExcuteDot(result, _repository.TailCnt);
                         _eventAggregator.GetEvent<SendTreeViewerDataEvent>().Publish(resultSplit[1]);
                         result = Number.AppendComman_Result(result);
                     }
+
 
                     _repository.AddLog(new Log(formula + "=", TreeValue, result));
 
