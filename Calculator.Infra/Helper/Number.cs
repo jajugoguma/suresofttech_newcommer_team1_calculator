@@ -221,7 +221,7 @@ namespace Calculator.Infra.Helper
         public static string AppendComman_Result(string value)
         {
             string[] array = value.Split('.');
-            DivisionHead(ref value);
+            DivisionHead(ref array[0]);
 
             array[0] = string.Format("{0:#,0}", Convert.ToInt64(array[0])).ToString();
 
