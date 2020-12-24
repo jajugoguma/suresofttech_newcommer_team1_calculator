@@ -330,6 +330,7 @@ namespace Calculator.ViewModels
             formula = formula.Replace("=", "");
 
             string TreeValue = formula;
+            formula = formula.Replace(",", "");
 
             try
             {
