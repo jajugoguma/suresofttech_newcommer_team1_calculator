@@ -26,7 +26,9 @@
             </ScrollViewer>
         </Grid>
         <Grid Grid.Row="1">
-            <Button Command="{Binding ResetLogCommand}" HorizontalAlignment="Right" Margin="10, 2, 15, 0" Width="50"/>
+            <Button Command="{Binding ResetLogCommand}" HorizontalAlignment="Right" Margin="10, 2, 15, 0" Width="50" >
+                <Image Source="../resource/trash.png"/>
+            </Button>
         </Grid>
     </Grid>
 </Window>

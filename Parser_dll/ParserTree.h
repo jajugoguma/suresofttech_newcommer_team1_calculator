@@ -2,6 +2,7 @@
 #include <vector>
 #include "Node.h"
 #include "iter.h"
+#include "Checker.h"
 
 class ParserTree {
 	Node* proot = NULL;
@@ -158,7 +159,6 @@ void ParserTree::makeTree(std::string postFixWithHash) {
 				if (postFixWithHash[i] == '0' && postFixWithHash[i - 1] == '#') {
 					pnode = new Node(std::to_string(n));
 					vstack.push_back(pnode);
-					continue;
 				}
 				else {
 					n *= 10;
@@ -217,7 +217,7 @@ void ParserTree::makeTreeStream(Node* node) {
 	this->makeTreeStream(node->getLeftChild());
 	this->makeTreeStream(node->getRightChild());
 	treeStream += node->getVal();
-	treeStream += "#";
+	treeStream += " ";
 }
 
 inline Node* ParserTree::getProot()
@@ -233,4 +233,29 @@ inline std::string ParserTree::getResult()
 inline std::string ParserTree::getTreeStream()
 {
 	return treeStream;
+}
+std::string parsing(std::string expression) {
+	std::string result = "";
+	Checker inputstr(expression);
+
+	if (inputstr.runner()) {
+		result = " error:wrongexp";
+	}
+	else {
+		mapInit();
+
+		ParserTree BTroot;
+
+		std::string postFixWithHash = BTroot.makePostFixWithHash(inputstr.getOutput());
+		if (postFixWithHash == "error:overflow" || postFixWithHash == "error:wrongexp") {
+			result = postFixWithHash;
+		}
+		else {
+			BTroot.makeTree(postFixWithHash);
+
+			BTroot.makeTreeStream(BTroot.getProot());
+			result = BTroot.getTreeStream();
+		}
+	}
+	return result;
 }

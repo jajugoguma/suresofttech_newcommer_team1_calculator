@@ -131,8 +131,12 @@ namespace Calculator.Infra.Helper
                         else //반올림 없을 때 : 잘라서 붙임
                         {
                             answer += sval[0];
-                            answer += '.';
-                            answer += sval[1].Substring(0, ival);
+                            if (ival != 0)
+                            {
+                                answer += '.';
+                                answer += sval[1].Substring(0, ival);
+                            }
+                            
                         }
                     }
                     else //반올림할 자리수가 없을 때 : 그냥 붙임
@@ -221,7 +225,7 @@ namespace Calculator.Infra.Helper
         public static string AppendComman_Result(string value)
         {
             string[] array = value.Split('.');
-            DivisionHead(ref value);
+            DivisionHead(ref array[0]);
 
             array[0] = string.Format("{0:#,0}", Convert.ToInt64(array[0])).ToString();
 
