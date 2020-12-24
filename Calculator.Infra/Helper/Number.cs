@@ -148,6 +148,8 @@ namespace Calculator.Infra.Helper
                     answer += sval[0];
                 }
             //}
+            if (tailCnt == 0)
+                answer.Replace(".", "");
             return answer;
         }
 
@@ -214,6 +216,18 @@ namespace Calculator.Infra.Helper
             //if(value[value.Length - 1]) 
 
             //return "";
+        }
+
+        public static string AppendComman_Result(string value)
+        {
+            string[] array = value.Split('.');
+            DivisionHead(ref value);
+
+            array[0] = string.Format("{0:#,0}", Convert.ToInt64(array[0])).ToString();
+
+            if (array.Length == 1) return head + array[0];
+
+            return head + array[0] + "." + array[1];
         }
 
         //헤드 분리

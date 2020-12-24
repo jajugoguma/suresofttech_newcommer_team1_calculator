@@ -269,10 +269,11 @@ namespace Calculator.ViewModels
                     {
                         return;
                     }
-                    if (history.Equals("")) return;
+                   if (history.Equals("") && value.Equals("")) return;
 
                     history = Number.InputOperator(history, value, '=');
                     value = Calculate(history);
+
                     _inputEndState = true;
                     break;
 
@@ -367,6 +368,7 @@ namespace Calculator.ViewModels
                     {
                             result = Number.ExcuteDot(result, _repository.TailCnt);
                         _eventAggregator.GetEvent<SendTreeViewerDataEvent>().Publish(resultSplit[1]);
+                        result = Number.AppendComman_Result(result);
                     }
 
                     _repository.AddLog(new Log(formula + "=", TreeValue, result));

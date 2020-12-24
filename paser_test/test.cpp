@@ -13,11 +13,20 @@ std::string parserrr(std::string str) {
 	ParserTree Btree1;
 	std::string hashing = Btree1.makePostFixWithHash(chec.getOutput());
 
-	return hashing;
+	if (hashing == "지원하는 숫자의 범위를 초과했습니다.")
+		return "지원하는 숫자의 범위를 초과했습니다.";
+	else if(hashing == "잘못된 수식입니다.")
+		return "잘못된 수식입니다.";
+	else {
+		Btree1.makeTree(hashing);
+		Btree1.makeTreeStream(Btree1.getProot());
+
+		return Btree1.getTreeStream();
+	}
 }
 
 TEST(Paser, right_) {
-	EXPECT_EQ(parserrr("2*(2+3)*4"), "#2##2##3##+##*##4##*#");
+	/*EXPECT_EQ(parserrr("2*(2+3)*4"), "#2##2##3##+##*##4##*#");
 	EXPECT_EQ(parserrr("12*(12+13)*14"), "#12##12##13##+##*##14##*#");
 	EXPECT_EQ(parserrr("12*(12+3)*4"), "#12##12##3##+##*##4##*#");
 	EXPECT_EQ(parserrr("(3+4)*8/"), "#3##4##+##8##*#");
@@ -32,7 +41,8 @@ TEST(Paser, right_) {
 	EXPECT_EQ(parserrr("123*+/456++"), "#123##456##/#");
 	EXPECT_EQ(parserrr("12*((-11)+13)*14"), "#12##-11##13##+##*##14##*#");
 	EXPECT_EQ(parserrr("12*((-11)+13)*(-12)"), "#12##-11##13##+##*##-12###*#");
-	EXPECT_EQ(parserrr("(1234+5678*91)"), "#1234##5678##91##*##+#");
+	EXPECT_EQ(parserrr("(1234+5678*91)"), "#1234##5678##91##*##+#"); */
+	EXPECT_EQ(parserrr("12/0"), "#12##0##/#");		//파싱까진 잘됨
 	
 	EXPECT_TRUE(true);
 }

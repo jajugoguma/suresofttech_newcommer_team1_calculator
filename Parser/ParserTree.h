@@ -155,8 +155,14 @@ void ParserTree::makeTree(std::string postFixWithHash) {
 		if (postFixWithHash[i] != '#') {
 			// postFixWithHash[i]가 숫자
 			if (postFixWithHash[i] >= '0' && postFixWithHash[i] <= '9') {
-				n *= 10;
-				n += postFixWithHash[i] - '0';
+				if (postFixWithHash[i] == '0' && postFixWithHash[i-1]=='#') {
+					pnode = new Node(std::to_string(n));
+					vstack.push_back(pnode);
+				}
+				else {
+					n *= 10;
+					n += postFixWithHash[i] - '0';
+				}
 			}
 			// postFixWithHash[i]가 사칙 연산자 or 음수 연산자
 			else {

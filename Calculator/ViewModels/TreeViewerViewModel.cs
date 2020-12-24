@@ -15,9 +15,10 @@ namespace Calculator.ViewModels
 {
     public class GridSize
     {
-        public int Depth { get; set; }
-        public int Count { get; set; }
-        public string Star { get; set; }
+        public int Depth { get; set; } = default;
+        public int Count { get; set; } = default;
+        public string Star { get; set; } = default;
+
     }
 
     public class ViewerNode
@@ -38,6 +39,7 @@ namespace Calculator.ViewModels
             left = null;
             right = null;
         }
+        
     }
 
     
@@ -67,11 +69,6 @@ namespace Calculator.ViewModels
             set { SetProperty(ref _starRow, value); }
         }
 
-        private TreeViewerViewModel _viewmodel;
-        public TreeViewerViewModel ViewModel {
-            get { return _viewmodel; }
-            set { SetProperty(ref _viewmodel, value); }
-        }
 
         private ObservableCollection<ViewerNode> _viewerNodes;
         public ObservableCollection<ViewerNode> ViewrNodes
@@ -110,34 +107,25 @@ namespace Calculator.ViewModels
             int operChain = 0;
             foreach (string val in array)
             {
-                if(val.Equals("+") || val.Equals("-") || val.Equals("/") || val.Equals("*"))
+                if (val.Equals("+") || val.Equals("-") || val.Equals("/") || val.Equals("*"))
                 {
-                    if (main== null)
-                    {
-                        main = new Node() { value = val };
-                        main.right = new Node() { value = stack.Pop().ToString() };
-                        main.left = new Node() { value = stack.Pop().ToString() };
+                    temp = new Node() { value = val };
 
-                    }
+                    //오른쪽 노드 처리
+                    if (stack.Peek().GetType().Equals(typeof(Node)))
+                        temp.right = (Node)stack.Pop();
                     else
-                    {
-                        temp = new Node() { value = val };
-
-                        //오른쪽 노드 처리
-                        if (stack.Peek().GetType().Equals(typeof(Node)))
-                            temp.right = (Node)stack.Pop();
-                        else
-                            temp.right = new Node() { value = stack.Pop().ToString() };
+                        temp.right = new Node() { value = stack.Pop().ToString() };
 
 
-                        //왼쪽 노드 처리
-                        if (stack.Peek().GetType().Equals(typeof(Node)))
-                            temp.left = (Node)stack.Pop();
-                        else
-                            temp.left = new Node() { value = stack.Pop().ToString() };
+                    //왼쪽 노드 처리
+                    if (stack.Peek().GetType().Equals(typeof(Node)))
+                        temp.left = (Node)stack.Pop();
+                    else
+                        temp.left = new Node() { value = stack.Pop().ToString() };
 
-                        main = temp;
-                    }
+                    main = temp;
+                    temp = null;
 
                     stack.Push(main);
 
@@ -148,7 +136,7 @@ namespace Calculator.ViewModels
                 else
                 {
                     stack.Push(val);
-                    
+
                     operChain = 0;
                 }
             }
@@ -157,17 +145,19 @@ namespace Calculator.ViewModels
             _viewerNodes = new ObservableCollection<ViewerNode>();
 
             int depth = 0;
-            Search(main, ref depth);
+
+            if(main != null)
+                Search(main , ref depth);
 
             SetGridSize(depth + 1);
 
+            _value = null;
+
             foreach (ViewerNode n in _viewerNodes)
             {
-                Value += $"{ n.Value } :: ({n.Row}, {n.Column}) ,";
+                Value += $"{ n.Value } :: ({n.Row}, {n.Column})  /  ";
             }
 
-            main = null;
-            temp = null;
         }
         
         //#2 트리형태를 나열형태로 변환(추가)
@@ -175,7 +165,7 @@ namespace Calculator.ViewModels
         {
             _viewerNodes.Add(new ViewerNode() { Value = node.value, Row = depth, Column = pivot });
             if (node.left != null)
-                Search(node.left, ref maxDepth, depth + 1, pivot * 2);
+                Search( node.left, ref maxDepth, depth + 1, pivot * 2);
 
             if (node.right != null)
                 Search(node.right, ref maxDepth, depth + 1, (pivot * 2) + 1);
@@ -218,11 +208,12 @@ namespace Calculator.ViewModels
         public TreeViewerViewModel(IEventAggregator ea)
         {
 
-            ViewModel = this;
             _ea = ea;
             _ea.GetEvent<SendTreeViewerDataEvent>().Subscribe(SetTreeViewer);
-            
-            SetTreeViewer("9#3#+#3#+#"); //"9#3#+#3#+#"//629#258#*#3#+#
+
+            SetGridSize(2);
+
+            //SetTreeViewer("9#3#+#3#+#"); //"9#3#+#3#+#"//629#258#*#3#+#
 
 
 
