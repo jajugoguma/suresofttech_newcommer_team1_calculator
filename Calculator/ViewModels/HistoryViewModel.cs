@@ -35,7 +35,7 @@ namespace Calculator.ViewModels
         }
 
         private DelegateCommand _resetCommand;
-        public DelegateCommand ResetCommand => _resetCommand ?? (_resetCommand = new DelegateCommand(Reset));
+        public DelegateCommand ResetLogCommand => _resetCommand ?? (_resetCommand = new DelegateCommand(Reset));
         private void Reset()
         {
             _repository.ResetLog();

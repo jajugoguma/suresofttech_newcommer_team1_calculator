@@ -215,6 +215,7 @@ namespace Calculator.ViewModels
                 case "plus":
                     if (_value.Equals(""))
                     {
+                        if (history.Equals("")) return;
                         if (!(history[history.Length - 1] == ')'))
                         {
                             return;
@@ -227,6 +228,7 @@ namespace Calculator.ViewModels
                 case "minus":
                     if (_value.Equals(""))
                     {
+                        if (history.Equals("")) return;
                         if (!(history[history.Length - 1] == ')'))
                         {
                             return;
@@ -239,6 +241,7 @@ namespace Calculator.ViewModels
                 case "multiply":
                     if (_value.Equals(""))
                     {
+                        if (history.Equals("")) return;
                         if (!(history[history.Length - 1] == ')'))
                         {
                             return;
@@ -251,6 +254,7 @@ namespace Calculator.ViewModels
                 case "division":
                     if (_value.Equals(""))
                     {
+                        if (history.Equals("")) return;
                         if (!(history[history.Length - 1] == ')'))
                         {
                             return;
@@ -288,6 +292,7 @@ namespace Calculator.ViewModels
                     value = "";
                     break;
                 case "close":
+                    if (history.Equals("")) return;
                     //value = Number.CloseBracket(_value);
                     history = Number.CloseBracket(history, _value, ')');
                     value = "";

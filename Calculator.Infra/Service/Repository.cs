@@ -23,6 +23,7 @@ namespace Calculator.Infra.Service
         public void ResetLog()
         {
             LogList.Clear();
+            _ea.GetEvent<UpdateLogEvent>().Publish();
         }
 
         public void AddLog(Log log)
