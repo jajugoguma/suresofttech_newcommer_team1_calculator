@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <ItemsControl>
+        <!--<ItemsControl ItemsSource="{Binding Path=ViewerNodes}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Grid 
@@ -19,14 +19,38 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemContainerStyle>
                 <Style TargetType="ContentPresenter">
+                    <Setter Property="Grid.Row" Value="{Binding Row}" />
                     <Setter Property="Grid.Column" Value="{Binding Column}" />
                 </Style>
             </ItemsControl.ItemContainerStyle>
             <ItemsControl.ItemTemplate>
-                
                 <DataTemplate>
-                    <local:Node Content="{Binding ViewerNodes}"/>
-                    <!--<TextBlock Text="{Binding Value}" />-->
+                    <local:Node Content="{Binding ViewerNode}"/>
+                    --><!--<TextBlock Text="{Binding Value}" />--><!--
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>-->
+        <ItemsControl>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid 
+                          Background="Bisque"  ShowGridLines="True"
+                          helper:GridHelpers.ColumnCount="{Binding Count}"
+                          helper:GridHelpers.StarColumns="{Binding Star}"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+        
+        <ItemsControl  ItemsSource="{Binding Path=ViewerNodes}">
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="ContentPresenter">
+                    <Setter Property="Grid.Row" Value="{Binding Row}" />
+                    <Setter Property="Grid.Column" Value="{Binding Column}" />
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <local:Node Content="{Binding ViewerNode}"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

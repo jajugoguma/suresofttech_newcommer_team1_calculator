@@ -67,6 +67,12 @@ namespace Calculator.ViewModels
             set { SetProperty(ref _starRow, value); }
         }
 
+        private TreeViewerViewModel _viewmodel;
+        public TreeViewerViewModel ViewModel {
+            get { return _viewmodel; }
+            set { SetProperty(ref _viewmodel, value); }
+        }
+
         private ObservableCollection<ViewerNode> _viewerNodes;
         public ObservableCollection<ViewerNode> ViewrNodes
         {
@@ -162,7 +168,6 @@ namespace Calculator.ViewModels
 
             main = null;
             temp = null;
-
         }
         
         //#2 트리형태를 나열형태로 변환(추가)
@@ -212,6 +217,8 @@ namespace Calculator.ViewModels
         
         public TreeViewerViewModel(IEventAggregator ea)
         {
+
+            ViewModel = this;
             _ea = ea;
             _ea.GetEvent<SendTreeViewerDataEvent>().Subscribe(SetTreeViewer);
             

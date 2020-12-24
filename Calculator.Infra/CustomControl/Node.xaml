@@ -6,14 +6,14 @@
              xmlns:local="clr-namespace:Calculator.Infra.CustomControl"
              mc:Ignorable="d" 
              d:DesignHeight="100" d:DesignWidth="100">
-    <!--<Grid Grid.Column="{Binding Column }" Grid.Row="{Binding Row }" 
+    <Grid Grid.Column="{Binding Column }" Grid.Row="{Binding Row }" 
                   HorizontalAlignment="Stretch"
                   VerticalAlignment="Stretch"
                   >
         <TextBlock Text="{Binding Value}" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center" />
-    </Grid>-->
-    <Grid>
-        <ItemsControl>
+    </Grid>
+    <!--<Grid>
+        --><!--<ItemsControl>
             <ItemsControl.ItemContainerStyle>
                 <Style TargetType="ContentPresenter">
                     <Setter Property="Grid.Column" Value="{Binding Column}" />
@@ -23,10 +23,10 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Value}" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <!--<TextBlock Text="{Binding Value}" />-->
+                    --><!--<TextBlock Text="{Binding Value}" />--><!--
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
-        </ItemsControl>
-        <Button Content="C"/>
-    </Grid>
+        </ItemsControl>--><!--
+        <TextBlock Text="{Binding Value}" FontSize="13" HorizontalAlignment="Center" VerticalAlignment="Center" />
+    </Grid>-->
 </UserControl>
