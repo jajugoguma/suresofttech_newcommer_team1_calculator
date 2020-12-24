@@ -18,15 +18,39 @@
     <ClInclude Include="framework.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="pch.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="btree.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Checker.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="expressiontree.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="iter.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="lstack.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ParserTree.h">
+      <Filter>소스 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="pch.cpp">
+    <ClCompile Include="btree.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="expressiontree.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="lstack.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
