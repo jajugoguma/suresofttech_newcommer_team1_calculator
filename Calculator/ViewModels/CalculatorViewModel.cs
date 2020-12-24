@@ -349,15 +349,19 @@ namespace Calculator.ViewModels
                 string payloadResult = _repository.Client.Recv();
                 if (payloadResult != "")
                 {
-                    /*
                     string [] resultSplit = payloadResult.Split('@');
 
                     string result = resultSplit[0];
 
-                    result = Number.ExcuteDot(result, _repository.TailCnt);
-                    */
-                    string result = Number.ExcuteDot(payloadResult, _repository.TailCnt);
-                    //_eventAggregator.GetEvent<SendTreeViewerDataEvent>().Publish();
+                    if (result.Contains("#error") == true)
+                    {
+                        result = result.Replace("#error:", "");
+                    }
+                    else
+                    {
+                        result = Number.ExcuteDot(result, _repository.TailCnt);
+                    }
+
                     _repository.AddLog(new Log(formula + "=", TreeValue, result));
 
                     returnValue = result;

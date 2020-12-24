@@ -68,13 +68,13 @@ namespace Calculator.Infra.Helper
         public static string ExcuteDot(string value, int tailCnt)
         {
             string[] sval = value.Split('.');
-            string[] trash = sval[1].Split('@');
-            sval[1] = trash[0];
+            //string[] trash = sval[1].Split('@');
+            //sval[1] = trash[0];
             int ival = tailCnt;
 
             bool typeDOUBLE = false;
             string answer = "";
-
+            /*
             //서버 파싱시 에러 확인
             if (trash[1].Equals("error"))
             {
@@ -88,7 +88,7 @@ namespace Calculator.Infra.Helper
                 }
             }
             else
-            {
+            {*/
                 //정수형인지 실수형인지 확인 : 소수점 이하 숫자 중 '0'이 아닌 문자가 하나라도 포함된 경우, 실수 판정
                 foreach (var i in sval[1])
                 {
@@ -147,7 +147,7 @@ namespace Calculator.Infra.Helper
                 {
                     answer += sval[0];
                 }
-            }
+            //}
             return answer;
         }
 
