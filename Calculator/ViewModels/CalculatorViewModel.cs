@@ -365,6 +365,7 @@ namespace Calculator.ViewModels
                     else
                     {
                         result = Number.ExcuteDot(result, _repository.TailCnt);
+                        _eventAggregator.GetEvent<SendTreeViewerDataEvent>().Publish(resultSplit[1]);
                     }
 
                     _repository.AddLog(new Log(formula + "=", TreeValue, result));
