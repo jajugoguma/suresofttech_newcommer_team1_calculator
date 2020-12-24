@@ -131,7 +131,7 @@ namespace Calculator.Infra.Helper
                         else //반올림 없을 때 : 잘라서 붙임
                         {
                             answer += sval[0];
-                            if (sval[0][0] != '0')
+                            if (ival != 0)
                             {
                                 answer += '.';
                                 answer += sval[1].Substring(0, ival);
