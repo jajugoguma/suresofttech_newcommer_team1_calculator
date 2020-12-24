@@ -57,7 +57,7 @@ TEST(Paser, worng_) {
 	EXPECT_EQ(parserrr("(1+1)1234"), "잘못된 수식입니다.");
 	EXPECT_EQ(parserrr("a12+34"), "잘못된 수식입니다.");
 	EXPECT_EQ(parserrr("12(-123)"), "잘못된 수식입니다.");
-	EXPECT_EQ(parserrr("12(123)"), "잘못된 수식입니다.");
+	EXPECT_EQ(parserrr("12(123)"), "잘못된 수식입니다1.");
 	EXPECT_EQ(parserrr("12*345(67)"), "잘못된 수식입니다.");
 
 	EXPECT_TRUE(true);
