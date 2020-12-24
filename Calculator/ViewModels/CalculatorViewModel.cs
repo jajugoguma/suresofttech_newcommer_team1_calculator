@@ -353,7 +353,15 @@ namespace Calculator.ViewModels
 
                     string result = resultSplit[0];
 
-                    result = Number.ExcuteDot(result, _repository.TailCnt);
+                    if (result.Contains("#error") == true)
+                    {
+                        result = result.Replace("#error:", "");
+                    }
+                    else
+                    {
+                        result = Number.ExcuteDot(result, _repository.TailCnt);
+                    }
+
                     _repository.AddLog(new Log(formula + "=", TreeValue, result));
 
                     returnValue = result;
