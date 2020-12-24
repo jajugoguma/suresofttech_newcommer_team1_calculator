@@ -131,8 +131,12 @@ namespace Calculator.Infra.Helper
                         else //반올림 없을 때 : 잘라서 붙임
                         {
                             answer += sval[0];
-                            answer += '.';
-                            answer += sval[1].Substring(0, ival);
+                            if (sval[0][0] != '0')
+                            {
+                                answer += '.';
+                                answer += sval[1].Substring(0, ival);
+                            }
+                            
                         }
                     }
                     else //반올림할 자리수가 없을 때 : 그냥 붙임
