@@ -10,12 +10,12 @@ namespace CalendarNetworkClient
     {
         public string Ip;
         public int Port;
-        public EndPoint(string ip ,string stringPort)
+        public EndPoint(string ip, string stringPort)
         {
             int port = Convert.ToInt32(stringPort);
             SetUp(ip, port);
         }
-        void SetUp(string ip , int port)
+        void SetUp(string ip, int port)
         {
             Ip = ip;
             Port = port;
@@ -67,7 +67,8 @@ namespace CalendarNetworkClient
         {
             Thread t = new Thread(new ThreadStart(() =>
             {
-                while (_IsConnnect) {
+                while (_IsConnnect)
+                {
                     Thread.Sleep(100);
                     try
                     {
@@ -87,8 +88,11 @@ namespace CalendarNetworkClient
             t.Start();
 
         }
-        void DisConnect()
+        public void DisConnect()
         {
+            _IsConnnect = false;
+            stream.Close();
+            _Tcplient.Close();
         }
         public void Send(string message)
         {
@@ -111,8 +115,8 @@ namespace CalendarNetworkClient
             string output = Encoding.Unicode.GetString(outbuf, 0, nbytes);
             return output;
         }
-    
-private bool ReConnect()
+
+        private bool ReConnect()
         {
             bool isConnect = false;
             for (int i = 0; i < 5; ++i)
