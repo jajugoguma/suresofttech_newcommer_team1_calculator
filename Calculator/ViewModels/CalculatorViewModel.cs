@@ -270,6 +270,7 @@ namespace Calculator.ViewModels
                 case "equal":
                     if (!_networkState)
                     {
+                        MessageBox.Show("네트워크 연결이 안되었습니다");
                         return;
                     }
                    if (history.Equals("") && value.Equals("")) return;
