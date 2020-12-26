@@ -101,7 +101,8 @@ namespace Calculator.ViewModels
             {
                 InitialDirectory = @"C:\driver",   // 기본 폴더
                 CheckFileExists = true,   // 파일 존재여부확인
-                CheckPathExists = true   // 폴더 존재여부확인
+                CheckPathExists = true,   // 폴더 존재여부확인
+                Filter = "수식파일 (*.txt,*.clu) | *.txt; *.clu"
             };
 
             // 파일 열기 (값의 유무 확인)
