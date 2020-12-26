@@ -18,6 +18,11 @@ namespace Calculator.Infra.Helper
             string[] ips = ip.Split('.');
 
             int n;
+
+            if(ips.Length != 4)
+            {
+                return false;
+            }
             foreach (string tmp in ips)
             {
                 if (false == int.TryParse(tmp, out n))
