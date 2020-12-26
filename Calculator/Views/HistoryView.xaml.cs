@@ -19,8 +19,10 @@ namespace Calculator.Views
     /// </summary>
     public partial class HistoryView : Window
     {
-        public HistoryView()
+        public HistoryView( Window otherWindow)
         {
+            this.Left = otherWindow.Width + otherWindow.Left;
+            this.Top = otherWindow.Top;
             InitializeComponent();
         }
     }

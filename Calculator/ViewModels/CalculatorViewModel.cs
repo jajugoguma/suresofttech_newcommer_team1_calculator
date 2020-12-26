@@ -72,12 +72,14 @@ namespace Calculator.ViewModels
         {
             if (hismo == null)
             {
-                hismo = new Calculator.Views.HistoryView();
+                Window application = Application.Current.MainWindow;
 
+                hismo = new Calculator.Views.HistoryView(application);
                 hismo.Closed += (x, y) => { hismo = null; };
                 hismo.Show();
             }
         }
+
 
         //Tree Viewer View
         private DelegateCommand showTreeViwerCommand;
