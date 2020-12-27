@@ -24,8 +24,7 @@ namespace Calculator.ViewModels
 
         private IRepository _repository;
         private IEventAggregator _eventAggregator { get; }
-
-        private bool IsShowTreeViwer;
+        
         private bool _inputEndState;
 
         private bool _networkState;
@@ -82,17 +81,20 @@ namespace Calculator.ViewModels
 
 
         //Tree Viewer View
+        private Views.TreeViewerView treemo = null;
         private DelegateCommand showTreeViwerCommand;
         public DelegateCommand ShowTreeViwerCommand => showTreeViwerCommand ?? (showTreeViwerCommand = new DelegateCommand(ShowTreeViewer));
         private void ShowTreeViewer()
         {
-            if (!IsShowTreeViwer)
+            if (treemo == null)
             {
-                IsShowTreeViwer = true;
+                Window application = Application.Current.MainWindow;
 
-                Calculator.Views.TreeViewerView modal = new Calculator.Views.TreeViewerView();
-                modal.Show();
+                treemo = new Calculator.Views.TreeViewerView(application);
+                treemo.Closed += (x, y) => { treemo = null; };
+                treemo.Show();
             }
+
         }
 
         private DelegateCommand importFileCommand;
@@ -330,7 +332,7 @@ namespace Calculator.ViewModels
         }
         private string Calculate(string formula)
         {
-            string returnValue = default;
+            string returnValue = "";
 
             formula = formula.Replace("=", "");
 
@@ -401,8 +403,7 @@ namespace Calculator.ViewModels
 
             Value = "";
             HistoryValue = "";
-
-            IsShowTreeViwer = false;
+            
             _inputEndState = false;
             NetworkState = false;
             CalculateFlag = false;

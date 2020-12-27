@@ -23,5 +23,12 @@ namespace Calculator.Views
         {
             InitializeComponent();
         }
+
+        public TreeViewerView(Window otherWindow)
+        {
+            this.Left = - otherWindow.Left;
+            this.Top = otherWindow.Top;
+            InitializeComponent();
+        }
     }
 }

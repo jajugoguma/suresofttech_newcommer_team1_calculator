@@ -16,9 +16,9 @@ namespace Calculator.ViewModels
 {
     public class GridSize
     {
-        public int Depth { get; set; } = default;
-        public int Count { get; set; } = default;
-        public string Star { get; set; } = default;
+        public int Depth { get; set; }
+        public int Count { get; set; }
+        public string Star { get; set; }
 
     }
 
@@ -29,36 +29,29 @@ namespace Calculator.ViewModels
         public string Value { get; set; }
     }
 
-    //public class Node
-    //{
-    //    public Node left;
-    //    public Node right;
-    //    public string value;
-
-    //    public Node()
-    //    {
-    //        left = null;
-    //        right = null;
-    //    }
-        
-    //}
-
     public class Node
     {
-        public List<Node> Children { get; set; }
-        public string Content { get; set; }
+        public ObservableCollection<Node> Children { get; set; }
+        public string Value {get;set;}
 
         public Node()
         {
-
         }
-        public Node(string vl)
+        public Node(string value)
         {
-            Content = vl;
+            Value = value;
+            Children = new ObservableCollection<Node>();
         }
+
     }
 
-    
+    //public class Node
+    //{
+    //    public ObservableCollection<Node> Children { get; set; }
+    //    public string Content { get; set; }
+    //}
+
+
     class TreeViewerViewModel : BindableBase
     {
         private IEventAggregator _ea;
@@ -197,14 +190,17 @@ namespace Calculator.ViewModels
 
             Stack<Node> stack = new Stack<Node>();
 
-            Node node = new Node();
+            //Node node = new Node();
 
             foreach (string v in array)
             {
                 if (v.Equals("+") || v.Equals("-") || v.Equals("/") || v.Equals("*"))
                 {
-                    node.Children.Add(stack.Pop());
-                    node.Children.Add(stack.Pop());
+                    Node left = stack.Pop();
+                    Node right = stack.Pop();
+                    Node node = new Node(v);
+                    node.Children.Add(left);
+                    node.Children.Add(right);
 
                     stack.Push(node);
                 }
@@ -213,8 +209,9 @@ namespace Calculator.ViewModels
                     stack.Push(new Node(v));
                 }
             }
-            
-            Nodes = new ObservableCollection<Node>() { node };
+
+            Nodes.Add(stack.Pop());
+            //Node Nodes = new ObservableCollection<Node>() { node };
 
         }
 
@@ -281,9 +278,10 @@ namespace Calculator.ViewModels
             _ea = ea;
             _ea.GetEvent<SendTreeViewerDataEvent>().Subscribe(SetTreeViewer);
 
+            Nodes = new ObservableCollection<Node>();
 //SetGridSize(2);
 
-            //SetTreeViewer("9#3#+#3#+#"); //"9#3#+#3#+#"//629#258#*#3#+#
+            //SetTreeViewer("629#258#*#3#+#"); //"9#3#+#3#+#"//629#258#*#3#+#
 
 
 

@@ -11,7 +11,7 @@
         
         prism:ViewModelLocator.AutoWireViewModel="True"
         mc:Ignorable="d"
-        Title="TreeView" Height="450" Width="800">
+        Title="TreeView" Height="450" Width="500">
     <Window.Resources>
         <DataTemplate x:Key="Block">
             <Grid  Background="{Binding BG}"
@@ -19,35 +19,31 @@
                   VerticalAlignment="Stretch"
                   >
                 <TextBlock Text="{Binding Row}" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            </Grid> 
+            </Grid>
         </DataTemplate>
-
-        <HierarchicalDataTemplate x:Key="TreeViewItem_HierarchicalDataTemplate" ItemsSource="{Binding Children}" >
-            <TextBlock Text="{Binding Content}"  />
-        </HierarchicalDataTemplate>
 
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
+            <!--<RowDefinition Height="50"/>-->
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
+        <!--<Grid Grid.Row="0">
             <TextBlock Text="{Binding Value}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20"/>
-        </Grid>
-        <Grid Grid.Row="1">
-            <TreeView Name="m_treeView" ItemsSource="{Binding Nodes}" ItemTemplate="{StaticResource TreeViewItem_HierarchicalDataTemplate}">
-                <TreeViewItem Header="아아"/>
-                <TreeViewItem Header="아아"/>
-                <TreeViewItem Header="아아"/>
-            </TreeView>
-            <!--<TreeView ItemsSource="{Binding TreeItems}">
+        </Grid>-->
+        <Grid Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TreeView ItemsSource="{Binding Nodes}" FontSize="20" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="10" BorderThickness="0">
                 <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate ItemsSource="{Binding Children}">
-                        <TextBlock Text="{Binding Name}"/>
+                        <TextBlock Text="{Binding Value}"/>
                     </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>
-            </TreeView>-->
+                <TreeView.ItemContainerStyle>
+                    <Style TargetType="{x:Type TreeViewItem}">
+                        <Setter Property="IsExpanded" Value="True" />
+                    </Style>
+                </TreeView.ItemContainerStyle>
+            </TreeView>
         </Grid>
         <!--<ItemsControl Grid.Row="1" ItemsSource ="{Binding Path=GridSize}">
             <ItemsControl.ItemsPanel>
